@@ -1,5 +1,6 @@
 package com.musicshare.miloshzelembaba.musicshare;
 
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
@@ -37,7 +38,7 @@ public class MainPageActivity extends AppCompatActivity {
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
     static LoginWindowInfo loginWindowInfo;
-    static Party party;
+    public static Context context;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -69,15 +70,14 @@ public class MainPageActivity extends AppCompatActivity {
         //  *viewPageIndicator*  // LinePageIndicator linePageIndicator = (LinePageIndicator)findViewById(R.id.indicator);
         //  *viewPageIndicator*  // linePageIndicator.setViewPager(mViewPager);
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loginWindowInfo = new LoginWindowInfo(getApplicationContext());
+                context = getApplicationContext();
                 startActivity(loginWindowInfo.getLoginWindowIntent());
                 LoginActivity.setLogInWindowInfo(loginWindowInfo);
-                party = Party.getInstance();
             }
         });
 
@@ -153,9 +153,9 @@ public class MainPageActivity extends AppCompatActivity {
                 partyName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                         @Override // Triggered when user is done entering the party's name
                         public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                            party = Party.getInstance();
-                            party.setPartyName(partyName.getText().toString());
-                            party.setInfo(loginWindowInfo);
+                            PartyActivity partyActivity = new PartyActivity();
+                            partyActivity.setupParty(partyName.getText().toString(),loginWindowInfo, context);
+                            startActivity(partyActivity.getIntent());
                             return true;
                         }
                     });

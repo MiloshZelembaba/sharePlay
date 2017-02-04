@@ -25,7 +25,11 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".PartyActivity"
+            android:label="@string/title_activity_party"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
