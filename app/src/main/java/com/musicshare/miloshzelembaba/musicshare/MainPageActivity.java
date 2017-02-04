@@ -154,7 +154,7 @@ public class MainPageActivity extends AppCompatActivity {
                         @Override // Triggered when user is done entering the party's name
                         public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                             PartyActivity partyActivity = new PartyActivity();
-                            partyActivity.setupParty(partyName.getText().toString(),loginWindowInfo, context);
+                            partyActivity.setupParty(partyName.getText().toString(),loginWindowInfo, context, true);
                             startActivity(partyActivity.getIntent());
                             return true;
                         }

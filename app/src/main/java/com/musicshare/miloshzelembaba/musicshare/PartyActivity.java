@@ -48,9 +48,10 @@ public class PartyActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    public void setupParty(String partyName, LoginWindowInfo loginWindowInfo, Context context){
+    public void setupParty(String partyName, LoginWindowInfo loginWindowInfo, Context context, boolean isPartyOwner){
         this.context = context;
         party = Party.getInstance();
+        party.setIsPartyOwner(isPartyOwner);
         party.setInfo(loginWindowInfo);
         party.setPartyName(partyName);
     }

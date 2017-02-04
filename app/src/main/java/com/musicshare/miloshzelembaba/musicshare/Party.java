@@ -9,6 +9,7 @@ public class Party {
     private String partyName;
     private LoginWindowInfo loginWindowInfo;
     static Party instance = null;
+    private boolean isPartyOwner = false;
 
     private Party(){}
 
@@ -23,6 +24,10 @@ public class Party {
     public void setInfo(LoginWindowInfo lwi){
         loginWindowInfo = lwi;
         setPartyInfo();
+    }
+
+    public void setIsPartyOwner(boolean bool){
+        isPartyOwner = bool;
     }
 
     public void setPartyName(String name){
