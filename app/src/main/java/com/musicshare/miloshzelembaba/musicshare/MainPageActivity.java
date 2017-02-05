@@ -39,6 +39,7 @@ public class MainPageActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     static LoginWindowInfo loginWindowInfo;
     public static Context context;
+    public CustomSpotifyPlayer player;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -76,8 +77,10 @@ public class MainPageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 loginWindowInfo = new LoginWindowInfo(getApplicationContext());
                 context = getApplicationContext();
-                startActivity(loginWindowInfo.getLoginWindowIntent());
-                LoginActivity.setLogInWindowInfo(loginWindowInfo);
+                player = new CustomSpotifyPlayer(context);
+                //startActivity(loginWindowInfo.getLoginWindowIntent());
+                //LoginActivity.setLogInWindowInfo(loginWindowInfo);
+                startActivity(CustomSpotifyPlayer.getMyIntent());
             }
         });
 
