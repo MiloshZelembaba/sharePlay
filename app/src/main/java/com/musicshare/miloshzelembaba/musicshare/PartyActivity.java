@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.ViewStubCompat;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,18 +16,38 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import static android.R.id.content;
+import static com.musicshare.miloshzelembaba.musicshare.R.id.container;
 
 public class PartyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     static Party party;
     Context context;
+    View baseView;
+    SongListView songListView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party);
+
+        songListView = new SongListView(getApplicationContext());
+        startActivity(songListView.getIntent());
+        //songListView.onCreate(savedInstanceState);
+//        ViewGroup container = (ViewGroup) findViewById(android.R.id.content);
+//        LayoutInflater inflater = getLayoutInflater();
+//        baseView = inflater.inflate(R.layout.content_party, container, false);
+//        container.addView(baseView);
+
+        if (party.isSongQueueEmpty()) { // should always be true here, i think
+            TextView textView = (TextView) findViewById(R.id.emptyPlaylistTextview);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -46,6 +68,9 @@ public class PartyActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Song song = new Song("123123", "Boombox Cartel - Be Right There");
+        addSong(song);
     }
 
     public void setupParty(String partyName, LoginWindowInfo loginWindowInfo, Context context, boolean isPartyOwner){
@@ -92,6 +117,27 @@ public class PartyActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void removeEmptyQueueMessage(){
+        TextView emptyPlaylistMessage = (TextView) findViewById(R.id.emptyPlaylistTextview);
+        emptyPlaylistMessage.setVisibility(View.INVISIBLE);
+    }
+
+    public void addSong(Song song){
+        party.addSong(song);
+        songListView.addItems(song);
+        removeEmptyQueueMessage();
+
+        LayoutInflater inflater = getLayoutInflater();
+        View songView = inflater.inflate(R.layout.song_layout, (ViewGroup)baseView, false);
+        TextView songName = (TextView) songView.findViewById(R.id.song_name);
+        songName.setText(song.getName());
+        ((ViewGroup)baseView).addView(songView);
+
+        //LinearLayout songView = (LinearLayout) findViewById(R.id.songLayout);
+
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

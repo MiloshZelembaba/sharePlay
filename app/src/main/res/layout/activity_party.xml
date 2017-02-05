@@ -13,6 +13,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:drawSelectorOnTop="false"
+        />
+
+
+    <TextView
+        android:id="@+id/emptyPlaylistTextview"
+        android:text="No songs in this party yet, tap the + icon to add some songs!"
+        android:textSize="23sp"
+        android:padding="20dp"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
