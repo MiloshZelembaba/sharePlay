@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.ViewStubCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -35,7 +39,9 @@ public class PartyActivity extends AppCompatActivity
     Context context;
     View baseView;
     SongAdapter adapter;
+    SongAdapter searchAdapter;
     ArrayList<Song> listItems=new ArrayList<Song>();
+    ArrayList<Song> searchItems=new ArrayList<Song>();
 
 
     @Override
@@ -44,6 +50,9 @@ public class PartyActivity extends AppCompatActivity
         setContentView(R.layout.activity_party);
 
         adapter = new SongAdapter(this, R.layout.song_layout, listItems);
+        searchAdapter = new SongAdapter(this,R.layout.song_layout, searchItems);
+        ListView searchListView = (ListView) findViewById(R.id.searchList);
+        searchListView.setAdapter(searchAdapter);
         ListView songsListView = (ListView) findViewById(R.id.songList);
         songsListView.setAdapter(adapter);
         //songListView.onCreate(savedInstanceState);
@@ -62,8 +71,7 @@ public class PartyActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                setupSearchViews();
             }
         });
 
@@ -98,6 +106,44 @@ public class PartyActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void setupSearchViews(){
+        ListView songsListView = (ListView) findViewById(R.id.songList);
+        songsListView.setVisibility(View.INVISIBLE);
+        songsListView.setEnabled(false);
+
+        ListView searchListView = (ListView) findViewById(R.id.searchList);
+        searchListView.setVisibility(View.VISIBLE);
+        findViewById(R.id.searchInput).setVisibility(View.VISIBLE);
+        final TextInputEditText searchFeild = (TextInputEditText) findViewById(R.id.editSearchInput);
+        searchFeild.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() - 1 >= 0 && s.charAt(s.length() - 1) == '\n') {
+                    search(searchFeild.getText().toString());
+                }
+            }
+        });
+    }
+
+    public void search(String searchQuery){
+        searchItems = SpotifySearch.getResults(searchQuery);
+        for (Song song: searchItems){
+            searchAdapter.addSong(song);
+        }
+        searchAdapter.notifyDataSetChanged();
+
     }
 
     @Override

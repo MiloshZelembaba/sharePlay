@@ -17,7 +17,7 @@ public class SongAdapter extends ArrayAdapter {
     ArrayAdapter<Song> adapter;
     Context context;
     LayoutInflater inflater;
-    ArrayList<Song> songs = new ArrayList<>();
+    public ArrayList<Song> songs = new ArrayList<>();
 
     public SongAdapter(Context context, int textViewResourceId, ArrayList<Song> listItems){
         super(context, textViewResourceId, listItems);
@@ -27,7 +27,7 @@ public class SongAdapter extends ArrayAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View v = convertView;
 
         if (v != null) {
@@ -39,7 +39,18 @@ public class SongAdapter extends ArrayAdapter {
             songName.setText(songs.get(position).getName());
         }
 
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CustomSpotifyPlayer.playSong(songs.get(position));
+            }
+        });
+
         return v;
+    }
+
+    public void setList(ArrayList<Song> list){
+        songs = list;
     }
 
     public void addSong(Song song){

@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -13,6 +14,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.KeyListener;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -78,7 +82,7 @@ public class MainPageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 loginWindowInfo = new LoginWindowInfo(getApplicationContext());
                 context = getApplicationContext();
-                player = new CustomSpotifyPlayer(context,loginWindowInfo);
+                player = new CustomSpotifyPlayer(context);
                 //startActivity(loginWindowInfo.getLoginWindowIntent());
                 //LoginActivity.setLogInWindowInfo(loginWindowInfo);
                 startActivity(CustomSpotifyPlayer.getMyIntent());
@@ -149,7 +153,14 @@ public class MainPageActivity extends AppCompatActivity {
             if (loggedIn){
                 createPartyView.findViewById(R.id.partyNameInput).setVisibility(View.VISIBLE);
                 final TextView sectionText = (TextView) createPartyView.findViewById(R.id.section_label);
+                final TextInputLayout layout = (TextInputLayout) createPartyView.findViewById(R.id.partyNameInput);
                 final TextInputEditText partyName = (TextInputEditText) createPartyView.findViewById(R.id.editInputPartyName);
+                layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        wipeText(partyName);
+                    }
+                });
                 sectionText.setText("Please enter the name of your party above");
                 partyName.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -157,15 +168,44 @@ public class MainPageActivity extends AppCompatActivity {
                         wipeText(partyName);
                     }
                 });
-                partyName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                        @Override // Triggered when user is done entering the party's name
-                        public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+//                partyName.setImeOptions(EditorInfo.IME_ACTION_DONE);
+//                partyName.setImeActionLabel("done", EditorInfo.IME_ACTION_DONE);
+//                partyName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//                        @Override // Triggered when user is done entering the party's name
+//                        public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+//                            if (id == EditorInfo.IME_ACTION_DONE) {
+//                                PartyActivity partyActivity = new PartyActivity();
+//                                partyActivity.setupParty(partyName.getText().toString(),loginWindowInfo, context, true);
+//                                startActivity(partyActivity.getIntent());
+//                                return true;
+//                            }
+//                            PartyActivity partyActivity = new PartyActivity();
+//                            partyActivity.setupParty(partyName.getText().toString(),loginWindowInfo, context, true);
+//                            startActivity(partyActivity.getIntent());
+//                            return true;
+//                        }
+//                    });
+
+                partyName.addTextChangedListener(new TextWatcher() {
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count,
+                                                  int after) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if (s.length() - 1 >= 0 && s.charAt(s.length() - 1) == '\n') {
                             PartyActivity partyActivity = new PartyActivity();
                             partyActivity.setupParty(partyName.getText().toString(),loginWindowInfo, context, true);
                             startActivity(partyActivity.getIntent());
-                            return true;
                         }
-                    });
+                    }
+                });
             } else {
                 Toast.makeText(getContext(), "Must be logged in to create a party, please log in", Toast.LENGTH_SHORT).show();
             }

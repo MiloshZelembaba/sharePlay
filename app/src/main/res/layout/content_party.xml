@@ -13,11 +13,42 @@
     tools:context="com.musicshare.miloshzelembaba.musicshare.PartyActivity"
     tools:showIn="@layout/app_bar_party">
 
+
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.TextInputLayout
+                android:id="@+id/searchInput"
+                android:visibility="gone"
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/editSearchInput"
+                    android:textColor="@color/vpi__bright_foreground_disabled_holo_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <ListView
+            android:id="@+id/searchList"
+            android:visibility="gone"
+            android:layout_below="@+id/searchInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </RelativeLayout>
+
     <ListView
         android:id="@+id/songList"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:drawSelectorOnTop="false"
-        />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 
 </RelativeLayout>
