@@ -13,4 +13,11 @@
     tools:context="com.musicshare.miloshzelembaba.musicshare.PartyActivity"
     tools:showIn="@layout/app_bar_party">
 
+    <ListView
+        android:id="@+id/songList"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:drawSelectorOnTop="false"
+        />
+
 </RelativeLayout>

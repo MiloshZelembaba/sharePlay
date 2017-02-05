@@ -17,8 +17,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.R.id.content;
 import static com.musicshare.miloshzelembaba.musicshare.R.id.container;
@@ -29,7 +34,8 @@ public class PartyActivity extends AppCompatActivity
     static Party party;
     Context context;
     View baseView;
-    SongListView songListView;
+    SongAdapter adapter;
+    ArrayList<Song> listItems=new ArrayList<Song>();
 
 
     @Override
@@ -37,8 +43,9 @@ public class PartyActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party);
 
-        songListView = new SongListView(getApplicationContext());
-        startActivity(songListView.getIntent());
+        adapter = new SongAdapter(this, R.layout.song_layout, listItems);
+        ListView songsListView = (ListView) findViewById(R.id.songList);
+        songsListView.setAdapter(adapter);
         //songListView.onCreate(savedInstanceState);
 //        ViewGroup container = (ViewGroup) findViewById(android.R.id.content);
 //        LayoutInflater inflater = getLayoutInflater();
@@ -70,6 +77,8 @@ public class PartyActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Song song = new Song("123123", "Boombox Cartel - Be Right There");
+        addSong(song);
+        addSong(song);
         addSong(song);
     }
 
@@ -126,18 +135,10 @@ public class PartyActivity extends AppCompatActivity
 
     public void addSong(Song song){
         party.addSong(song);
-        songListView.addItems(song);
+        listItems.add(song);
+        adapter.addSong(song);
+        adapter.notifyDataSetChanged();
         removeEmptyQueueMessage();
-
-        LayoutInflater inflater = getLayoutInflater();
-        View songView = inflater.inflate(R.layout.song_layout, (ViewGroup)baseView, false);
-        TextView songName = (TextView) songView.findViewById(R.id.song_name);
-        songName.setText(song.getName());
-        ((ViewGroup)baseView).addView(songView);
-
-        //LinearLayout songView = (LinearLayout) findViewById(R.id.songLayout);
-
-
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

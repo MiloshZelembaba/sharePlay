@@ -13,14 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:drawSelectorOnTop="false"
-        />
-
-
     <TextView
         android:id="@+id/emptyPlaylistTextview"
         android:text="No songs in this party yet, tap the + icon to add some songs!"
