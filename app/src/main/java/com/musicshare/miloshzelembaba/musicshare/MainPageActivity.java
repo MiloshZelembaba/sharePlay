@@ -166,6 +166,8 @@ public class MainPageActivity extends AppCompatActivity {
                             return true;
                         }
                     });
+                Networker n = Networker.getInstance(this.getContext());
+                n.registerParty("JackTestParty");
             } else {
                 Toast.makeText(getContext(), "Must be logged in to create a party, please log in", Toast.LENGTH_SHORT).show();
             }
