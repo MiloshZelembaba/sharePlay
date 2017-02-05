@@ -40,6 +40,7 @@ public class MainPageActivity extends AppCompatActivity {
     static LoginWindowInfo loginWindowInfo;
     public static Context context;
     public CustomSpotifyPlayer player;
+    static private boolean loggedIn = false;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -77,7 +78,7 @@ public class MainPageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 loginWindowInfo = new LoginWindowInfo(getApplicationContext());
                 context = getApplicationContext();
-                player = new CustomSpotifyPlayer(context);
+                player = new CustomSpotifyPlayer(context,loginWindowInfo);
                 //startActivity(loginWindowInfo.getLoginWindowIntent());
                 //LoginActivity.setLogInWindowInfo(loginWindowInfo);
                 startActivity(CustomSpotifyPlayer.getMyIntent());
@@ -86,6 +87,9 @@ public class MainPageActivity extends AppCompatActivity {
 
     }
 
+    static public void logIn(){
+        loggedIn = true;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -142,7 +146,7 @@ public class MainPageActivity extends AppCompatActivity {
         }
 
         public void createAParty(){
-            if (loginWindowInfo != null && loginWindowInfo.isUserLoggedIn()){
+            if (loggedIn){
                 createPartyView.findViewById(R.id.partyNameInput).setVisibility(View.VISIBLE);
                 final TextView sectionText = (TextView) createPartyView.findViewById(R.id.section_label);
                 final TextInputEditText partyName = (TextInputEditText) createPartyView.findViewById(R.id.editInputPartyName);

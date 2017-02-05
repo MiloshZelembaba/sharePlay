@@ -31,10 +31,6 @@
             android:name=".CustomSpotifyPlayer"
             android:label="customSpotfifyPlayer"
         />
-        <intent-filter>
-            <data android:scheme="sharePlay" android:host="callback"/>
-            <action android:name="android.intent.action.VIEW" />
-        </intent-filter>
         <activity
             android:name=".PartyActivity"
             android:label="@string/title_activity_party"

@@ -27,13 +27,15 @@ public class CustomSpotifyPlayer extends Activity implements SpotifyPlayer.Notif
     // TODO: Replace with your redirect URI
     private static final String REDIRECT_URI = "http://localhost:8888/callback";
     static private Context context;
+    private LoginWindowInfo loginWindowInfo;
 
     private Player mPlayer;
     // Request code that will be used to verify if the result comes from correct activity, can be any integer
     private static final int REQUEST_CODE = 1337;
 
-    public CustomSpotifyPlayer(Context context){
+    public CustomSpotifyPlayer(Context context, LoginWindowInfo loginWindowInfo){
         this.context = context;
+        this.loginWindowInfo = loginWindowInfo;
     }
 
     public CustomSpotifyPlayer(){}
@@ -41,7 +43,7 @@ public class CustomSpotifyPlayer extends Activity implements SpotifyPlayer.Notif
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_party);
+        setContentView(R.layout.activity_main_page);
 
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN,
@@ -71,13 +73,13 @@ public class CustomSpotifyPlayer extends Activity implements SpotifyPlayer.Notif
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
                 Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
+                onLoggedIn();
                 Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
                     @Override
                     public void onInitialized(SpotifyPlayer spotifyPlayer) {
                         mPlayer = spotifyPlayer;
                         mPlayer.addConnectionStateCallback(CustomSpotifyPlayer.this);
                         mPlayer.addNotificationCallback(CustomSpotifyPlayer.this);
-                        mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
                     }
 
                     @Override
@@ -118,8 +120,9 @@ public class CustomSpotifyPlayer extends Activity implements SpotifyPlayer.Notif
     @Override
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
-
-        mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
+        MainPageActivity.logIn();
+        mPlayer.playUri(null, "spotify:track:02hnKrZkgKZkclzMrPwPRw", 0, 0);
+        finish();
     }
 
     @Override
