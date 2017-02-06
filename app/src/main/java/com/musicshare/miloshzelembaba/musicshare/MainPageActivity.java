@@ -1,6 +1,7 @@
 package com.musicshare.miloshzelembaba.musicshare;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
@@ -150,7 +151,7 @@ public class MainPageActivity extends AppCompatActivity {
         }
 
         public void createAParty(){
-            if (loggedIn){
+            //if (loggedIn){
                 createPartyView.findViewById(R.id.partyNameInput).setVisibility(View.VISIBLE);
                 final TextView sectionText = (TextView) createPartyView.findViewById(R.id.section_label);
                 final TextInputLayout layout = (TextInputLayout) createPartyView.findViewById(R.id.partyNameInput);
@@ -202,13 +203,13 @@ public class MainPageActivity extends AppCompatActivity {
                         if (s.length() - 1 >= 0 && s.charAt(s.length() - 1) == '\n') {
                             PartyActivity partyActivity = new PartyActivity();
                             partyActivity.setupParty(partyName.getText().toString(),loginWindowInfo, context, true);
-                            startActivity(partyActivity.getIntent());
+                            startActivity(new Intent(getContext(), PartyActivity.class));
                         }
                     }
                 });
-            } else {
-                Toast.makeText(getContext(), "Must be logged in to create a party, please log in", Toast.LENGTH_SHORT).show();
-            }
+//            } else {
+//                Toast.makeText(getContext(), "Must be logged in to create a party, please log in", Toast.LENGTH_SHORT).show();
+//            }
         }
 
         @Override

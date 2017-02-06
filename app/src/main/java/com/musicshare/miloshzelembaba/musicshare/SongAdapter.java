@@ -1,5 +1,6 @@
 package com.musicshare.miloshzelembaba.musicshare;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,11 @@ public class SongAdapter extends ArrayAdapter {
     Context context;
     LayoutInflater inflater;
     public ArrayList<Song> songs = new ArrayList<>();
+    Activity baseActivity;
 
-    public SongAdapter(Context context, int textViewResourceId, ArrayList<Song> listItems){
+    public SongAdapter(Context context, int textViewResourceId, ArrayList<Song> listItems, Activity base){
         super(context, textViewResourceId, listItems);
+        baseActivity = base;
         this.context = context;
         songs = listItems;
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -42,7 +45,7 @@ public class SongAdapter extends ArrayAdapter {
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomSpotifyPlayer.playSong(songs.get(position));
+                ((PartyActivity)baseActivity).playSong(songs.get(position));
             }
         });
 

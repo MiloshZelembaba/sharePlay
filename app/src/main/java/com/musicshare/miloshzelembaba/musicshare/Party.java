@@ -46,6 +46,6 @@ public class Party {
     }
 
     private void setPartyInfo(){
-        partyOwner = loginWindowInfo.getUserName();
+        //partyOwner = loginWindowInfo.getUserName();
     }
 }
