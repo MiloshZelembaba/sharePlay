@@ -75,6 +75,7 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
 
         // empty playlist text
         if (party.isSongQueueEmpty()) { // should always be true here, i think
+            hidePlaylist();
             TextView textView = (TextView) findViewById(R.id.emptyPlaylistTextview);
             textView.setVisibility(View.VISIBLE);
         }
@@ -130,12 +131,29 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         mPlayer.playUri(null, song.getURI(), 0, 0);
     }
 
-    public void setupSearchViews(){
-        removeEmptyQueueMessage();
+    private void hidePlaylist(){
+        findViewById(R.id.playlistHeader).setVisibility(View.INVISIBLE);
+        findViewById(R.id.playlistHeader).setEnabled(false);
         ListView songsListView = (ListView) findViewById(R.id.songList);
         songsListView.setVisibility(View.INVISIBLE);
         songsListView.setEnabled(false);
+    }
 
+    private void showPlaylist(){
+        findViewById(R.id.playlistHeader).setVisibility(View.VISIBLE);
+        findViewById(R.id.playlistHeader).setEnabled(true);
+        ListView songsListView = (ListView) findViewById(R.id.songList);
+        songsListView.setVisibility(View.VISIBLE);
+        songsListView.setEnabled(true);
+    }
+
+
+
+    public void setupSearchViews(){
+        removeEmptyQueueMessage();
+        hidePlaylist();
+
+        // show the search views
         ListView searchListView = (ListView) findViewById(R.id.searchList);
         searchListView.setVisibility(View.VISIBLE);
         findViewById(R.id.searchInput).setVisibility(View.VISIBLE);
@@ -157,26 +175,29 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
 
     public void search(String searchQuery){
         removeEmptyQueueMessage();
-        searchItems = SpotifySearch.getResults(searchQuery);
+        SpotifySearch.getResults(searchQuery, this);
+
+    }
+
+    public void onSearchResult(ArrayList<Song> searchItems){
         for (Song song: searchItems){
             //searchAdapter.clearPreviousSearch();
+            this.searchItems.add(song);
             searchAdapter.addSong(song);
             searchAdapter.notifyDataSetChanged();
         }
         searchAdapter.notifyDataSetChanged();
-
     }
 
     public void endSearch(){
+        // hide the search views
         ListView searchListView = (ListView) findViewById(R.id.searchList);
         searchListView.setVisibility(View.INVISIBLE);
         searchListView.setEnabled(false);
         findViewById(R.id.searchInput).setVisibility(View.INVISIBLE);
         findViewById(R.id.editSearchInput).setVisibility(View.INVISIBLE);
 
-        ListView songsListView = (ListView) findViewById(R.id.songList);
-        songsListView.setVisibility(View.VISIBLE);
-        songsListView.setEnabled(true);
+        showPlaylist();
     }
 
 

@@ -35,7 +35,7 @@ public class SpotifySearch{
     static SpotifyService spotify = api.getService();
     static ArrayList<Song> tmp = new ArrayList<>();
 
-    static public ArrayList<Song> getResults(String query){
+    static public void getResults(String query, final PartyActivity partyActivity){
         //api.setAccessToken(CustomSpotifyPlayer.auth.getAccessToken());
 
         try {
@@ -46,6 +46,7 @@ public class SpotifySearch{
                         Song song = new Song(track.uri, track.name);
                         tmp.add(song);
                     }
+                    partyActivity.onSearchResult(tmp);
                 }
 
                 @Override
@@ -56,7 +57,6 @@ public class SpotifySearch{
         } catch (RetrofitError e){
             System.out.println(e.getResponse().getStatus());
         }
-        return tmp;
     }
 
 
