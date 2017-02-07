@@ -29,7 +29,7 @@ public class SongAdapter extends ArrayAdapter {
     }
 
     public void clearPreviousSearch(){
-        songs = new ArrayList<>();
+        songs.clear();
     }
 
     @Override
@@ -39,10 +39,14 @@ public class SongAdapter extends ArrayAdapter {
         if (v != null) {
             TextView songName = (TextView) v.findViewById(R.id.song_name);
             songName.setText(songs.get(position).getName());
+            TextView artistsName = (TextView) v.findViewById(R.id.artist_name);
+            artistsName.setText(songs.get(position).getArtists());
         } else {
             v = inflater.inflate(R.layout.song_layout, parent, false);
             TextView songName = (TextView) v.findViewById(R.id.song_name);
             songName.setText(songs.get(position).getName());
+            TextView artistsName = (TextView) v.findViewById(R.id.artist_name);
+            artistsName.setText(songs.get(position).getArtists());
         }
 
         v.setOnClickListener(new View.OnClickListener() {

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.ArtistSimple;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
@@ -42,8 +43,13 @@ public class SpotifySearch{
             spotify.searchTracks(query, new Callback<TracksPager>() {
                 @Override
                 public void success(TracksPager tracksPager, Response response) {
+                    tmp =  new ArrayList<>();
                     for (Track track: tracksPager.tracks.items){
-                        Song song = new Song(track.uri, track.name);
+                        String allArtists = track.artists.get(0).name;
+                        for (int i=1; i < track.artists.size(); ++i){ // notice that it starts on i=1
+                            allArtists += " & " + track.artists.get(i).name;
+                        }
+                        Song song = new Song(track.uri, track.name, allArtists);
                         tmp.add(song);
                     }
                     partyActivity.onSearchResult(tmp);

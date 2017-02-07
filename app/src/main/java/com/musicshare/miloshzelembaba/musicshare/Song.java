@@ -26,7 +26,9 @@ public class Song {
         return spotifyURI;
     }
 
-
+    public String getArtists(){
+        return artists;
+    }
 
     public String getName(){
         return name;

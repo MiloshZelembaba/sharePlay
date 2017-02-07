@@ -176,15 +176,13 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
     public void search(String searchQuery){
         removeEmptyQueueMessage();
         SpotifySearch.getResults(searchQuery, this);
-
+        // will re-enter at onSearchResult()
     }
 
     public void onSearchResult(ArrayList<Song> searchItems){
-        for (Song song: searchItems){
-            //searchAdapter.clearPreviousSearch();
-            this.searchItems.add(song);
-            searchAdapter.addSong(song);
-            searchAdapter.notifyDataSetChanged();
+        searchAdapter.clearPreviousSearch();
+        for (Song song : searchItems) {
+            searchAdapter.songs.add(song);
         }
         searchAdapter.notifyDataSetChanged();
     }
@@ -209,7 +207,6 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
 
     public void addSong(Song song){
         party.addSong(song);
-        listItems.add(song);
         playList.addSong(song);
         playList.notifyDataSetChanged();
         removeEmptyQueueMessage();
