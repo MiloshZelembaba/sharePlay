@@ -21,4 +21,6 @@ public class SongQueue {
     public void addSong(Song song){
         songQueue.add(song);
     }
+
+    public void removeSong(Song song) { songQueue.remove(song); }
 }

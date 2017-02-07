@@ -85,6 +85,7 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clearPreviousSearch();
                 setupSearchViews();
             }
         });
@@ -147,7 +148,12 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         songsListView.setEnabled(true);
     }
 
-
+    public void clearPreviousSearch(){
+        searchAdapter.clearPreviousSearch();
+        final TextInputEditText searchFeild = (TextInputEditText) findViewById(R.id.editSearchInput);
+        searchFeild.clearComposingText();
+        searchAdapter.notifyDataSetChanged();
+    }
 
     public void setupSearchViews(){
         removeEmptyQueueMessage();
@@ -158,6 +164,7 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         searchListView.setVisibility(View.VISIBLE);
         findViewById(R.id.searchInput).setVisibility(View.VISIBLE);
         final TextInputEditText searchFeild = (TextInputEditText) findViewById(R.id.editSearchInput);
+        searchFeild.setVisibility(View.VISIBLE);
         searchFeild.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
         searchFeild.setSingleLine(true);
         searchFeild.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -184,6 +191,11 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         for (Song song : searchItems) {
             searchAdapter.songs.add(song);
         }
+        TextView noSearchResults = (TextView) findViewById(R.id.emptySearchResult);
+        noSearchResults.setVisibility(View.INVISIBLE);
+        if (searchItems.isEmpty()){
+            noSearchResults.setVisibility(View.VISIBLE);
+        }
         searchAdapter.notifyDataSetChanged();
     }
 
@@ -205,11 +217,27 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         emptyPlaylistMessage.setVisibility(View.INVISIBLE);
     }
 
+    private void addEmptyQueueMessageIfEmpty(){
+        if (party.isSongQueueEmpty()) {
+            hidePlaylist();
+            TextView emptyPlaylistMessage = (TextView) findViewById(R.id.emptyPlaylistTextview);
+            emptyPlaylistMessage.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void addSong(Song song){
         party.addSong(song);
         playList.addSong(song);
         playList.notifyDataSetChanged();
         removeEmptyQueueMessage();
+    }
+
+    public void removeSong(Song song){
+        party.removeSong(song);
+        playList.removeSong(song);
+        playList.notifyDataSetChanged();
+        addEmptyQueueMessageIfEmpty();
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

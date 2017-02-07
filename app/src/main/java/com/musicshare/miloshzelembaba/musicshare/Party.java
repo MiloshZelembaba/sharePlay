@@ -31,6 +31,8 @@ public class Party {
         songQueue.addSong(song);
     }
 
+    public void removeSong(Song song) { songQueue.removeSong(song);}
+
     public void setIsPartyOwner(boolean bool){
         isPartyOwner = bool;
     }

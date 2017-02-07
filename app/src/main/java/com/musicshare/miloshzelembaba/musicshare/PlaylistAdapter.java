@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import kaaes.spotify.webapi.android.models.TracksToRemove;
+
 /**
  * Created by miloshzelembaba on 2017-02-04.
  */
@@ -37,13 +39,25 @@ public class PlaylistAdapter extends ArrayAdapter {
             songName.setText(songs.get(position).getName());
             TextView artistsName = (TextView) v.findViewById(R.id.artist_name);
             artistsName.setText(songs.get(position).getArtists());
+            TextView removeButton = (TextView) v.findViewById(R.id.remove_song);
+            removeButton.setVisibility(View.VISIBLE);
         } else {
             v = inflater.inflate(R.layout.song_layout, parent, false);
             TextView songName = (TextView) v.findViewById(R.id.song_name);
             songName.setText(songs.get(position).getName());
             TextView artistsName = (TextView) v.findViewById(R.id.artist_name);
             artistsName.setText(songs.get(position).getArtists());
+            TextView removeButton = (TextView) v.findViewById(R.id.remove_song);
+            removeButton.setVisibility(View.VISIBLE);
         }
+
+        TextView removeButton = (TextView) v.findViewById(R.id.remove_song);
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((PartyActivity)baseActivity).removeSong(songs.get(position));
+            }
+        });
 
         v.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +75,10 @@ public class PlaylistAdapter extends ArrayAdapter {
 
     public void addSong(Song song){
         songs.add(song);
+    }
+
+    public void removeSong(Song song){
+        songs.remove(song);
     }
 
 
