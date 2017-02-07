@@ -14,22 +14,18 @@ import java.util.ArrayList;
  * Created by miloshzelembaba on 2017-02-04.
  */
 
-public class SongAdapter extends ArrayAdapter {
+public class PlaylistAdapter extends ArrayAdapter {
     Context context;
     LayoutInflater inflater;
     public ArrayList<Song> songs = new ArrayList<>();
     Activity baseActivity;
 
-    public SongAdapter(Context context, int textViewResourceId, ArrayList<Song> listItems, Activity base){
+    public PlaylistAdapter(Context context, int textViewResourceId, ArrayList<Song> listItems, Activity base){
         super(context, textViewResourceId, listItems);
         baseActivity = base;
         this.context = context;
         songs = listItems;
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    public void clearPreviousSearch(){
-        songs = new ArrayList<>();
     }
 
     @Override
@@ -48,8 +44,7 @@ public class SongAdapter extends ArrayAdapter {
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((PartyActivity)baseActivity).addSong(songs.get(position));
-                ((PartyActivity)baseActivity).endSearch();
+                ((PartyActivity)baseActivity).playSong(songs.get(position));
             }
         });
 
