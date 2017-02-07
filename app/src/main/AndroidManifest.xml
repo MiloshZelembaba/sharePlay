@@ -28,10 +28,6 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".CustomSpotifyPlayer"
-            android:label="customSpotfifyPlayer"
-        />
-        <activity
             android:name=".PartyActivity"
             android:label="@string/title_activity_party"
             android:theme="@style/AppTheme.NoActionBar"></activity>

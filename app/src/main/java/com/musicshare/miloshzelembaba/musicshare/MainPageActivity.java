@@ -1,7 +1,7 @@
 package com.musicshare.miloshzelembaba.musicshare;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
@@ -16,7 +16,6 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.KeyListener;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,10 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.HashMap;
-
 
 public class MainPageActivity extends AppCompatActivity {
 
@@ -41,10 +36,7 @@ public class MainPageActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    static LoginWindowInfo loginWindowInfo;
     public static Context context;
-    public CustomSpotifyPlayer player;
-    static private boolean loggedIn = false;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -60,22 +52,19 @@ public class MainPageActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
+        // Create the playList that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         //  *viewPageIndicator*  // mSectionsPagerAdapter = new TestFragmentAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
+        // Set up the ViewPager with the sections playList.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        //Set the pager with an adapter
-        //  *viewPageIndicator*  // mViewPager.setAdapter(new TestAdapter(getSupportFragmentManager()));
 
-        //Bind the title indicator to the adapter
-        //  *viewPageIndicator*  // LinePageIndicator linePageIndicator = (LinePageIndicator)findViewById(R.id.indicator);
-        //  *viewPageIndicator*  // linePageIndicator.setViewPager(mViewPager);
 
+        /* **** I took out the fab since I changed it so once you tap "join/create party" it'll take
+                you straight to the party and if you're not logged in it will prompt you to log into Spotify
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,11 +77,8 @@ public class MainPageActivity extends AppCompatActivity {
                 startActivity(CustomSpotifyPlayer.getMyIntent());
             }
         });
+        */
 
-    }
-
-    static public void logIn(){
-        loggedIn = true;
     }
 
     @Override
@@ -144,76 +130,31 @@ public class MainPageActivity extends AppCompatActivity {
             return fragment;
         }
 
-        public void wipeText(TextInputEditText partyName){
-            partyName.setText("");
-            partyName.setTextColor(Color.BLACK);
-        }
-
         public void createAParty(){
-            if (loggedIn){
-                createPartyView.findViewById(R.id.partyNameInput).setVisibility(View.VISIBLE);
-                final TextView sectionText = (TextView) createPartyView.findViewById(R.id.section_label);
-                final TextInputLayout layout = (TextInputLayout) createPartyView.findViewById(R.id.partyNameInput);
-                final TextInputEditText partyName = (TextInputEditText) createPartyView.findViewById(R.id.editInputPartyName);
-                layout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        wipeText(partyName);
-                    }
-                });
-                sectionText.setText("Please enter the name of your party above");
-                partyName.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        wipeText(partyName);
-                    }
-                });
-//                partyName.setImeOptions(EditorInfo.IME_ACTION_DONE);
-//                partyName.setImeActionLabel("done", EditorInfo.IME_ACTION_DONE);
-//                partyName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//                        @Override // Triggered when user is done entering the party's name
-//                        public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-//                            if (id == EditorInfo.IME_ACTION_DONE) {
-//                                PartyActivity partyActivity = new PartyActivity();
-//                                partyActivity.setupParty(partyName.getText().toString(),loginWindowInfo, context, true);
-//                                startActivity(partyActivity.getIntent());
-//                                return true;
-//                            }
-//                            PartyActivity partyActivity = new PartyActivity();
-//                            partyActivity.setupParty(partyName.getText().toString(),loginWindowInfo, context, true);
-//                            startActivity(partyActivity.getIntent());
-//                            return true;
-//                        }
-//                    });
+            createPartyView.findViewById(R.id.partyNameInput).setVisibility(View.VISIBLE);
+            final TextView sectionText = (TextView) createPartyView.findViewById(R.id.section_label);
+            final TextInputLayout layout = (TextInputLayout) createPartyView.findViewById(R.id.partyNameInput);
+            final TextInputEditText partyName = (TextInputEditText) createPartyView.findViewById(R.id.editInputPartyName);
 
-                partyName.addTextChangedListener(new TextWatcher() {
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+            sectionText.setText("Please enter the name of your party above");
+            partyName.setSingleLine(true);
+            partyName.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            partyName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        PartyActivity partyActivity = new PartyActivity();
+                        partyActivity.setupParty(partyName.getText().toString(), context, true);
+                        startActivity(new Intent(getContext(), PartyActivity.class));
+                        return true;
                     }
-
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count,
-                                                  int after) {
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        if (s.length() - 1 >= 0 && s.charAt(s.length() - 1) == '\n') {
-                            PartyActivity partyActivity = new PartyActivity();
-                            partyActivity.setupParty(partyName.getText().toString(),loginWindowInfo, context, true);
-                            startActivity(partyActivity.getIntent());
-                        }
-                    }
-                });
-            } else {
-                Toast.makeText(getContext(), "Must be logged in to create a party, please log in", Toast.LENGTH_SHORT).show();
-            }
+                    return false;
+                }
+            });
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main_page, container, false);
             rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
