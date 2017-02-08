@@ -49,7 +49,7 @@ public class SpotifySearch{
                         for (int i=1; i < track.artists.size(); ++i){ // notice that it starts on i=1
                             allArtists += " & " + track.artists.get(i).name;
                         }
-                        Song song = new Song(track.uri, track.name, allArtists);
+                        Song song = new Song(track.uri, track.name, allArtists, track.album.images.get(0));
                         tmp.add(song);
                     }
                     partyActivity.onSearchResult(tmp);
