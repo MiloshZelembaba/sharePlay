@@ -17,6 +17,12 @@
     <RelativeLayout android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
         <android.support.design.widget.TextInputLayout
                 android:id="@+id/searchInput"
                 android:visibility="gone"
@@ -32,10 +38,21 @@
                     android:layout_height="40dp" />
         </android.support.design.widget.TextInputLayout>
 
+        <TextView
+            android:id="@+id/done_search"
+            android:layout_alignRight="@+id/searchInput"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Done"/>
+
+        </RelativeLayout>
+
         <ListView
             android:id="@+id/searchList"
             android:visibility="gone"
-            android:layout_below="@+id/searchInput"
+            android:paddingTop="5dp"
+            android:layout_below="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />

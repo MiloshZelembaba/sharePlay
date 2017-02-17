@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -75,7 +76,7 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
 
         // empty playlist text
         if (party.isSongQueueEmpty()) { // should always be true here, i think
-            hidePlaylist();
+            hidePlaylist(false);
             TextView textView = (TextView) findViewById(R.id.emptyPlaylistTextview);
             textView.setVisibility(View.VISIBLE);
         }
@@ -132,12 +133,16 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         mPlayer.playUri(null, song.getURI(), 0, 0);
     }
 
-    private void hidePlaylist(){
+    private void hidePlaylist(boolean hideFab){
         findViewById(R.id.playlistHeader).setVisibility(View.INVISIBLE);
         findViewById(R.id.playlistHeader).setEnabled(false);
         ListView songsListView = (ListView) findViewById(R.id.songList);
         songsListView.setVisibility(View.INVISIBLE);
         songsListView.setEnabled(false);
+        if (hideFab) {
+            findViewById(R.id.fab).setVisibility(View.INVISIBLE);
+            findViewById(R.id.fab).setEnabled(false);
+        }
     }
 
     private void showPlaylist(){
@@ -146,6 +151,9 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         ListView songsListView = (ListView) findViewById(R.id.songList);
         songsListView.setVisibility(View.VISIBLE);
         songsListView.setEnabled(true);
+        playList.notifyDataSetChanged();
+        findViewById(R.id.fab).setVisibility(View.VISIBLE);
+        findViewById(R.id.fab).setEnabled(true);
     }
 
     public void clearPreviousSearch(){
@@ -157,11 +165,20 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
 
     public void setupSearchViews(){
         removeEmptyQueueMessage();
-        hidePlaylist();
+        hidePlaylist(true);
 
         // show the search views
         ListView searchListView = (ListView) findViewById(R.id.searchList);
         searchListView.setVisibility(View.VISIBLE);
+        findViewById(R.id.done_search).setEnabled(true);
+        findViewById(R.id.done_search).setVisibility(View.VISIBLE);
+        findViewById(R.id.done_search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                endSearch();
+            }
+        });
+
         findViewById(R.id.searchInput).setVisibility(View.VISIBLE);
         final TextInputEditText searchFeild = (TextInputEditText) findViewById(R.id.editSearchInput);
         searchFeild.setVisibility(View.VISIBLE);
@@ -182,7 +199,8 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
 
     public void search(String searchQuery){
         removeEmptyQueueMessage();
-        SpotifySearch.getResults(searchQuery, this);
+        SpotifySearch.getResults(searchQuery, this
+        );
         // will re-enter at onSearchResult()
     }
 
@@ -196,6 +214,8 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         if (searchItems.isEmpty()){
             noSearchResults.setVisibility(View.VISIBLE);
         }
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(findViewById(R.id.searchInput).getWindowToken(), 0);
         searchAdapter.notifyDataSetChanged();
     }
 
@@ -206,6 +226,9 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         searchListView.setEnabled(false);
         findViewById(R.id.searchInput).setVisibility(View.INVISIBLE);
         findViewById(R.id.editSearchInput).setVisibility(View.INVISIBLE);
+        findViewById(R.id.done_search).setEnabled(false);
+        findViewById(R.id.done_search).setVisibility(View.INVISIBLE);
+        addEmptyQueueMessageIfEmpty();
 
         showPlaylist();
     }
@@ -219,7 +242,7 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
 
     private void addEmptyQueueMessageIfEmpty(){
         if (party.isSongQueueEmpty()) {
-            hidePlaylist();
+            hidePlaylist(false);
             TextView emptyPlaylistMessage = (TextView) findViewById(R.id.emptyPlaylistTextview);
             emptyPlaylistMessage.setVisibility(View.VISIBLE);
         }
@@ -232,11 +255,13 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         removeEmptyQueueMessage();
     }
 
-    public void removeSong(Song song){
+    public void removeSong(Song song, boolean emptyPlaylistDialog){
         party.removeSong(song);
         playList.removeSong(song);
         playList.notifyDataSetChanged();
-        addEmptyQueueMessageIfEmpty();
+        if (emptyPlaylistDialog) {
+            addEmptyQueueMessageIfEmpty();
+        }
 
     }
 

@@ -1,5 +1,7 @@
 package com.musicshare.miloshzelembaba.musicshare;
 
+import android.view.View;
+
 import kaaes.spotify.webapi.android.models.Image;
 
 /**
@@ -12,6 +14,7 @@ public class Song {
     private String name;
     private String artists;
     private Image albumCover;
+    public View v;
 
 
     public Song(String spotifyURI, String name){

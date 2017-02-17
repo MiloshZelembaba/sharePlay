@@ -53,8 +53,6 @@ public class PlaylistAdapter extends ArrayAdapter {
             TextView removeButton = (TextView) v.findViewById(R.id.remove_song);
             removeButton.setVisibility(View.VISIBLE);
             getImageBitmap(songs.get(position).getAlbumCover().url,v);
-            //ImageView albumCover = (ImageView) v.findViewById(R.id.album_cover);
-            //albumCover.setImageBitmap(getImageBitmap(songs.get(position).getAlbumCover().url));
         } else {
             v = inflater.inflate(R.layout.song_layout, parent, false);
             TextView songName = (TextView) v.findViewById(R.id.song_name);
@@ -64,15 +62,13 @@ public class PlaylistAdapter extends ArrayAdapter {
             TextView removeButton = (TextView) v.findViewById(R.id.remove_song);
             removeButton.setVisibility(View.VISIBLE);
             getImageBitmap(songs.get(position).getAlbumCover().url,v);
-            //ImageView albumCover = (ImageView) v.findViewById(R.id.album_cover);
-            //albumCover.setImageBitmap(getImageBitmap(songs.get(position).getAlbumCover().url));
         }
 
         TextView removeButton = (TextView) v.findViewById(R.id.remove_song);
         removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((PartyActivity)baseActivity).removeSong(songs.get(position));
+                ((PartyActivity)baseActivity).removeSong(songs.get(position),true);
             }
         });
 
@@ -100,20 +96,6 @@ public class PlaylistAdapter extends ArrayAdapter {
 
     private void getImageBitmap(String url, View v) {
         ImageDownloader.getBitmapFromURL(url,v);
-//        Bitmap bm = null;
-//        try {
-//            URL aURL = new URL(url);
-//            URLConnection conn = aURL.openConnection();
-//            conn.connect();
-//            InputStream is = conn.getInputStream();
-//            BufferedInputStream bis = new BufferedInputStream(is);
-//            bm = BitmapFactory.decodeStream(bis);
-//            bis.close();
-//            is.close();
-//        } catch (IOException e) {
-//            Log.e(this.toString(), "Error getting bitmap", e);
-//        }
-//        return bm;
     }
 
 

@@ -52,28 +52,45 @@ public class SongAdapter extends ArrayAdapter {
             TextView artistsName = (TextView) v.findViewById(R.id.artist_name);
             artistsName.setText(songs.get(position).getArtists());
             //getImageBitmap(songs.get(position).getAlbumCover().url,v);
-            //ImageView albumCover = (ImageView) v.findViewById(R.id.album_cover);
-            //albumCover.setImageBitmap(getImageBitmap(songs.get(position).getAlbumCover().url));
         } else {
-            v = inflater.inflate(R.layout.song_layout, parent, false);
+            v = inflater.inflate(R.layout.song_layout_search, parent, false);
             TextView songName = (TextView) v.findViewById(R.id.song_name);
             songName.setText(songs.get(position).getName());
             TextView artistsName = (TextView) v.findViewById(R.id.artist_name);
             artistsName.setText(songs.get(position).getArtists());
             getImageBitmap(songs.get(position).getAlbumCover().url,v);
-            //ImageView albumCover = (ImageView) v.findViewById(R.id.album_cover);
-            //albumCover.setImageBitmap(getImageBitmap(songs.get(position).getAlbumCover().url));
+
         }
 
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((PartyActivity)baseActivity).addSong(songs.get(position));
-                ((PartyActivity)baseActivity).endSearch();
+
+                songTapped(view,songs.get(position));
             }
         });
 
         return v;
+    }
+
+    private void songTapped(View view, Song song){ // TODO: check button doesn't show
+        if (view.findViewById(R.id.plus_btn).isEnabled()){
+            // setup views
+            view.findViewById(R.id.plus_btn).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.plus_btn).setEnabled(false);
+            view.findViewById(R.id.check_btn).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.check_btn).setEnabled(true);
+            // add song
+            ((PartyActivity)baseActivity).addSong(song);
+        } else {
+            // setup views
+            view.findViewById(R.id.plus_btn).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.plus_btn).setEnabled(true);
+            view.findViewById(R.id.check_btn).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.check_btn).setEnabled(false);
+            // remove song
+            ((PartyActivity)baseActivity).removeSong(song, false);
+        }
     }
 
     public void setList(ArrayList<Song> list){
@@ -86,20 +103,6 @@ public class SongAdapter extends ArrayAdapter {
 
     private void getImageBitmap(String url, View v) {
         ImageDownloader.getBitmapFromURL(url,v);
-//        Bitmap bm = null;
-//        try {
-//            URL aURL = new URL(url);
-//            URLConnection conn = aURL.openConnection();
-//            conn.connect();
-//            InputStream is = conn.getInputStream();
-//            BufferedInputStream bis = new BufferedInputStream(is);
-//            bm = BitmapFactory.decodeStream(bis);
-//            bis.close();
-//            is.close();
-//        } catch (IOException e) {
-//            Log.e(this.toString(), "Error getting bitmap", e);
-//        }
-//        return bm;
     }
 
 
