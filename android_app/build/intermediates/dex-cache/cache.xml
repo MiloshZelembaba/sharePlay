@@ -3,12 +3,57 @@
 
     <item
         is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.1.0/jars/classes.jar"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.1.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="ca3c7aa31e2726a400a6e552b93cb9f63c9a1e6d">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.android.support-support-compat-25.1.0_c8beec6f328d2a7a6196c3efc75f9a42e7b8cfbe.jar" />
+        sha1="f02263e35e52668dd17b73bf961437e3d562b35f">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.android.support-support-media-compat-25.1.0_c025f02ed11326c13edfe5fdfaaa26ec7929cb53.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b266c8faa5af72e579b9da36ef35053ffed6ac64">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-25.1.0_4136a30cebe87222474a25ab568d7f77646fc228.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-25.1.0_d98a6f7691a7b668fa2756e51918a077ef1e70a6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1630658fbc2d222b988603c27b4a4249586fbfe7">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-25.1.0_22104bd972acc290e197211f7e496257138a0ff2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.spotify.sdk/spotify-player/24-noconnect-2.20b/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="55220cc71bd23fff8fc339a67f55be3cfd11cdec">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.spotify.sdk-spotify-player-24-noconnect-2.20b_c3197a8da13439fe7315095ad1d218986bc72c6d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.spotify.sdk/spotify-player/24-noconnect-2.20b/jars/libs/jnihelpers-1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b54aab38b4f87a6682331b511fec0db6b952bb7e">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/jnihelpers-1.0_eff9b810455c1ab037a279c2843fe963125ac9b5.jar" />
     </item>
     <item
         is-multidex="false"
@@ -17,43 +62,7 @@
         optimize="true"
         revision="25.0.2"
         sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/gson-2.3.1_58cb73ac8d7f4ffedde2051106f8af4e53eb404d.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d0e34c669209bc6575bd584019517e2e1cf724d6">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_26f35afee676ee9efdc2eb5d333fdaca93119f31/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3.1/ecb6e1f8e4b0e84c4b886c2f14a1500caf309757/gson-2.3.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.3.1_58cb73ac8d7f4ffedde2051106f8af4e53eb404d/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.1.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="2a53c4f3518116b8c6aee0e477233f0f7da8616f">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.android.support-support-fragment-25.1.0_20a2f8158e149e5cdeddc89ba7ddce310bdb3664.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="aee64634871d88a419d59eb743c1258a60f19700">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-ui-25.1.0_60623673d146cc6eaf61ee939d77aea3f33b88a5.jar" />
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/gson-2.3.1_58cb73ac8d7f4ffedde2051106f8af4e53eb404d.jar" />
     </item>
     <item
         is-multidex="false"
@@ -62,322 +71,115 @@
         optimize="true"
         revision="25.0.2"
         sha1="64cb6b229a8bdfd907bc8dd46839a0053e4c018d">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/support-annotations-25.1.0_6dbcf490f6e2783f7a295ac1bf696fc349cf61a8.jar" />
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/support-annotations-25.1.0_6dbcf490f6e2783f7a295ac1bf696fc349cf61a8.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.1.0/jars/classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.github.kaaes/spotify-web-api-android/0.4.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="785444f1c6a6b880b9aa0efb9a2464cb6c51f8dc">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.github.kaaes-spotify-web-api-android-0.4.1_668780703273d85badd4d7d81aa8b4f179beb160.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e79aa3d9a16f8c9f16377c0608de70a8f31e5d80">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-25.1.0_342cf913eab6892fa9bdb603824001dff74db0bc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6fb6ac3e8d3b9013819920d9ea11f3803c4c0033">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-25.1.0_05f99564f894868885ad3bf35e4616e59dc7405f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.android.support/design/25.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="30103d98fa5ed824b54af839c85e2111f9bde8ec">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.android.support-design-25.1.0_6528b9e32c649b607f6ba58d0660d10f98fe7127.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.spotify.sdk/spotify-auth/1.0.0-beta12/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5ae103bc312bb16fa0e04b4b50af27c0ad7eb987">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.spotify.sdk-spotify-auth-1.0.0-beta12_fa61d3bfd50ad182059fc83e164911b1b8231e4a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.github.JakeWharton/ViewPagerIndicator/2.4.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="14889e022db94047ceadff1cf5e7984139a4eb8e">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.github.JakeWharton-ViewPagerIndicator-2.4.1_f6382bc8f6f24baaa36558ea0e5383a3704854f2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit/retrofit/1.9.0/a681c044244d9fc375198588297a39ba78028423/retrofit-1.9.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a681c044244d9fc375198588297a39ba78028423">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/retrofit-1.9.0_a1e442f1e1cc84577a4bb8b89c3a57887c9009ac.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0a0ef86b7fa568a52bf6214a0326ca1f1d618da7">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-utils-25.1.0_c21379f4d7f39ddc314e3702b40afbd2d8a50b94.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="aee64634871d88a419d59eb743c1258a60f19700">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-ui-25.1.0_3883e1512a6715dfcd7e485b19468b35e4e82693.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2a53c4f3518116b8c6aee0e477233f0f7da8616f">
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.android.support-support-fragment-25.1.0_6e2c487066bdab2b014712b1645338385d4c266c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.1.0/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="ca3c7aa31e2726a400a6e552b93cb9f63c9a1e6d">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.1.0_c8beec6f328d2a7a6196c3efc75f9a42e7b8cfbe/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.1.0/support-annotations-25.1.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="64cb6b229a8bdfd907bc8dd46839a0053e4c018d">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.1.0_6dbcf490f6e2783f7a295ac1bf696fc349cf61a8/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="f02263e35e52668dd17b73bf961437e3d562b35f">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.1.0_2481167fd22220756c4e7fc48653b79a9e5ec9f8/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="2a53c4f3518116b8c6aee0e477233f0f7da8616f">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.1.0_20a2f8158e149e5cdeddc89ba7ddce310bdb3664/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="aee64634871d88a419d59eb743c1258a60f19700">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.1.0_60623673d146cc6eaf61ee939d77aea3f33b88a5/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.github.kaaes/spotify-web-api-android/0.4.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="785444f1c6a6b880b9aa0efb9a2464cb6c51f8dc">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.github.kaaes-spotify-web-api-android-0.4.1_4033182ed82fd7128ab9406a2f0e041ba8bb390d/classes.dex" />
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.android.support-support-compat-25.1.0_b88c5a66af3046a508d3593997e7dcec9e10216b.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.spotify.sdk/spotify-auth/1.0.0-beta12/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="5ae103bc312bb16fa0e04b4b50af27c0ad7eb987">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.spotify.sdk-spotify-auth-1.0.0-beta12_f84adf551059a0900c182a8d70406f5346e30b66.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.1.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="f02263e35e52668dd17b73bf961437e3d562b35f">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.android.support-support-media-compat-25.1.0_2481167fd22220756c4e7fc48653b79a9e5ec9f8.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.github.JakeWharton/ViewPagerIndicator/2.4.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="14889e022db94047ceadff1cf5e7984139a4eb8e">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.github.JakeWharton-ViewPagerIndicator-2.4.1_201ab86120c2ac8f2969477e0aa5ff012392fd8d/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-25.1.0_7235762b0e3a31efbbe08c26e4b65a2506fb8da0.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.spotify.sdk/spotify-auth/1.0.0-beta12/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="5ae103bc312bb16fa0e04b4b50af27c0ad7eb987">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.spotify.sdk-spotify-auth-1.0.0-beta12_f84adf551059a0900c182a8d70406f5346e30b66/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.1.0_7235762b0e3a31efbbe08c26e4b65a2506fb8da0/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.github.kaaes/spotify-web-api-android/0.4.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="785444f1c6a6b880b9aa0efb9a2464cb6c51f8dc">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.github.kaaes-spotify-web-api-android-0.4.1_4033182ed82fd7128ab9406a2f0e041ba8bb390d.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="0a0ef86b7fa568a52bf6214a0326ca1f1d618da7">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.1.0_30c277597e68a4757b1646701a8c7e9794c71785/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.spotify.sdk/spotify-player/24-noconnect-2.20b/jars/libs/jnihelpers-1.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="b54aab38b4f87a6682331b511fec0db6b952bb7e">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/jnihelpers-1.0_efa2dd2da52e9b814bb13f745b6c0d5129993b40.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.1.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="6fb6ac3e8d3b9013819920d9ea11f3803c4c0033">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-25.1.0_5fe92ed0b8eaad3b2135e165792f61c7d9b66671.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="3f45787813a73406f606c2598f2eb51696269bae">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_f4ec480d57dde79c82ee727d55ee98ef447d1bbf/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.1.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="0a0ef86b7fa568a52bf6214a0326ca1f1d618da7">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-utils-25.1.0_30c277597e68a4757b1646701a8c7e9794c71785.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/transition/25.1.0/jars/classes.jar"
+        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/exploded-aar/com.android.support/transition/25.1.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="d38084015027549951cbaea5d5f6fb795cc81151">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.android.support-transition-25.1.0_d9213d7d771c780e0e0603383d9efe54b1406f47.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="6fb6ac3e8d3b9013819920d9ea11f3803c4c0033">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.1.0_5fe92ed0b8eaad3b2135e165792f61c7d9b66671/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.spotify.sdk/spotify-player/24-noconnect-2.20b/jars/libs/jnihelpers-1.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="b54aab38b4f87a6682331b511fec0db6b952bb7e">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/jnihelpers-1.0_efa2dd2da52e9b814bb13f745b6c0d5129993b40/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/design/25.1.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="30103d98fa5ed824b54af839c85e2111f9bde8ec">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.android.support-design-25.1.0_f7a4d0e01ac8afa0ec46a9da418914c11de9d5eb.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.github.JakeWharton/ViewPagerIndicator/2.4.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="14889e022db94047ceadff1cf5e7984139a4eb8e">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.github.JakeWharton-ViewPagerIndicator-2.4.1_201ab86120c2ac8f2969477e0aa5ff012392fd8d.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="e79aa3d9a16f8c9f16377c0608de70a8f31e5d80">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.1.0_b04af7e317ea733ff3cbe58e269f111ca51ce346/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.spotify.sdk/spotify-player/24-noconnect-2.20b/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="55220cc71bd23fff8fc339a67f55be3cfd11cdec">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.spotify.sdk-spotify-player-24-noconnect-2.20b_4d797ea970233820bb505be22e4d61b5792d4ea0.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.1.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="e79aa3d9a16f8c9f16377c0608de70a8f31e5d80">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-25.1.0_b04af7e317ea733ff3cbe58e269f111ca51ce346.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.spotify.sdk/spotify-player/24-noconnect-2.20b/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="55220cc71bd23fff8fc339a67f55be3cfd11cdec">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.spotify.sdk-spotify-player-24-noconnect-2.20b_4d797ea970233820bb505be22e4d61b5792d4ea0/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/design/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="30103d98fa5ed824b54af839c85e2111f9bde8ec">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.1.0_f7a4d0e01ac8afa0ec46a9da418914c11de9d5eb/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="1630658fbc2d222b988603c27b4a4249586fbfe7">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.1.0_95127bab3daeb000e4149ede77f504e13931b018/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit/retrofit/1.9.0/a681c044244d9fc375198588297a39ba78028423/retrofit-1.9.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="a681c044244d9fc375198588297a39ba78028423">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/retrofit-1.9.0_a1e442f1e1cc84577a4bb8b89c3a57887c9009ac.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit/retrofit/1.9.0/a681c044244d9fc375198588297a39ba78028423/retrofit-1.9.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="a681c044244d9fc375198588297a39ba78028423">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/retrofit-1.9.0_a1e442f1e1cc84577a4bb8b89c3a57887c9009ac/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/transition/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d38084015027549951cbaea5d5f6fb795cc81151">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-transition-25.1.0_d9213d7d771c780e0e0603383d9efe54b1406f47/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="1630658fbc2d222b988603c27b4a4249586fbfe7">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-25.1.0_95127bab3daeb000e4149ede77f504e13931b018.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="b266c8faa5af72e579b9da36ef35053ffed6ac64">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.1.0_fe6484bf613f82004c6b51eaaaa3226ea2dda588/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.1.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="b266c8faa5af72e579b9da36ef35053ffed6ac64">
-        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-25.1.0_fe6484bf613f82004c6b51eaaaa3226ea2dda588.jar" />
+        <dex dex="/Users/miloshzelembaba/AndroidStudioProjects/MusicShare/android_app/app/build/intermediates/pre-dexed/debug/com.android.support-transition-25.1.0_28056043ee780b93b4c911865b9e8a325c3d7a4c.jar" />
     </item>
 
 </items>
