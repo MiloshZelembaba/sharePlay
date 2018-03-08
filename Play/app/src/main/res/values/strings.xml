@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Play</string>
+
+    <!-- Start Activity -->
+    <string name="join_party">Join Party</string>
+    <string name="create_party">Create Party</string>
+    <string name="login_button">Login</string>
 </resources>

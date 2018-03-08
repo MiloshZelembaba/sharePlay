@@ -8,10 +8,47 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.miloshzelembaba.play.StartActivity">
+    tools:context="com.miloshzelembaba.play.Activity.InitialActivity">
 
     <TextView
+        android:id="@+id/join_party"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_centerInParent="true"
+        android:textSize="24dp"/>
+
+    <LinearLayout
+        android:id="@+id/login_container"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:background="@android:color/darker_gray"
+        android:padding="@dimen/sixteen_padding">
+
+        <EditText
+            android:id="@+id/login_email"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/login_email_text_size"
+            android:inputType="textEmailAddress"/>
+
+        <EditText
+            android:id="@+id/login_password"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/login_email_text_size"
+            android:inputType="textEmailAddress"/>
+
+        <Button
+            android:id="@+id/login_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/login_button"
+            android:textSize="@dimen/login_button_text_size"
+            android:layout_marginTop="@dimen/sixteen_padding"/>
+
+    </LinearLayout>
 </RelativeLayout>
