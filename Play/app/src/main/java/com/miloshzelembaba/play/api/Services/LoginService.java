@@ -3,6 +3,8 @@ package com.miloshzelembaba.play.api.Services;
 import com.miloshzelembaba.play.api.APIRequest;
 import com.miloshzelembaba.play.api.Request;
 
+import org.json.JSONObject;
+
 /**
  * Created by miloshzelembaba on 2018-03-07.
  */
@@ -26,9 +28,10 @@ public class LoginService {
         apiService.sendRequest(request,
                 new APIRequest.APIRequestCallBack() {
                     @Override
-                    public void onSuccess(String result) {
+                    public void onSuccess(JSONObject result) {
                         // maybe do something here
-                        callback.onSuccess(result);
+
+                        callback.onSuccess("yay");
                     }
 
                     @Override

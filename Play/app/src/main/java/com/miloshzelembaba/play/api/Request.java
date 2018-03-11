@@ -1,5 +1,7 @@
 package com.miloshzelembaba.play.api;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 /**
@@ -25,5 +27,33 @@ public class Request {
 
     public String buildURL(){
         return url;
+    }
+
+    private JSONObject buildParamJSON(){
+        JSONObject jsonObject = new JSONObject();
+
+        for (String key : params.keySet()){
+            try {
+                jsonObject.put(key, params.get(key));
+            } catch (Exception e){
+                System.out.println(e);
+            }
+        }
+
+        return jsonObject;
+    }
+
+    public byte[] getParamBytes(){
+        JSONObject jsonObject = buildParamJSON();
+
+        StringBuilder postData = new StringBuilder();
+        postData.append(jsonObject.toString());
+
+        try {
+            return postData.toString().getBytes("UTF-8");
+        } catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
     }
 }
