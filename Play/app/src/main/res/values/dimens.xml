@@ -10,4 +10,5 @@
     <!-- Initial Activity -->
     <dimen name="login_email_text_size">16sp</dimen>
     <dimen name="login_button_text_size">16sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

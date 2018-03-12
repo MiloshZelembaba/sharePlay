@@ -8,14 +8,51 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.miloshzelembaba.play.Activity.InitialActivity">
+    tools:context="com.miloshzelembaba.play.Activity.StartActivity.InitialActivity">
 
     <TextView
         android:id="@+id/join_party"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/join_party"
         android:layout_centerInParent="true"
         android:textSize="24dp"/>
+
+    <TextView
+        android:id="@+id/create_party"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/join_party"
+        android:text="@string/create_party"
+        android:paddingTop="@dimen/sixteen_padding"
+        android:textSize="24dp"/>
+
+    <LinearLayout
+        android:id="@+id/join_party_container"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:background="@android:color/darker_gray"
+        android:padding="@dimen/sixteen_padding">
+
+        <EditText
+            android:id="@+id/party_code"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/login_email_text_size"
+            android:inputType="textEmailAddress"/>
+
+        <Button
+            android:id="@+id/join_party_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/join_party_button"
+            android:textSize="@dimen/login_button_text_size"
+            android:layout_marginTop="@dimen/sixteen_padding"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/login_container"

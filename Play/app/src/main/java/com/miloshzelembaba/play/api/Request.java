@@ -1,5 +1,7 @@
 package com.miloshzelembaba.play.api;
 
+import com.miloshzelembaba.play.Models.Serializable;
+
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -34,7 +36,12 @@ public class Request {
 
         for (String key : params.keySet()){
             try {
-                jsonObject.put(key, params.get(key));
+                // for custom models
+                if (params.get(key) instanceof Serializable){
+                    jsonObject.put(key, ((Serializable) params.get(key)).serialize());
+                } else { // for primitive values
+                    jsonObject.put(key, params.get(key));
+                }
             } catch (Exception e){
                 System.out.println(e);
             }

@@ -3,7 +3,7 @@
     package="com.miloshzelembaba.play">
 
     <!-- PERMISSIONS -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,15 +11,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.InitialActivity"
+        <activity
+            android:name=".Activity.StartActivity.InitialActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activity.PartyActivityStuff.PartyActivity"
+            android:label="@string/title_activity_party"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

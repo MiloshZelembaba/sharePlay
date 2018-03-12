@@ -15,6 +15,8 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/', 'myapp.views.login'),
+    url(r'^joinParty/', 'myapp.views.joinParty'),
+    url(r'^createParty/', 'myapp.views.createParty'),
     # url(r'^initMilosh/', 'myapp.views.initMilosh'),
-    url(r'^getEmail/', 'myapp.views.getEmailAddress'), # remove
+
 )

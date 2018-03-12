@@ -4,45 +4,34 @@ import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.api.APIRequest;
 import com.miloshzelembaba.play.api.Request;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by miloshzelembaba on 2018-03-07.
+ * Created by miloshzelembaba on 2018-03-12.
  */
 
-public class LoginService {
+public class CreatePartyService {
     private APIRequest apiService;
 
-    public interface LoginServiceCallback{
-        void onSuccess(User user);
+    public interface CreatePartyServiceCallback{
+        void onSuccess(String herrrorooooooo);
         void onFailure(String errorMessage);
     }
 
 
-    public void requestService(String email, String password, final LoginServiceCallback callback){
+    public void requestService(User user, String partyName, final CreatePartyService.CreatePartyServiceCallback callback){
         apiService = new APIRequest();
         Request request = new Request();
-        request.setUrl("http://10.0.3.2:8000/login/");
-        request.addParameter("email", email);
-        request.addParameter("password", password);
+        request.setUrl("http://10.0.3.2:8000/createParty/");
+        request.addParameter("host", user);
+        request.addParameter("party_name", partyName);
 
         apiService.sendRequest(request,
                 new APIRequest.APIRequestCallBack() {
                     @Override
                     public void onSuccess(JSONObject result) {
                         // TODO: should this be spun off of a new thread?
-
-                        if (!result.has("first_name")){
-                            callback.onSuccess(null);
-                        } else {
-                            try {
-                                User user = new User(result);
-                                callback.onSuccess(user);
-                            } catch (JSONException e) {
-                                callback.onFailure(e.getMessage());
-                            }
-                        }
+                        System.out.println("no wayt his worked");
                     }
 
                     @Override
