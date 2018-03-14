@@ -48,7 +48,8 @@ public class InitialActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        user = new User("Milosh", "Zelembaba", "miloshzelembaba@gmail.comn");
+        // TODO: some sort of login thingy
+        user = new User("4", "mike", "dantoni", "mikedantoni@gmail.com");
 
         init();
     }
@@ -99,13 +100,13 @@ public class InitialActivity extends Activity {
 
     }
 
-    private void createParty(User user){
-        String partyName = "First Party";
+    private void createParty(final User user){
+        String partyName = "Fun Timez";
         createPartyService.requestService(user, partyName,
                 new CreatePartyService.CreatePartyServiceCallback() {
                     @Override
-                    public void onSuccess(String herrrorooooooo) {
-
+                    public void onSuccess(String partyId) {
+                        startPartyActivity(partyId);
                     }
 
                     @Override
@@ -122,11 +123,11 @@ public class InitialActivity extends Activity {
             return;
         }
 
-        joinPartyService.requestService(partyCode,
+        joinPartyService.requestService(partyCode, user,
                 new JoinPartyService.JoinPartServiceCallback() {
                     @Override
-                    public void onSuccess(String herrrorooooooo) {
-                        startPartyActivity();
+                    public void onSuccess(String partyId) {
+
                     }
 
                     @Override
@@ -138,8 +139,9 @@ public class InitialActivity extends Activity {
 
     }
 
-    private void startPartyActivity(){
+    private void startPartyActivity(String partyId){
         Intent intent = new Intent(this, PartyActivity.class);
+        intent.putExtra(PartyActivity.EXTRA_PARTY_ID, partyId);
         startActivity(intent);
     }
 

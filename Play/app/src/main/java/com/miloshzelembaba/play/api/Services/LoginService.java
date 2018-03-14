@@ -23,7 +23,7 @@ public class LoginService {
     public void requestService(String email, String password, final LoginServiceCallback callback){
         apiService = new APIRequest();
         Request request = new Request();
-        request.setUrl("http://10.0.3.2:8000/login/");
+        request.setUrl("login/");
         request.addParameter("email", email);
         request.addParameter("password", password);
 

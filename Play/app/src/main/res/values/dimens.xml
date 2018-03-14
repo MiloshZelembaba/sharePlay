@@ -6,9 +6,13 @@
     <!-- default dimens -->
     <dimen name="sixteen_padding">16dp</dimen>
 
-
     <!-- Initial Activity -->
     <dimen name="login_email_text_size">16sp</dimen>
     <dimen name="login_button_text_size">16sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Song Search Activity-->
+    <dimen name="search_bar_height">32dp</dimen>
+    <dimen name="search_bar_text_size">16sp</dimen>
+    <dimen name="empty_listview_text">16sp</dimen>
 </resources>

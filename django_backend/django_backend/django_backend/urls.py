@@ -17,6 +17,8 @@ urlpatterns = patterns('',
     url(r'^login/', 'myapp.views.login'),
     url(r'^joinParty/', 'myapp.views.joinParty'),
     url(r'^createParty/', 'myapp.views.createParty'),
-    # url(r'^initMilosh/', 'myapp.views.initMilosh'),
+    url(r'^addSongToParty/', 'myapp.views.addSongToParty'),
+    url(r'^getPartyDetails/', 'myapp.views.getPartyDetails'),
+    url(r'^initMilosh/', 'myapp.views.initMilosh'),
 
 )

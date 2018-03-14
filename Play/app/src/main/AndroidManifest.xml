@@ -23,7 +23,10 @@
         <activity
             android:name=".Activity.PartyActivityStuff.PartyActivity"
             android:label="@string/title_activity_party"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.SongSearch.SongSearchActivity"
+            android:theme="@style/AppTheme.SongSearchTheme"></activity>
     </application>
 
 </manifest>

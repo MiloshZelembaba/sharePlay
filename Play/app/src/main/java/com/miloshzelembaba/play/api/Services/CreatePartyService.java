@@ -4,6 +4,7 @@ import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.api.APIRequest;
 import com.miloshzelembaba.play.api.Request;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -14,7 +15,7 @@ public class CreatePartyService {
     private APIRequest apiService;
 
     public interface CreatePartyServiceCallback{
-        void onSuccess(String herrrorooooooo);
+        void onSuccess(String partyId);
         void onFailure(String errorMessage);
     }
 
@@ -22,8 +23,8 @@ public class CreatePartyService {
     public void requestService(User user, String partyName, final CreatePartyService.CreatePartyServiceCallback callback){
         apiService = new APIRequest();
         Request request = new Request();
-        request.setUrl("http://10.0.3.2:8000/createParty/");
-        request.addParameter("host", user);
+        request.setUrl("createParty/");
+        request.addParameter("user", user);
         request.addParameter("party_name", partyName);
 
         apiService.sendRequest(request,
@@ -31,7 +32,12 @@ public class CreatePartyService {
                     @Override
                     public void onSuccess(JSONObject result) {
                         // TODO: should this be spun off of a new thread?
-                        System.out.println("no wayt his worked");
+                        try {
+                            String partyId = result.getString("party_id");
+                            callback.onSuccess(partyId);
+                        } catch (JSONException e) {
+                            onFailure(e.getMessage());
+                        }
                     }
 
                     @Override

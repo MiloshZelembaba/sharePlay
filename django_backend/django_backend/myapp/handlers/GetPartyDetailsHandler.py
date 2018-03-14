@@ -1,21 +1,15 @@
 from django.http import HttpResponse
 import json
-from myapp.models import User
 from myapp.models import Party
 
 
 def passOff(json_data):
-    user_id = json_data['user']['id']
-    unique_code = json_data['code']
+    party_id = json_data['party_id']
 
-    user = None
+    party = None
     try:
-        user = User.objects.get(id=user_id)
-        party = Party.objects.get(unique_code=unique_code)
-        user.current_party = party
-        user.save()
-
-    except User.DoesNotExist, Party.DoesNotExist:
+        party = Party.objects.get(id=party_id)
+    except Party.DoesNotExist:
         return HttpResponse("Object does't exist", content_type='application/json', status=418)
 
     data = party.to_dict()

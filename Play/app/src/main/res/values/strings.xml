@@ -7,4 +7,7 @@
     <string name="login_button">Login</string>
     <string name="join_party_button">Join</string>
     <string name="title_activity_party">PartyActivity</string>
+
+    <!-- Song Search Activity -->
+    <string name="no_songs">no songs</string>
 </resources>

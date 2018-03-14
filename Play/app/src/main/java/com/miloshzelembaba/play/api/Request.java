@@ -15,12 +15,13 @@ public class Request {
     private String url;
 
     public Request(){
+        url = "http://10.0.0.234:8000/";
         params = new HashMap<>();
     }
 
     public void setUrl(String url){
         // TODO: this should eventually only specify the endpoint, not the whole url. We should build the url ourselves here
-        this.url = url;
+        this.url += url;
     }
 
     public void addParameter(String key, Object value){

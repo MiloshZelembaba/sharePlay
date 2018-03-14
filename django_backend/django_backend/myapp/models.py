@@ -1,6 +1,7 @@
 from django.db import models
 
 class User(models.Model):
+    id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=30, null=False)
     last_name = models.CharField(max_length=30, null=False)
     email = models.CharField(max_length=50, null=False)
@@ -8,11 +9,11 @@ class User(models.Model):
     last_login = models.DateField(null=True)
     current_party = models.ForeignKey(
                 'Party',
-                null=True,
-                on_delete=models.CASCADE)
+                null=True)
 
     def to_dict(self):
         _dict = {}
+        _dict['id'] = self.id
         _dict["first_name"] = self.first_name
         _dict["last_name"] = self.last_name
         _dict["email"] = self.email
@@ -23,15 +24,17 @@ class User(models.Model):
 
 
 class Party(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30, null=False)
     unique_code = models.CharField(max_length=6, null=False)
     host = models.ForeignKey(
                 'User',
                 null=False,
-                on_delete=models.CASCADE) ## TODO: MAJOR - DELET THE CASCADE
+                on_delete=models.CASCADE)
 
     def to_dict(self):
         _dict = {}
+        _dict['id'] = self.id
         _dict['name'] = self.name
         _dict['code'] = self.unique_code
         _dict['host'] = self.host.to_dict()
@@ -39,6 +42,7 @@ class Party(models.Model):
         return _dict
 
 class Song(models.Model):
+    id = models.AutoField(primary_key=True)
     spotify_uri = models.CharField(max_length=100, null=False)
     party = models.ForeignKey(
                 'Party',

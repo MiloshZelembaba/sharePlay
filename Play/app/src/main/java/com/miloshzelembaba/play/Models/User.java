@@ -8,17 +8,25 @@ import org.json.JSONObject;
  */
 
 public class User extends Serializable {
+    String mId;
     String mFirstName;
     String mLastName;
     String mEmail;
 
-    public User(String fn, String ln, String email){
+    public User(String id, String fn, String ln, String email){
+        mId = id;
         mFirstName = fn;
         mLastName = ln;
         mEmail = email;
     }
 
     public User(JSONObject object) throws JSONException {
+        if (object.has("id")) {
+            mFirstName = object.getString("id");
+        } else {
+            throw new JSONException("invalid json object");
+        }
+
         if (object.has("first_name")) {
             mFirstName = object.getString("first_name");
         } else {
@@ -31,8 +39,8 @@ public class User extends Serializable {
             throw new JSONException("invalid json object");
         }
 
-        if (object.has("mEmail")) {
-            mEmail = object.getString("mEmail");
+        if (object.has("email")) {
+            mEmail = object.getString("email");
         } else {
             throw new JSONException("invalid json object");
         }
@@ -42,6 +50,7 @@ public class User extends Serializable {
     public JSONObject serialize() throws JSONException{
         JSONObject object = new JSONObject();
 
+        object.put("id", mId);
         object.put("first_name", mFirstName);
         object.put("last_name", mLastName);
         object.put("email", mEmail);

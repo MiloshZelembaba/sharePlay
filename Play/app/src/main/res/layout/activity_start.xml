@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/join_party"
+        android:layout_centerHorizontal="true"
         android:text="@string/create_party"
         android:paddingTop="@dimen/sixteen_padding"
         android:textSize="24dp"/>
