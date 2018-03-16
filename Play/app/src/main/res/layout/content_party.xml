@@ -13,4 +13,10 @@
     tools:context="com.miloshzelembaba.play.Activity.PartyActivityStuff.PartyActivity"
     tools:showIn="@layout/activity_party">
 
+    <ListView
+        android:id="@+id/party_songs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+
 </RelativeLayout>

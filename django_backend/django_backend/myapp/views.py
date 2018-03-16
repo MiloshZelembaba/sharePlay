@@ -5,6 +5,7 @@ from handlers import CreatePartyHandler
 from handlers import JoinPartyHandler
 from handlers import AddSongToPartyHandler
 from handlers import GetPartyDetailsHandler
+from handlers import IncrementSongVoteCountHandler
 import json
 
 def login(request):
@@ -40,6 +41,14 @@ def getPartyDetails(request):
     if request.method == "POST":
         received_json_data = json.loads(request.body.decode("utf-8"))
         return GetPartyDetailsHandler.passOff(received_json_data)
+    else:
+        return HttpResponse("poop")
+
+
+def incrementSongVoteCount(request):
+    if request.method == "POST":
+        received_json_data = json.loads(request.body.decode("utf-8"))
+        return IncrementSongVoteCountHandler.passOff(received_json_data)
     else:
         return HttpResponse("poop")
 

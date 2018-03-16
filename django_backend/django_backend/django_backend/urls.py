@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     url(r'^createParty/', 'myapp.views.createParty'),
     url(r'^addSongToParty/', 'myapp.views.addSongToParty'),
     url(r'^getPartyDetails/', 'myapp.views.getPartyDetails'),
+    url(r'^incrementSongVoteCount/', 'myapp.views.incrementSongVoteCount'),
     url(r'^initMilosh/', 'myapp.views.initMilosh'),
 
 )

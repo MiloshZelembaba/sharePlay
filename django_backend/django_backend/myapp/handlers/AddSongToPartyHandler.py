@@ -13,8 +13,6 @@ def passOff(json_data):
     artists = json_data['song']['artists']
     image_url = json_data['song']['image_url']
 
-    import pdb; pdb.set_trace()
-
     # verify song doesn't already exist in the party
     try:
         party = Party.objects.get(id=party_id) ## dangerous to assume
@@ -39,5 +37,7 @@ def passOff(json_data):
 
     # TODO: need to broadcast an update here to everyone in tha party
     data = {}
-
-    return HttpResponse(json.dumps(data, indent=4, sort_keys=True, default=str), content_type='application/json', status=200)
+    data['party'] = party.to_dict()
+    data['songs'] = party.get_songs()
+    return HttpResponse(json.dumps(data, indent=4, sort_keys=True, default=str), content_type='application/json',
+                        status=200)

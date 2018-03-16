@@ -66,6 +66,7 @@ class Song(models.Model):
         _dict['song_name'] = self.song_name
         _dict['artists'] = self.artists
         _dict['image_url'] = self.image_url
+        _dict['vote_count'] = self.vote_count
 
         return _dict
 

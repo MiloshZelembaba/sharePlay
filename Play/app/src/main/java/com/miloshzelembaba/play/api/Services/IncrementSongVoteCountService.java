@@ -2,7 +2,6 @@ package com.miloshzelembaba.play.api.Services;
 
 import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
-import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.api.APIRequest;
 import com.miloshzelembaba.play.api.Request;
 
@@ -10,26 +9,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by miloshzelembaba on 2018-03-15.
+ * Created by miloshzelembaba on 2018-03-16.
  */
 
-public class AddSongToPartyService {
+public class IncrementSongVoteCountService {
     private APIRequest apiService;
 
-    public interface AddSongToPartyServiceCallback{
+    public interface IncrementSongVoteCountServiceCallback{
         void onSuccess(Party party);
         void onFailure(String errorMessage);
     }
 
 
-    public void requestService(User user, Party party, Song song, final AddSongToPartyService.AddSongToPartyServiceCallback callback){
+    public void requestService(Song song, final IncrementSongVoteCountService.IncrementSongVoteCountServiceCallback callback){
         apiService = new APIRequest();
         Request request = new Request();
-        request.setUrl("addSongToParty/");
-        request.addParameter("user", user);
-        request.addParameter("party", party);
+        request.setUrl("incrementSongVoteCount/");
         request.addParameter("song", song);
-
 
         apiService.sendRequest(request,
                 new APIRequest.APIRequestCallBack() {

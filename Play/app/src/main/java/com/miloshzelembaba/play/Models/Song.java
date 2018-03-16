@@ -16,6 +16,7 @@ public class Song extends Serializable {
     private String mArtists;
     private Image mImage;
     private String mImageUrl;
+    private int mVoteCount;
 
 
     public Song(String spotifyURI, String name, String artists, Image image){
@@ -24,6 +25,7 @@ public class Song extends Serializable {
         this.mArtists = artists;
         this.mImage = image;
         this.mImageUrl = "nothing yet";
+        this.mVoteCount = 1;
     }
 
     public Song(JSONObject object) throws JSONException{
@@ -54,6 +56,12 @@ public class Song extends Serializable {
         } else {
             throw new JSONException("invalid json object");
         }
+
+        if (object.has("vote_count")) {
+            mVoteCount = object.getInt("vote_count");
+        } else {
+            throw new JSONException("invalid json object");
+        }
     }
 
     public String getSongName(){
@@ -62,6 +70,14 @@ public class Song extends Serializable {
 
     public String getSongArtists(){
         return mArtists;
+    }
+
+    public int getVoteCount(){
+        return mVoteCount;
+    }
+
+    public void incrementVoteCount(){
+        mVoteCount += 1;
     }
 
     @Override
@@ -73,6 +89,7 @@ public class Song extends Serializable {
         object.put("song_name", mSongName);
         object.put("artists", mArtists);
         object.put("image_url", mImageUrl);
+        object.put("vote_count", mVoteCount);
 
         return object;
     }

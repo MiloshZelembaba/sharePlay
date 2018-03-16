@@ -54,6 +54,10 @@ public class Party extends Serializable {
         return object;
     }
 
+    public ArrayList<Song> getSongs(){
+        return songs;
+    }
+
     public void addSongs(JSONArray array) throws JSONException{
         if (songs != null){
             songs.clear();
