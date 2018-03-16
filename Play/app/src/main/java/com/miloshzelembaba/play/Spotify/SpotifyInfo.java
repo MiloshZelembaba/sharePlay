@@ -15,4 +15,9 @@ abstract public class SpotifyInfo {
     static public AuthenticationResponse auth;
     // Request code that will be used to verify if the result comes from correct activity, can be any integer
     public static final int REQUEST_CODE = 1337;
+    public static String ACCESS_TOKEN;
+
+    public static void setAccessToken(String a){
+        ACCESS_TOKEN = a;
+    }
 }

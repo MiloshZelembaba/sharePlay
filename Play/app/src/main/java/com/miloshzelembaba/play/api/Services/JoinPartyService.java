@@ -4,6 +4,7 @@ import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.api.APIRequest;
 import com.miloshzelembaba.play.api.Request;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -14,7 +15,7 @@ public class JoinPartyService {
     private APIRequest apiService;
 
     public interface JoinPartServiceCallback{
-        void onSuccess(String user);
+        void onSuccess(String partyId);
         void onFailure(String errorMessage);
     }
 
@@ -31,7 +32,12 @@ public class JoinPartyService {
                     @Override
                     public void onSuccess(JSONObject result) {
                         // TODO: should this be spun off of a new thread?
-
+                        try {
+                            String partyId = result.getString("party_id");
+                            callback.onSuccess(partyId);
+                        } catch (JSONException e) {
+                            onFailure(e.getMessage());
+                        }
 
                     }
 

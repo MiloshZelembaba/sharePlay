@@ -1,7 +1,10 @@
 package com.miloshzelembaba.play.Models;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by miloshzelembaba on 2018-03-12.
@@ -12,6 +15,7 @@ public class Party extends Serializable {
     private String mPartyName;
     private String mUniqueCode;
     private User mHost;
+    private ArrayList<Song> songs;
 
     public Party(JSONObject object) throws JSONException{
         if (object.has("id")) {
@@ -48,6 +52,19 @@ public class Party extends Serializable {
         object.put("host", mHost.serialize().toString()); // TODO: hmm, would rather not do this
 
         return object;
+    }
+
+    public void addSongs(JSONArray array) throws JSONException{
+        if (songs != null){
+            songs.clear();
+        } else {
+            songs = new ArrayList<>();
+        }
+
+        for (int i=0; i<array.length(); ++i){
+            songs.add(new Song(array.getJSONObject(i)));
+        }
+
     }
 
     public String getName(){

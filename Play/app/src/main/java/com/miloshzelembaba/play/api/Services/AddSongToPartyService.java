@@ -1,44 +1,41 @@
 package com.miloshzelembaba.play.api.Services;
 
 import com.miloshzelembaba.play.Models.Party;
+import com.miloshzelembaba.play.Models.Song;
+import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.api.APIRequest;
 import com.miloshzelembaba.play.api.Request;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by miloshzelembaba on 2018-03-12.
+ * Created by miloshzelembaba on 2018-03-15.
  */
 
-public class GetPartyDetailsService {
+public class AddSongToPartyService {
     private APIRequest apiService;
 
-    public interface GetPartyDetailsServiceCallback{
-        void onSuccess(Party party);
+    public interface AddSongToPartyServiceCallback{
+        void onSuccess();
         void onFailure(String errorMessage);
     }
 
 
-    public void requestService(String partyId, final GetPartyDetailsService.GetPartyDetailsServiceCallback callback){
+    public void requestService(User user, Party party, Song song, final AddSongToPartyService.AddSongToPartyServiceCallback callback){
         apiService = new APIRequest();
         Request request = new Request();
-        request.setUrl("getPartyDetails/");
-        request.addParameter("party_id", partyId);
+        request.setUrl("addSongToParty/");
+        request.addParameter("user", user);
+        request.addParameter("party", party);
+        request.addParameter("song", song);
+
 
         apiService.sendRequest(request,
                 new APIRequest.APIRequestCallBack() {
                     @Override
                     public void onSuccess(JSONObject result) {
                         // TODO: should this be spun off of a new thread?
-                        try {
-                            Party party = new Party(result.getJSONObject("party"));
-                            party.addSongs(result.getJSONArray("songs")); // hmm this should be remodled
-
-                            callback.onSuccess(party);
-                        } catch (JSONException e) {
-                            onFailure(e.getMessage());
-                        }
+                        callback.onSuccess();
                     }
 
                     @Override

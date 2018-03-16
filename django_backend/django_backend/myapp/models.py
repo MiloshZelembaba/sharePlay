@@ -32,6 +32,12 @@ class Party(models.Model):
                 null=False,
                 on_delete=models.CASCADE)
 
+    def get_songs(self):
+        songs = Song.objects.filter(party_id=self.id)
+        songs = [song.to_dict() for song in songs]
+
+        return songs
+
     def to_dict(self):
         _dict = {}
         _dict['id'] = self.id
@@ -44,8 +50,22 @@ class Party(models.Model):
 class Song(models.Model):
     id = models.AutoField(primary_key=True)
     spotify_uri = models.CharField(max_length=100, null=False)
+    song_name = models.CharField(max_length=100, null=False)
+    artists = models.CharField(max_length=100, null=False)
+    image_url = models.CharField(max_length=1000, null=False)
     party = models.ForeignKey(
                 'Party',
                 null=False,
                 on_delete=models.CASCADE)
     vote_count = models.IntegerField()
+
+    def to_dict(self):
+        _dict = {}
+        _dict['id'] = self.id
+        _dict['uri'] = self.spotify_uri
+        _dict['song_name'] = self.song_name
+        _dict['artists'] = self.artists
+        _dict['image_url'] = self.image_url
+
+        return _dict
+

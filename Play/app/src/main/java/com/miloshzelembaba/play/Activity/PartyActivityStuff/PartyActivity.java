@@ -7,11 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 
 import com.miloshzelembaba.play.Activity.SongSearch.SongSearchActivity;
 import com.miloshzelembaba.play.Models.Party;
+import com.miloshzelembaba.play.Models.Song;
+import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifyInfo;
+import com.miloshzelembaba.play.api.Services.AddSongToPartyService;
 import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -24,39 +28,54 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
     public static final String EXTRA_PARTY_ID = "ExtraPartyId";
+    public static final String EXTRA_USER = "ExtraUser";
 
     // Services
     GetPartyDetailsService getPartyDetailsService;
+    AddSongToPartyService addSongToPartyService;
 
-    private Party mParty;
     private Player mPlayer;
+    private Party mParty;
+    private User user;
+    private ListView mSongsListView;
+    private boolean isHost;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getPartyDetailsService = new GetPartyDetailsService();
+        addSongToPartyService = new AddSongToPartyService();
+
         setContentView(R.layout.activity_party);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         String partyId = getIntent().getStringExtra(EXTRA_PARTY_ID);
+        try {
+            user = new User(new JSONObject(getIntent().getStringExtra(EXTRA_USER)));
+        } catch (JSONException e){
+            user = null;
+        }
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            startActivity(new Intent(PartyActivity.this, SongSearchActivity.class));
+                startActivityForResult(new Intent(PartyActivity.this, SongSearchActivity.class), SongSearchActivity.SONG_SEARCH_RESULT);
             }
         });
 
-        getPartyDetailsService = new GetPartyDetailsService();
         getPartyDetailsService.requestService(partyId,
                 new GetPartyDetailsService.GetPartyDetailsServiceCallback() {
                     @Override
                     public void onSuccess(Party party) {
                         setParty(party);
-//                        attemptSpotifyLogin();
                     }
 
                     @Override
@@ -64,6 +83,7 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
 
                     }
                 });
+        attemptSpotifyLogin();
     }
 
     private void setParty(Party party){
@@ -80,6 +100,21 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         AuthenticationRequest request = builder.build();
 
         AuthenticationClient.openLoginActivity(this, SpotifyInfo.REQUEST_CODE, request);
+    }
+
+    private void addSongToParty(Song song) {
+        addSongToPartyService.requestService(user, mParty, song,
+                new AddSongToPartyService.AddSongToPartyServiceCallback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+
+                    }
+                });
     }
 
 
@@ -138,10 +173,23 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
+        if (requestCode == SongSearchActivity.SONG_SEARCH_RESULT){
+            String serializedSong = intent.getStringExtra("song");
+            JSONObject jsonSong;
+            try {
+                jsonSong = new JSONObject(serializedSong);
+                Song song = new Song(jsonSong);
+                addSongToParty(song);
+            } catch (Exception e) {
+                // make error popup thing
+            }
+        }
+
         // Check if result comes from the correct activity
         if (requestCode == SpotifyInfo.REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
+                SpotifyInfo.setAccessToken(response.getAccessToken());
                 Config playerConfig = new Config(this, response.getAccessToken(), SpotifyInfo.CLIENT_ID);
                 Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
                     @Override

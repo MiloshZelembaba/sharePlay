@@ -26,7 +26,7 @@ public class SpotifySearch{
     static ArrayList<Song> tmp = new ArrayList<>();
 
     static public void getResults(String query, final SongSearchActivity.SongSearchResultCallBack callBack){
-        //api.setAccessToken(CustomSpotifyPlayer.auth.getAccessToken());
+        api.setAccessToken(SpotifyInfo.ACCESS_TOKEN);
 
         // TODO: big todo - can we make this async?
 

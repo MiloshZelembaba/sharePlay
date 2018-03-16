@@ -18,5 +18,6 @@ def passOff(json_data):
     except User.DoesNotExist, Party.DoesNotExist:
         return HttpResponse("Object does't exist", content_type='application/json', status=418)
 
-    data = party.to_dict()
+    data = {}
+    data['party_id'] = party.id
     return HttpResponse(json.dumps(data, indent=4, sort_keys=True, default=str), content_type='application/json', status=200)

@@ -9,6 +9,11 @@ def passOff(json_data):
     user_id = json_data['user']['id']
     party_id = json_data['party']['id']
     uri = json_data['song']['uri']
+    song_name = json_data['song']['song_name']
+    artists = json_data['song']['artists']
+    image_url = json_data['song']['image_url']
+
+    import pdb; pdb.set_trace()
 
     # verify song doesn't already exist in the party
     try:
@@ -26,11 +31,13 @@ def passOff(json_data):
         if (user.current_party != party):
             return HttpResponse("Can't add songs to a party your not in", content_type='application/json', status=418)
 
-        song = Song(spotify_uri=uri, party=party, vote_count=1)
+        song = Song(spotify_uri=uri, party=party, vote_count=1,
+                    song_name=song_name, artists=artists, image_url=image_url)
         song.save()
     except User.DoesNotExist, Party.DoesNotExist:
         return HttpResponse("Object does't exist", content_type='application/json', status=418)
 
     # TODO: need to broadcast an update here to everyone in tha party
     data = {}
+
     return HttpResponse(json.dumps(data, indent=4, sort_keys=True, default=str), content_type='application/json', status=200)

@@ -5,6 +5,8 @@
 
     <!-- default dimens -->
     <dimen name="sixteen_padding">16dp</dimen>
+    <dimen name="eight_padding">8dp</dimen>
+    <dimen name="four_padding">4dp</dimen>
 
     <!-- Initial Activity -->
     <dimen name="login_email_text_size">16sp</dimen>

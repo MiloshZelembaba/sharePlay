@@ -22,7 +22,7 @@ public class User extends Serializable {
 
     public User(JSONObject object) throws JSONException {
         if (object.has("id")) {
-            mFirstName = object.getString("id");
+            mId = object.getString("id");
         } else {
             throw new JSONException("invalid json object");
         }

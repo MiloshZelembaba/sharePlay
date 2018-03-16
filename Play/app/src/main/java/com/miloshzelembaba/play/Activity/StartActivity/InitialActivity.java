@@ -16,6 +16,8 @@ import com.miloshzelembaba.play.api.Services.CreatePartyService;
 import com.miloshzelembaba.play.api.Services.JoinPartyService;
 import com.miloshzelembaba.play.api.Services.LoginService;
 
+import org.json.JSONException;
+
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -127,7 +129,7 @@ public class InitialActivity extends Activity {
                 new JoinPartyService.JoinPartServiceCallback() {
                     @Override
                     public void onSuccess(String partyId) {
-
+                        startPartyActivity(partyId);
                     }
 
                     @Override
@@ -142,6 +144,11 @@ public class InitialActivity extends Activity {
     private void startPartyActivity(String partyId){
         Intent intent = new Intent(this, PartyActivity.class);
         intent.putExtra(PartyActivity.EXTRA_PARTY_ID, partyId);
+        try {
+            intent.putExtra(PartyActivity.EXTRA_USER, user.serialize().toString());
+        } catch (JSONException e) {
+            // error message
+        }
         startActivity(intent);
     }
 

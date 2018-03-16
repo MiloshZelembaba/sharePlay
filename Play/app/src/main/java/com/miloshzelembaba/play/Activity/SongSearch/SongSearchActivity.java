@@ -1,6 +1,7 @@
 package com.miloshzelembaba.play.Activity.SongSearch;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
@@ -15,12 +16,17 @@ import com.miloshzelembaba.play.Spotify.SpotifySearch;
 
 import java.util.ArrayList;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class SongSearchActivity extends Activity {
+    public static final int SONG_SEARCH_RESULT = 1;
     ListView mListView;
     EditText mSearchField;
     TextView mEmptyListview;
 
     SongSearchAdapter songSearchAdapter;
+    SongSearchActivity thisActivity;
 
 
 
@@ -33,6 +39,7 @@ public class SongSearchActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_search);
+        thisActivity = this;
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -46,10 +53,12 @@ public class SongSearchActivity extends Activity {
     }
 
     private void init(){
-        songSearchAdapter = new SongSearchAdapter(this, 0, null); // this might crash
+//        songSearchAdapter = new SongSearchAdapter(this, 0); // this might crash
         mListView = (ListView) findViewById(R.id.search_result_listview);
         mSearchField = (EditText) findViewById(R.id.song_search);
         mEmptyListview = (TextView) findViewById(R.id.empty_listview_text);
+
+//        mListView.setAdapter(songSearchAdapter);
 
         setup();
     }
@@ -66,7 +75,6 @@ public class SongSearchActivity extends Activity {
                                 || actionId == EditorInfo.IME_ACTION_DONE
                                 || event.getAction() == KeyEvent.ACTION_DOWN
                                 && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                            mEmptyListview.setText("Milosh");
                             searchSpotify(mSearchField.getText().toString());
                         }
                         // Return true if you have consumed the action, else false.
@@ -79,13 +87,27 @@ public class SongSearchActivity extends Activity {
         SpotifySearch.getResults(query, new SongSearchResultCallBack() {
             @Override
             public void onSuccess(ArrayList<Song> songs) {
-                songSearchAdapter.updateData(songs);
+                mEmptyListview.setVisibility(GONE);
+                mListView.setVisibility(VISIBLE);
+                songSearchAdapter = new SongSearchAdapter(thisActivity, 0, songs); // are activities singletons?
+                mListView.setAdapter(songSearchAdapter);
             }
 
             @Override
             public void onFailure(String errorMessage) {
-
+                // TODO: create failure popup
             }
         });
+    }
+
+    public void addSong(Song song){
+        Intent data = new Intent();
+        try {
+            data.putExtra("song", song.serialize().toString());
+        } catch (Exception e){
+            data.putExtra("song", "");
+        }
+        setResult(SONG_SEARCH_RESULT, data);
+        finish();
     }
 }
