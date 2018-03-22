@@ -2,18 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="63d4ecfb-bf05-4da5-9649-d8da514a2e33" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Activity/PartyActivityStuff/PartySongsAdapter.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/api/Services/IncrementSongVoteCountService.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Play/app/src/main/res/layout/party_song_layout.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/django_backend/myapp/handlers/IncrementSongVoteCountHandler.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Network/NetworkEventTypeCallbacks/OnPartyUpdated.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Network/NetworkInfo.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Network/NetworkInfoMessenger.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Network/RequestListener.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/api/Services/UpdateNetworkInfoService.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/django_backend/myapp/ClientRequests/NotifyPartyUpdated.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/django_backend/myapp/ClientRequests/__init__.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/django_backend/myapp/ClientRequests/request.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/django_backend/myapp/handlers/UpdateNetworkInfo.py" />
       <change beforePath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Activity/PartyActivityStuff/PartyActivity.java" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Activity/PartyActivityStuff/PartyActivity.java" />
-      <change beforePath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Models/Party.java" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Models/Party.java" />
-      <change beforePath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Models/Song.java" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Models/Song.java" />
-      <change beforePath="$PROJECT_DIR$/../Play/app/src/main/res/layout/activity_party.xml" afterPath="$PROJECT_DIR$/../Play/app/src/main/res/layout/activity_party.xml" />
-      <change beforePath="$PROJECT_DIR$/../Play/app/src/main/res/layout/content_party.xml" afterPath="$PROJECT_DIR$/../Play/app/src/main/res/layout/content_party.xml" />
+      <change beforePath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Activity/StartActivity/InitialActivity.java" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Activity/StartActivity/InitialActivity.java" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/django_backend/django_backend/urls.py" afterPath="$PROJECT_DIR$/django_backend/django_backend/urls.py" />
-      <change beforePath="$PROJECT_DIR$/django_backend/myapp/handlers/AddSongToPartyHandler.py" afterPath="$PROJECT_DIR$/django_backend/myapp/handlers/AddSongToPartyHandler.py" />
+      <change beforePath="$PROJECT_DIR$/django_backend/myapp/handlers/IncrementSongVoteCountHandler.py" afterPath="$PROJECT_DIR$/django_backend/myapp/handlers/IncrementSongVoteCountHandler.py" />
+      <change beforePath="$PROJECT_DIR$/django_backend/myapp/handlers/LoginHandler.py" afterPath="$PROJECT_DIR$/django_backend/myapp/handlers/LoginHandler.py" />
       <change beforePath="$PROJECT_DIR$/django_backend/myapp/models.py" afterPath="$PROJECT_DIR$/django_backend/myapp/models.py" />
       <change beforePath="$PROJECT_DIR$/django_backend/myapp/views.py" afterPath="$PROJECT_DIR$/django_backend/myapp/views.py" />
     </list>
@@ -29,33 +32,33 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/django_backend/myapp/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="533">
-              <caret line="50" column="50" lean-forward="false" selection-start-line="50" selection-start-column="50" selection-end-line="50" selection-end-column="50" />
-              <folding>
-                <element signature="e#0#36#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-1">
+              <caret line="9" column="11" lean-forward="true" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IncrementSongVoteCountHandler.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/IncrementSongVoteCountHandler.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="42" lean-forward="false" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
-              <folding>
-                <element signature="e#0#36#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CreatePartyHandler.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/CreatePartyHandler.py">
+      <file leaf-file-name="request.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/django_backend/myapp/ClientRequests/request.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="45">
-              <caret line="3" column="11" lean-forward="false" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
-              <folding />
+              <caret line="3" column="12" lean-forward="false" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NotifyPartyUpdated.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/django_backend/myapp/ClientRequests/NotifyPartyUpdated.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" column="26" lean-forward="false" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -63,8 +66,18 @@
       <file leaf-file-name="GetPartyDetailsHandler.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/GetPartyDetailsHandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="125" lean-forward="false" selection-start-line="14" selection-start-column="4" selection-end-line="17" selection-end-column="125" />
+            <state relative-caret-position="210">
+              <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IncrementSongVoteCountHandler.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/IncrementSongVoteCountHandler.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="23" column="113" lean-forward="false" selection-start-line="23" selection-start-column="113" selection-end-line="23" selection-end-column="113" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -72,21 +85,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JoinPartyHandler.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/JoinPartyHandler.py">
+      <file leaf-file-name="LoginHandler.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/LoginHandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="20" lean-forward="false" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AddSongToPartyHandler.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/AddSongToPartyHandler.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="46" lean-forward="false" selection-start-line="13" selection-start-column="46" selection-end-line="13" selection-end-column="46" />
+            <state relative-caret-position="210">
+              <caret line="14" column="113" lean-forward="true" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="113" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -94,12 +97,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/django_backend/myapp/models.py">
+      <file leaf-file-name="UpdateNetworkInfo.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/UpdateNetworkInfo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="659">
-              <caret line="68" column="45" lean-forward="false" selection-start-line="68" selection-start-column="45" selection-end-line="68" selection-end-column="45" />
-              <folding />
+            <state relative-caret-position="105">
+              <caret line="7" column="23" lean-forward="false" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -117,6 +122,7 @@
     <findStrings>
       <find>MIDDLE</find>
       <find>ALLOWED_HOSTS =</find>
+      <find>filter</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -127,16 +133,21 @@
       <list>
         <option value="$PROJECT_DIR$/django_backend/myapp/__init__.py" />
         <option value="$PROJECT_DIR$/django_backend/myapp/handlers/__init__.py" />
-        <option value="$PROJECT_DIR$/django_backend/myapp/handlers/LoginHandler.py" />
         <option value="$PROJECT_DIR$/django_backend/django_backend/settings.py" />
         <option value="$PROJECT_DIR$/django_backend/myapp/handlers/CreatePartyHandler.py" />
         <option value="$PROJECT_DIR$/django_backend/myapp/handlers/JoinPartyHandler.py" />
         <option value="$PROJECT_DIR$/django_backend/myapp/handlers/GetPartyDetailsHandler.py" />
-        <option value="$PROJECT_DIR$/django_backend/myapp/models.py" />
-        <option value="$PROJECT_DIR$/django_backend/django_backend/urls.py" />
-        <option value="$PROJECT_DIR$/django_backend/myapp/views.py" />
-        <option value="$PROJECT_DIR$/django_backend/myapp/handlers/IncrementSongVoteCountHandler.py" />
         <option value="$PROJECT_DIR$/django_backend/myapp/handlers/AddSongToPartyHandler.py" />
+        <option value="$PROJECT_DIR$/django_backend/django_backend/urls.py" />
+        <option value="$PROJECT_DIR$/django_backend/myapp/handlers/LoginHandler.py" />
+        <option value="$PROJECT_DIR$/django_backend/myapp/ClientRequests/__init__.py" />
+        <option value="$PROJECT_DIR$/django_backend/myapp/ClientRequests/Request.py" />
+        <option value="$PROJECT_DIR$/django_backend/myapp/models.py" />
+        <option value="$PROJECT_DIR$/django_backend/myapp/views.py" />
+        <option value="$PROJECT_DIR$/django_backend/myapp/handlers/UpdateNetworkInfo.py" />
+        <option value="$PROJECT_DIR$/django_backend/myapp/ClientRequests/request.py" />
+        <option value="$PROJECT_DIR$/django_backend/myapp/ClientRequests/NotifyPartyUpdated.py" />
+        <option value="$PROJECT_DIR$/django_backend/myapp/handlers/IncrementSongVoteCountHandler.py" />
       </list>
     </option>
   </component>
@@ -205,6 +216,13 @@
               <item name="django_backend" type="462c0819:PsiDirectoryNode" />
               <item name="django_backend" type="462c0819:PsiDirectoryNode" />
               <item name="myapp" type="462c0819:PsiDirectoryNode" />
+              <item name="ClientRequests" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="django_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="django_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="django_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="myapp" type="462c0819:PsiDirectoryNode" />
               <item name="handlers" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -215,6 +233,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="SearchEverywhereHistoryKey" value="get&#9;FILE&#9;file:///Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend/django_backend/myapp/handlers/GetPartyDetailsHandler.py&#10;mode&#9;FILE&#9;file:///Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend/django_backend/myapp/models.py" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -258,6 +277,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24305555" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -270,7 +290,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -325,7 +344,7 @@
         <state relative-caret-position="105">
           <caret line="10" column="14" lean-forward="false" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
           <folding>
-            <element signature="e#0#36#0" expanded="false" />
+            <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -340,16 +359,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="82" lean-forward="false" selection-start-line="2" selection-start-column="82" selection-end-line="2" selection-end-column="82" />
-          <folding>
-            <element signature="e#0#10#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/django_backend/django_backend/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="258">
@@ -358,10 +367,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/LoginHandler.py">
+    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/CreatePartyHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+        <state relative-caret-position="435">
+          <caret line="29" column="8" lean-forward="false" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="95" />
+          <folding>
+            <element signature="e#0#36#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/AddSongToPartyHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="9" lean-forward="false" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
           <folding>
             <element signature="e#0#36#0" expanded="false" />
           </folding>
@@ -370,50 +389,60 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/django_backend/django_backend/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="21" column="72" lean-forward="false" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="72" />
+        <state relative-caret-position="285">
+          <caret line="22" column="62" lean-forward="false" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/JoinPartyHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#10#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django_backend/myapp/ClientRequests/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#10#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django_backend/myapp/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="20" lean-forward="false" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/django_backend/myapp/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="533">
-          <caret line="50" column="50" lean-forward="false" selection-start-line="50" selection-start-column="50" selection-end-line="50" selection-end-column="50" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/JoinPartyHandler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="20" lean-forward="false" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
+        <state relative-caret-position="-1">
+          <caret line="9" column="11" lean-forward="true" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/django_backend/myapp/models.py">
+    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/UpdateNetworkInfo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="659">
-          <caret line="68" column="45" lean-forward="false" selection-start-line="68" selection-start-column="45" selection-end-line="68" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/CreatePartyHandler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="11" lean-forward="false" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/IncrementSongVoteCountHandler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="42" lean-forward="false" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
+        <state relative-caret-position="105">
+          <caret line="7" column="23" lean-forward="false" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
@@ -422,18 +451,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/GetPartyDetailsHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="125" lean-forward="false" selection-start-line="14" selection-start-column="4" selection-end-line="17" selection-end-column="125" />
+        <state relative-caret-position="210">
+          <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django_backend/myapp/ClientRequests/NotifyPartyUpdated.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="26" lean-forward="false" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django_backend/myapp/ClientRequests/request.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="12" lean-forward="false" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/LoginHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="113" lean-forward="true" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="113" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/AddSongToPartyHandler.py">
+    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/IncrementSongVoteCountHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="46" lean-forward="false" selection-start-line="13" selection-start-column="46" selection-end-line="13" selection-end-column="46" />
+        <state relative-caret-position="345">
+          <caret line="23" column="113" lean-forward="false" selection-start-line="23" selection-start-column="113" selection-end-line="23" selection-end-column="113" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>

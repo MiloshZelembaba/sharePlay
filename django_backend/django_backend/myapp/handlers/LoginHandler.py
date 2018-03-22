@@ -10,7 +10,7 @@ def passOff(json_data):
         user = User.objects.get(email=email)
         data = user.to_dict()
     except User.DoesNotExist:
-        data = {}
+        return HttpResponse("Object does't exist", content_type='application/json', status=418)
 
     return HttpResponse(json.dumps(data, indent=4, sort_keys=True, default=str), content_type='application/json')
 

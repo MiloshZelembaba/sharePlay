@@ -2,6 +2,7 @@ from django.http import HttpResponse
 import json
 from myapp.models import Song
 from myapp.models import Party
+from ClientRequests import NotifyPartyUpdated
 
 
 # TODO: DB look ups are case sensitive, should store all lowercase or whatever
@@ -16,8 +17,8 @@ def passOff(json_data):
     except Song.DoesNotExist:
         return HttpResponse("Object does't exist", content_type='application/json', status=418)
 
-    data = {}
-    data['party'] = party.to_dict()
-    data['songs'] = party.get_songs()
-    return HttpResponse(json.dumps(data, indent=4, sort_keys=True, default=str), content_type='application/json',
-                        status=200)
+    try:
+        NotifyPartyUpdated.run(party)
+        return HttpResponse({}, content_type='application/json')
+    except Exception:
+        return HttpResponse("Error sending party update to clients", content_type='application/json', status=418)

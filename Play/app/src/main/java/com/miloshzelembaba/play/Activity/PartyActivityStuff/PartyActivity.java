@@ -14,6 +14,8 @@ import com.miloshzelembaba.play.Activity.SongSearch.SongSearchActivity;
 import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.Models.User;
+import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnPartyUpdated;
+import com.miloshzelembaba.play.Network.NetworkInfo;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifyInfo;
 import com.miloshzelembaba.play.api.Services.AddSongToPartyService;
@@ -33,7 +35,7 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
+public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, OnPartyUpdated {
     public static final String EXTRA_PARTY_ID = "ExtraPartyId";
     public static final String EXTRA_USER = "ExtraUser";
 
@@ -53,6 +55,7 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        NetworkInfo.getInstance().addPartyUpdateListener(this);
 
         getPartyDetailsService = new GetPartyDetailsService();
         addSongToPartyService = new AddSongToPartyService();
@@ -161,6 +164,20 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
                 });
 
     }
+
+    @Override
+    public void onPartyUpdated(final Party party) {
+        this.runOnUiThread(new Runnable() {
+            public void run() {
+                try {
+                    setParty(party);
+                } catch (Exception e){
+                    System.out.println("uhoh");
+                }
+            }
+        });
+    }
+
 
 
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.miloshzelembaba.play.Activity.PartyActivityStuff.PartyActivity;
 import com.miloshzelembaba.play.Models.User;
+import com.miloshzelembaba.play.Network.RequestListener;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.api.Services.CreatePartyService;
 import com.miloshzelembaba.play.api.Services.JoinPartyService;
@@ -52,6 +53,12 @@ public class InitialActivity extends Activity {
 
         // TODO: some sort of login thingy
         user = new User("4", "mike", "dantoni", "mikedantoni@gmail.com");
+
+        // Spin off the request listener thread
+        // TODO: should probably move this out of the activity, and into some sort of init code
+        RequestListener requestListener = new RequestListener(user);
+        Thread newThread = new Thread(requestListener);
+        newThread.start();  //should be start();
 
         init();
     }

@@ -7,6 +7,8 @@ class User(models.Model):
     email = models.CharField(max_length=50, null=False)
     password = models.CharField(max_length=30, null=False)
     last_login = models.DateField(null=True)
+    address = models.CharField(max_length=100, null=False)
+    port = models.IntegerField(null=False)
     current_party = models.ForeignKey(
                 'Party',
                 null=True)
@@ -21,7 +23,6 @@ class User(models.Model):
         #_dict["current_party"] = self.current_party
 
         return _dict
-
 
 class Party(models.Model):
     id = models.AutoField(primary_key=True)
@@ -69,4 +70,3 @@ class Song(models.Model):
         _dict['vote_count'] = self.vote_count
 
         return _dict
-
