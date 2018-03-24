@@ -57,4 +57,8 @@ public class User extends Serializable {
 
         return object;
     }
+
+    public String getId(){
+        return mId;
+    }
 }

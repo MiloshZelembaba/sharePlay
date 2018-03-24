@@ -6,7 +6,6 @@ import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.api.APIRequest;
 import com.miloshzelembaba.play.api.Request;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -34,22 +33,14 @@ public class AddSongToPartyService {
         apiService.sendRequest(request,
                 new APIRequest.APIRequestCallBack() {
                     @Override
-                    public void onSuccess(JSONObject result) {
-                        // TODO: should this be spun off of a new thread?
-                        try {
-                            Party party = new Party(result.getJSONObject("party"));
-                            party.addSongs(result.getJSONArray("songs")); // hmm this should be remodled
-
-                            callback.onSuccess(party);
-                        } catch (JSONException e) {
-                            onFailure(e.getMessage());
-                        }
-                    }
+                    public void onSuccess(JSONObject result) {}
 
                     @Override
                     public void onFailure(String errorMessage) {
                         // TODO: create a generic error popup
-                        callback.onFailure(errorMessage);
+                        if (callback != null) {
+                            callback.onFailure(errorMessage);
+                        }
                     }
                 }
         );

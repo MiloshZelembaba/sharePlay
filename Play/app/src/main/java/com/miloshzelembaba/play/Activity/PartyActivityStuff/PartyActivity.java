@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.miloshzelembaba.play.Spotify.SpotifyInfo;
 import com.miloshzelembaba.play.api.Services.AddSongToPartyService;
 import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
 import com.miloshzelembaba.play.api.Services.IncrementSongVoteCountService;
+import com.miloshzelembaba.play.api.Services.LeavePartyService;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -43,12 +45,14 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
     GetPartyDetailsService getPartyDetailsService;
     AddSongToPartyService addSongToPartyService;
     IncrementSongVoteCountService incrementSongVoteCountService;
+    LeavePartyService leavePartyService;
 
     private Player mPlayer;
     private Party mParty;
     private User user;
     private ListView mSongsListView;
     private PartySongsAdapter mPartySongsAdapter;
+    private LinearLayout mMusicControls;
     private boolean isHost;
 
 
@@ -60,11 +64,13 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         getPartyDetailsService = new GetPartyDetailsService();
         addSongToPartyService = new AddSongToPartyService();
         incrementSongVoteCountService = new IncrementSongVoteCountService();
+        leavePartyService = new LeavePartyService();
 
         setContentView(R.layout.activity_party);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         String partyId = getIntent().getStringExtra(EXTRA_PARTY_ID);
+        mMusicControls = (LinearLayout) findViewById(R.id.music_controls_container);
         mSongsListView = (ListView) findViewById(R.id.party_songs);
         try {
             user = new User(new JSONObject(getIntent().getStringExtra(EXTRA_USER)));
@@ -103,7 +109,25 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         mParty = party;
         mPartySongsAdapter = new PartySongsAdapter(this, 0, party.getSongs());
         mSongsListView.setAdapter(mPartySongsAdapter);
-        setTitle(mParty.getName());
+        setTitle(mParty.getName() + " " + padZeros(mParty.getId()));
+
+        isHost = true;
+//        mMusicControls.setVisibility(VISIBLE);
+//        if (party.getHost().getId().equals(user.getId())) {
+//            isHost = true;
+//            mMusicControls.setVisibility(VISIBLE);
+//        } else {
+//            isHost = false;
+//            mMusicControls.setVisibility(GONE);
+//        }
+    }
+
+    private String padZeros(String partyId){
+        while (partyId.length() < 6){
+            partyId = "0" + partyId;
+        }
+
+        return partyId;
     }
 
 
@@ -123,22 +147,7 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
 
         Toast.makeText(this, "Added " + song.getSongName(), Toast.LENGTH_SHORT).show();
 
-        addSongToPartyService.requestService(user, mParty, song,
-                new AddSongToPartyService.AddSongToPartyServiceCallback() {
-                    @Override
-                    public void onSuccess(Party party) {
-                        try {
-                            setParty(party); // this should be updated
-                        } catch (JSONException e){
-                            onFailure(e.getMessage());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(String errorMessage) {
-
-                    }
-                });
+        addSongToPartyService.requestService(user, mParty, song, null);
     }
 
     public void incrementSongCount(Song song){
@@ -208,7 +217,7 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
     @Override
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
-        mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
+//        mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
     }
 
     @Override
@@ -235,7 +244,7 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        if (requestCode == SongSearchActivity.SONG_SEARCH_RESULT){
+        if (requestCode == SongSearchActivity.SONG_SEARCH_RESULT && intent != null){
             String serializedSong = intent.getStringExtra("song");
             JSONObject jsonSong;
             try {
@@ -272,6 +281,8 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
 
     @Override
     protected void onDestroy() {
+        leavePartyService.requestService(user, null);
+        System.out.println("CALLLEED LEAVE PARTY SERVICE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         Spotify.destroyPlayer(this);
         super.onDestroy();
     }

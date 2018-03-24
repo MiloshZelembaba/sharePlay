@@ -40,7 +40,7 @@ public class InitialActivity extends Activity {
 
     // Join Party
     private LinearLayout mJoinPartyContainer;
-    private EditText mPartyCode;
+    private EditText mPartyId;
     private Button mJoinPartyButton;
 
 
@@ -74,7 +74,7 @@ public class InitialActivity extends Activity {
         mPasswordInput = (EditText) findViewById(R.id.login_password);
         mLoginButton = (Button) findViewById(R.id.login_login_button);
         mJoinPartyContainer = (LinearLayout) findViewById(R.id.join_party_container);
-        mPartyCode = (EditText) findViewById(R.id.party_code);
+        mPartyId = (EditText) findViewById(R.id.party_code);
         mJoinPartyButton = (Button) findViewById(R.id.join_party_button);
 
         setupViews();
@@ -126,13 +126,13 @@ public class InitialActivity extends Activity {
     }
 
     private void joinParty(){
-        String partyCode = mPartyCode.getText().toString();
+        String partyId = mPartyId.getText().toString();
 
-        if (partyCode.isEmpty()){
+        if (partyId.isEmpty()){
             return;
         }
 
-        joinPartyService.requestService(partyCode, user,
+        joinPartyService.requestService(partyId, user,
                 new JoinPartyService.JoinPartServiceCallback() {
                     @Override
                     public void onSuccess(String partyId) {

@@ -17,4 +17,7 @@
     <dimen name="search_bar_height">32dp</dimen>
     <dimen name="search_bar_text_size">16sp</dimen>
     <dimen name="empty_listview_text">16sp</dimen>
+
+    <!-- Music Controls -->
+    <dimen name="music_controls_height">40dp</dimen>
 </resources>

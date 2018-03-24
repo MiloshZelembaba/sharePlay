@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+
 from models import User
 from handlers import LoginHandler
 from handlers import CreatePartyHandler
@@ -7,6 +8,7 @@ from handlers import AddSongToPartyHandler
 from handlers import GetPartyDetailsHandler
 from handlers import IncrementSongVoteCountHandler
 from handlers import UpdateNetworkInfo
+from handlers import LeavePartyHandler
 import json
 
 def login(request):
@@ -20,6 +22,13 @@ def joinParty(request):
     if request.method == "POST":
         received_json_data = json.loads(request.body.decode("utf-8"))
         return JoinPartyHandler.passOff(received_json_data)
+    else:
+        return HttpResponse("poop")
+
+def leaveParty(request):
+    if request.method == "POST":
+        received_json_data = json.loads(request.body.decode("utf-8"))
+        return LeavePartyHandler.passOff(received_json_data)
     else:
         return HttpResponse("poop")
 

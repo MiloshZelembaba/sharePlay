@@ -1,10 +1,13 @@
 package com.miloshzelembaba.play.Models;
 
+import com.miloshzelembaba.play.Activity.PartyActivityStuff.SongVoteCountComparator;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by miloshzelembaba on 2018-03-12.
@@ -13,7 +16,6 @@ import java.util.ArrayList;
 public class Party extends Serializable {
     private String mId;
     private String mPartyName;
-    private String mUniqueCode;
     private User mHost;
     private ArrayList<Song> songs;
 
@@ -30,12 +32,6 @@ public class Party extends Serializable {
             throw new JSONException("invalid json object");
         }
 
-        if (object.has("code")) {
-            mUniqueCode = object.getString("code");
-        } else {
-            throw new JSONException("invalid json object");
-        }
-
         if (object.has("host")) {
             mHost = new User(object.getJSONObject("host"));
         } else {
@@ -48,13 +44,13 @@ public class Party extends Serializable {
 
         object.put("id", mId);
         object.put("party_name", mPartyName);
-        object.put("unique_code", mUniqueCode);
         object.put("host", mHost.serialize().toString()); // TODO: hmm, would rather not do this
 
         return object;
     }
 
     public ArrayList<Song> getSongs(){
+        Collections.sort(songs, new SongVoteCountComparator());
         return songs;
     }
 
@@ -71,8 +67,16 @@ public class Party extends Serializable {
 
     }
 
+    public User getHost() {
+        return mHost;
+    }
+
     public String getName(){
         return mPartyName;
+    }
+
+    public String getId(){
+        return mId;
     }
 
 }

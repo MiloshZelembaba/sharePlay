@@ -4,6 +4,8 @@ from myapp.models import User
 from myapp.models import Party
 from myapp.models import Song
 
+from ClientRequests import NotifyPartyUpdated
+
 
 def passOff(json_data):
     user_id = json_data['user']['id']
@@ -39,5 +41,11 @@ def passOff(json_data):
     data = {}
     data['party'] = party.to_dict()
     data['songs'] = party.get_songs()
-    return HttpResponse(json.dumps(data, indent=4, sort_keys=True, default=str), content_type='application/json',
-                        status=200)
+
+    try:
+        NotifyPartyUpdated.run(party)
+        return HttpResponse({}, content_type='application/json')
+    except Exception:
+        return HttpResponse("Error sending party update to clients", content_type='application/json', status=418)
+        # return HttpResponse(json.dumps(data, indent=4, sort_keys=True, default=str), content_type='application/json',
+        #                 status=200)

@@ -27,7 +27,6 @@ class User(models.Model):
 class Party(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30, null=False)
-    unique_code = models.CharField(max_length=6, null=False)
     host = models.ForeignKey(
                 'User',
                 null=False,
@@ -43,7 +42,6 @@ class Party(models.Model):
         _dict = {}
         _dict['id'] = self.id
         _dict['name'] = self.name
-        _dict['code'] = self.unique_code
         _dict['host'] = self.host.to_dict()
 
         return _dict
