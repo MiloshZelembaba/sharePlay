@@ -9,6 +9,7 @@ from handlers import GetPartyDetailsHandler
 from handlers import IncrementSongVoteCountHandler
 from handlers import UpdateNetworkInfo
 from handlers import LeavePartyHandler
+from handlers import RemoveSongFromPartyHandler
 import json
 
 def login(request):
@@ -43,6 +44,13 @@ def addSongToParty(request):
     if request.method == "POST":
         received_json_data = json.loads(request.body.decode("utf-8"))
         return AddSongToPartyHandler.passOff(received_json_data)
+    else:
+        return HttpResponse("poop")
+
+def removeSongFromParty(request):
+    if request.method == "POST":
+        received_json_data = json.loads(request.body.decode("utf-8"))
+        return RemoveSongFromPartyHandler.passOff(received_json_data)
     else:
         return HttpResponse("poop")
 

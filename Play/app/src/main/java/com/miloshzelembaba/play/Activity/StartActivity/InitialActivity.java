@@ -3,7 +3,9 @@ package com.miloshzelembaba.play.Activity.StartActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -37,6 +39,8 @@ public class InitialActivity extends Activity {
     private EditText mEmailInput;
     private EditText mPasswordInput;
     private Button  mLoginButton;
+    private TextView mSimpleLogin;
+    private LinearLayout mSimpleLoginContainer;
 
     // Join Party
     private LinearLayout mJoinPartyContainer;
@@ -52,7 +56,7 @@ public class InitialActivity extends Activity {
         setContentView(R.layout.activity_start);
 
         // TODO: some sort of login thingy
-        user = new User("4", "mike", "dantoni", "mikedantoni@gmail.com");
+        user = new User("3", "milosh", "zelembaba", "miloshzelembaba@gmail.com");
 
         // Spin off the request listener thread
         // TODO: should probably move this out of the activity, and into some sort of init code
@@ -76,6 +80,8 @@ public class InitialActivity extends Activity {
         mJoinPartyContainer = (LinearLayout) findViewById(R.id.join_party_container);
         mPartyId = (EditText) findViewById(R.id.party_code);
         mJoinPartyButton = (Button) findViewById(R.id.join_party_button);
+        mSimpleLogin = (TextView) findViewById(R.id.simple_login);
+        mSimpleLoginContainer = (LinearLayout) findViewById(R.id.simple_login_container);
 
         setupViews();
     }
@@ -107,6 +113,13 @@ public class InitialActivity extends Activity {
             }
         });
 
+        mSimpleLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                simpleLogin();
+            }
+        });
+
     }
 
     private void createParty(final User user){
@@ -123,6 +136,30 @@ public class InitialActivity extends Activity {
 
                     }
                 });
+    }
+
+    private void simpleLogin(){
+        mJoinAParty.setVisibility(GONE);
+        mCreateAParty.setVisibility(GONE);
+        mSimpleLoginContainer.setVisibility(VISIBLE);
+
+        mSimpleLogin.setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        // Identifier of the action. This will be either the identifier you supplied,
+                        // or EditorInfo.IME_NULL if being called due to the enter key being pressed.
+                        if (actionId == EditorInfo.IME_ACTION_SEARCH
+                                || actionId == EditorInfo.IME_ACTION_DONE
+                                || event.getAction() == KeyEvent.ACTION_DOWN
+                                && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+
+                        }
+                        // Return true if you have consumed the action, else false.
+                        return false;
+                    }
+                });
+
     }
 
     private void joinParty(){

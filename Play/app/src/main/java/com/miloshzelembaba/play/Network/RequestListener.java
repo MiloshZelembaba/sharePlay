@@ -63,12 +63,12 @@ public class RequestListener implements Runnable {
 
 
     private String getIpAddress(ServerSocket tcpSocket){
-        return "10.0.0.253"; // TODO: very temporary
-//
-//        if (isEmulator()){
-//            return "10.0.3.2";
-//        }
-//
+        if (isEmulator()){
+            return "10.0.3.2";
+        } else {
+            return "10.0.0.253"; // for physical phone
+        }
+
 //        try {
 //            return tcpSocket.getInetAddress().getLocalHost().toString().replace("localhost/", "");
 //        } catch (Exception e){

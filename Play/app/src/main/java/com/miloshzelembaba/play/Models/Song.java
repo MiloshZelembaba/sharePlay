@@ -64,6 +64,10 @@ public class Song extends Serializable {
         }
     }
 
+    public String getUri(){
+        return mSpotifyURI;
+    }
+
     public String getSongName(){
         return mSongName;
     }

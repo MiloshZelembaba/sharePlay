@@ -28,6 +28,35 @@
         android:paddingTop="@dimen/sixteen_padding"
         android:textSize="24dp"/>
 
+    <TextView
+        android:id="@+id/simple_login"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:text="@string/login_button"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/create_party"
+        android:textSize="24dp"/>
+
+    <LinearLayout
+        android:id="@+id/simple_login_container"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@android:color/darker_gray"
+        android:padding="@dimen/sixteen_padding">
+
+        <EditText
+            android:id="@+id/simple_login_user_name_field"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:imeOptions="actionDone"
+            android:inputType="textImeMultiLine" />
+
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/join_party_container"
         android:visibility="gone"

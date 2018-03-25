@@ -10,4 +10,10 @@
 
     <!-- Song Search Activity -->
     <string name="no_songs">no songs</string>
+
+    <!-- Party Activity -->
+    <string name="play_song">Play</string>
+    <string name="pause_song">Pause</string>
+    <string name="resume_song">Resume</string>
+
 </resources>
