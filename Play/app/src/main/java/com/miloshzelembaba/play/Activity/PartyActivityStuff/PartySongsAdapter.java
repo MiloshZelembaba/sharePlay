@@ -1,5 +1,6 @@
 package com.miloshzelembaba.play.Activity.PartyActivityStuff;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +18,12 @@ import java.util.ArrayList;
  */
 
 public class PartySongsAdapter extends ArrayAdapter {
-    PartyActivity mBaseActivity;
+    Activity mBaseActivity;
 
-    public PartySongsAdapter(PartyActivity context, int textViewResourceId, ArrayList<Song> songs){
+    public PartySongsAdapter(Activity context, int textViewResourceId, ArrayList<Song> songs){
         super(context, textViewResourceId, songs);
         mBaseActivity = context;
     }
-
-    // TODO: override addItem() & removeItem()
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -42,10 +41,11 @@ public class PartySongsAdapter extends ArrayAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBaseActivity.incrementSongCount(song);
+                ((PartyMethods)mBaseActivity).incrementSongCount(song);
             }
         });
 
         return convertView;
     }
+
 }

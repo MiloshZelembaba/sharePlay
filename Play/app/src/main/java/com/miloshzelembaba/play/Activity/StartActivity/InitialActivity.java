@@ -11,7 +11,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.miloshzelembaba.play.Activity.PartyActivityStuff.PartyActivity;
+import com.miloshzelembaba.play.Activity.PartyActivityStuff.AdminPartyActivity;
+import com.miloshzelembaba.play.Activity.PartyActivityStuff.GuestPartyActivity;
 import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.Network.RequestListener;
 import com.miloshzelembaba.play.R;
@@ -128,7 +129,7 @@ public class InitialActivity extends Activity {
                 new CreatePartyService.CreatePartyServiceCallback() {
                     @Override
                     public void onSuccess(String partyId) {
-                        startPartyActivity(partyId);
+                        startAdminPartyActivity(partyId);
                     }
 
                     @Override
@@ -173,7 +174,7 @@ public class InitialActivity extends Activity {
                 new JoinPartyService.JoinPartServiceCallback() {
                     @Override
                     public void onSuccess(String partyId) {
-                        startPartyActivity(partyId);
+                        startGuestPartyActivity(partyId);
                     }
 
                     @Override
@@ -185,11 +186,22 @@ public class InitialActivity extends Activity {
 
     }
 
-    private void startPartyActivity(String partyId){
-        Intent intent = new Intent(this, PartyActivity.class);
-        intent.putExtra(PartyActivity.EXTRA_PARTY_ID, partyId);
+    private void startAdminPartyActivity(String partyId){
+        Intent intent = new Intent(this, AdminPartyActivity.class);
+        intent.putExtra(AdminPartyActivity.EXTRA_PARTY_ID, partyId);
         try {
-            intent.putExtra(PartyActivity.EXTRA_USER, user.serialize().toString());
+            intent.putExtra(AdminPartyActivity.EXTRA_USER, user.serialize().toString());
+        } catch (JSONException e) {
+            // error message
+        }
+        startActivity(intent);
+    }
+
+    private void startGuestPartyActivity(String partyId){
+        Intent intent = new Intent(this, GuestPartyActivity.class);
+        intent.putExtra(GuestPartyActivity.EXTRA_PARTY_ID, partyId);
+        try {
+            intent.putExtra(GuestPartyActivity.EXTRA_USER, user.serialize().toString());
         } catch (JSONException e) {
             // error message
         }

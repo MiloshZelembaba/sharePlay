@@ -29,10 +29,6 @@ public class RequestListener implements Runnable {
         try {
             ServerSocket tcpSocket = establishTCPConnection(); // the socket clients will communicate
 
-            System.out.println("HERROOO ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            System.out.println(NetworkInfo.getInstance().getAddress());
-            System.out.println(NetworkInfo.getInstance().getPort());
-
             UpdateNetworkInfoService updateNetworkInfoService = new UpdateNetworkInfoService();
             updateNetworkInfoService.requestService(user); // updates the NetworkInfo server side
 

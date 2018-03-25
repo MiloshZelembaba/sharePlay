@@ -20,19 +20,18 @@ import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnPartyUpdated
 import com.miloshzelembaba.play.Network.NetworkInfo;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifyInfo;
+import com.miloshzelembaba.play.Spotify.SpotifyManager;
+import com.miloshzelembaba.play.Spotify.SpotifyUpdateListener;
+import com.miloshzelembaba.play.Utils.StringUtil;
 import com.miloshzelembaba.play.api.Services.AddSongToPartyService;
 import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
 import com.miloshzelembaba.play.api.Services.IncrementSongVoteCountService;
 import com.miloshzelembaba.play.api.Services.LeavePartyService;
 import com.miloshzelembaba.play.api.Services.RemoveSongFromPartyService;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
-import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.spotify.sdk.android.player.Config;
-import com.spotify.sdk.android.player.ConnectionStateCallback;
-import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.Player;
-import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
@@ -41,7 +40,7 @@ import org.json.JSONObject;
 
 import static android.view.View.VISIBLE;
 
-public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, OnPartyUpdated {
+public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpdated, PartyMethods, SpotifyUpdateListener {
     public static final String EXTRA_PARTY_ID = "ExtraPartyId";
     public static final String EXTRA_USER = "ExtraUser";
 
@@ -52,49 +51,43 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
     LeavePartyService leavePartyService;
     RemoveSongFromPartyService removeSongFromPartyService;
 
+    // Spotify
     private Player mPlayer;
+    private SpotifyManager mSpotifyManager;
+
+    // Local
     private Party mParty;
     private User user;
+
+    // Views
     private ListView mSongsListView;
     private PartySongsAdapter mPartySongsAdapter;
     private LinearLayout mMusicControls;
     private TextView mPlaybackControl;
-    private boolean isHost = true;
     private boolean mIsPlaying;
     private Song currentlyPlayingSong;
+    private FloatingActionButton fab;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         NetworkInfo.getInstance().addPartyUpdateListener(this);
+        mSpotifyManager = new SpotifyManager(this);
+        mSpotifyManager.attemptSpotifyLogin();
 
-        getPartyDetailsService = new GetPartyDetailsService();
-        addSongToPartyService = new AddSongToPartyService();
-        incrementSongVoteCountService = new IncrementSongVoteCountService();
-        leavePartyService = new LeavePartyService();
-        removeSongFromPartyService = new RemoveSongFromPartyService();
+        initServices();
+        initViews();
+        mIsPlaying = false;
 
-        setContentView(R.layout.activity_party);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        String partyId = getIntent().getStringExtra(EXTRA_PARTY_ID);
-        mSongsListView = (ListView) findViewById(R.id.party_songs);
-        mPlaybackControl = (TextView) findViewById(R.id.music_controls_play);
+
         try {
             user = new User(new JSONObject(getIntent().getStringExtra(EXTRA_USER)));
         } catch (JSONException e){
             user = null;
         }
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(new Intent(PartyActivity.this, SongSearchActivity.class), SongSearchActivity.SONG_SEARCH_RESULT);
-            }
-        });
-
+        String partyId = getIntent().getStringExtra(EXTRA_PARTY_ID);
         getPartyDetailsService.requestService(partyId,
                 new GetPartyDetailsService.GetPartyDetailsServiceCallback() {
                     @Override
@@ -107,16 +100,23 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
 
                     }
                 });
-
-        if (isHost) {
-            showHostView();
-        }
-
-        attemptSpotifyLogin();
     }
 
-    private void showHostView(){
-        mIsPlaying = false;
+    private void initServices() {
+        getPartyDetailsService = new GetPartyDetailsService();
+        addSongToPartyService = new AddSongToPartyService();
+        incrementSongVoteCountService = new IncrementSongVoteCountService();
+        leavePartyService = new LeavePartyService();
+        removeSongFromPartyService = new RemoveSongFromPartyService();
+    }
+
+    private void initViews() {
+        setContentView(R.layout.admin_activity_party);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        mSongsListView = (ListView) findViewById(R.id.party_songs);
+        mPlaybackControl = (TextView) findViewById(R.id.music_controls_play);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         mMusicControls = (LinearLayout) findViewById(R.id.music_controls_container);
         mMusicControls.setVisibility(VISIBLE);
         mPlaybackControl.setText(getString(R.string.play_song));
@@ -130,6 +130,7 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
                 }
             }
         });
+
     }
 
     private void pauseSong(){
@@ -174,42 +175,17 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
         mParty = party;
         mPartySongsAdapter = new PartySongsAdapter(this, 0, party.getSongs());
         mSongsListView.setAdapter(mPartySongsAdapter);
-        setTitle(mParty.getName() + " " + padZeros(mParty.getId()));
-    }
-
-    private String padZeros(String partyId){
-        while (partyId.length() < 6){
-            partyId = "0" + partyId;
-        }
-
-        return partyId;
-    }
-
-
-    private void attemptSpotifyLogin(){
-        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(SpotifyInfo.CLIENT_ID,
-                AuthenticationResponse.Type.TOKEN,
-                SpotifyInfo.REDIRECT_URI);
-        builder.setScopes(new String[]{"user-read-private", "streaming"});
-        AuthenticationRequest request = builder.build();
-
-        AuthenticationClient.openLoginActivity(this, SpotifyInfo.REQUEST_CODE, request);
+        setTitle(mParty.getName() + " " + StringUtil.padZeros(mParty.getId()));
     }
 
     private void addSongToParty(Song song) {
-        // so that the UI updated immediately for the user
-//        mPartySongsAdapter.add(song);
-
         Toast.makeText(this, "Added " + song.getSongName(), Toast.LENGTH_SHORT).show();
 
         addSongToPartyService.requestService(user, mParty, song, null);
     }
 
-    public void incrementSongCount(Song song){
-        //  this is just so that the UI updates immediately for the user that added a vote
-//        song.incrementVoteCount();
-//        mPartySongsAdapter.notifyDataSetChanged();
-
+    @Override
+    public void incrementSongCount(Song song) {
         incrementSongVoteCountService.requestService(song,
                 new IncrementSongVoteCountService.IncrementSongVoteCountServiceCallback() {
                     @Override
@@ -222,7 +198,6 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
 
                     }
                 });
-
     }
 
     @Override
@@ -236,60 +211,6 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
                 }
             }
         });
-    }
-
-
-
-
-
-
-
-
-    @Override
-    public void onPlaybackEvent(PlayerEvent playerEvent) {
-        Log.d("MainActivity", "Playback event received: " + playerEvent.name());
-        switch (playerEvent) {
-            // Handle event type as necessary
-            case kSpPlaybackNotifyAudioDeliveryDone:
-                playNextSong();
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void onPlaybackError(Error error) {
-        Log.d("MainActivity", "Playback error received: " + error.name());
-        switch (error) {
-            // Handle error type as necessary
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void onLoggedIn() {
-        Log.d("MainActivity", "User logged in");
-    }
-
-    @Override
-    public void onLoggedOut() {
-        Log.d("MainActivity", "User logged out");
-    }
-
-    @Override
-    public void onLoginFailed(Error error) {
-        Log.d("MainActivity", "Login failed");
-    }
-
-    @Override
-    public void onTemporaryError() {
-        Log.d("MainActivity", "Temporary error occurred");
-    }
-
-    @Override
-    public void onConnectionMessage(String message) {
-        Log.d("MainActivity", "Received connection message: " + message);
     }
 
     @Override
@@ -318,8 +239,8 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
                     @Override
                     public void onInitialized(SpotifyPlayer spotifyPlayer) {
                         mPlayer = spotifyPlayer;
-                        mPlayer.addConnectionStateCallback(PartyActivity.this);
-                        mPlayer.addNotificationCallback(PartyActivity.this);
+                        mPlayer.addConnectionStateCallback(mSpotifyManager);
+                        mPlayer.addNotificationCallback(mSpotifyManager);
                     }
 
                     @Override
@@ -329,6 +250,21 @@ public class PartyActivity extends AppCompatActivity implements SpotifyPlayer.No
                 });
             }
         }
+    }
+
+    @Override
+    public void onSongFinishedPlaying() {
+        playNextSong();
+    }
+
+    @Override
+    public void onLoggedIn() {
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(AdminPartyActivity.this, SongSearchActivity.class), SongSearchActivity.SONG_SEARCH_RESULT);
+            }
+        });
     }
 
     @Override

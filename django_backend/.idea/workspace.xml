@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="63d4ecfb-bf05-4da5-9649-d8da514a2e33" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/api/Services/RemoveSongFromPartyService.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/django_backend/myapp/handlers/RemoveSongFromPartyHandler.py" />
-      <change beforePath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Activity/PartyActivityStuff/PartyActivity.java" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Activity/PartyActivityStuff/PartyActivity.java" />
-      <change beforePath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Activity/StartActivity/InitialActivity.java" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Activity/StartActivity/InitialActivity.java" />
-      <change beforePath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Models/Song.java" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Models/Song.java" />
       <change beforePath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Network/RequestListener.java" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/Network/RequestListener.java" />
-      <change beforePath="$PROJECT_DIR$/../Play/app/src/main/res/layout/activity_party.xml" afterPath="$PROJECT_DIR$/../Play/app/src/main/res/layout/activity_party.xml" />
-      <change beforePath="$PROJECT_DIR$/../Play/app/src/main/res/layout/activity_start.xml" afterPath="$PROJECT_DIR$/../Play/app/src/main/res/layout/activity_start.xml" />
-      <change beforePath="$PROJECT_DIR$/../Play/app/src/main/res/layout/content_party.xml" afterPath="$PROJECT_DIR$/../Play/app/src/main/res/layout/content_party.xml" />
-      <change beforePath="$PROJECT_DIR$/../Play/app/src/main/res/layout/music_controls.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../Play/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/../Play/app/src/main/res/values/strings.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/django_backend/django_backend/urls.py" afterPath="$PROJECT_DIR$/django_backend/django_backend/urls.py" />
-      <change beforePath="$PROJECT_DIR$/django_backend/myapp/views.py" afterPath="$PROJECT_DIR$/django_backend/myapp/views.py" />
+      <change beforePath="$PROJECT_DIR$/django_backend/myapp/ClientRequests/request.py" afterPath="$PROJECT_DIR$/django_backend/myapp/ClientRequests/request.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -69,8 +57,8 @@
       <file leaf-file-name="request.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/django_backend/myapp/ClientRequests/request.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="4" lean-forward="false" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+            <state relative-caret-position="105">
+              <caret line="7" column="31" lean-forward="false" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -121,7 +109,6 @@
         <option value="$PROJECT_DIR$/django_backend/myapp/ClientRequests/__init__.py" />
         <option value="$PROJECT_DIR$/django_backend/myapp/ClientRequests/Request.py" />
         <option value="$PROJECT_DIR$/django_backend/myapp/handlers/UpdateNetworkInfo.py" />
-        <option value="$PROJECT_DIR$/django_backend/myapp/ClientRequests/request.py" />
         <option value="$PROJECT_DIR$/django_backend/myapp/ClientRequests/NotifyPartyUpdated.py" />
         <option value="$PROJECT_DIR$/django_backend/myapp/handlers/IncrementSongVoteCountHandler.py" />
         <option value="$PROJECT_DIR$/django_backend/myapp/models.py" />
@@ -132,6 +119,7 @@
         <option value="$PROJECT_DIR$/django_backend/django_backend/urls.py" />
         <option value="$PROJECT_DIR$/django_backend/myapp/views.py" />
         <option value="$PROJECT_DIR$/django_backend/myapp/handlers/RemoveSongFromPartyHandler.py" />
+        <option value="$PROJECT_DIR$/django_backend/myapp/ClientRequests/request.py" />
       </list>
     </option>
   </component>
@@ -523,8 +511,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/django_backend/myapp/ClientRequests/request.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="4" lean-forward="false" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+        <state relative-caret-position="105">
+          <caret line="7" column="31" lean-forward="false" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

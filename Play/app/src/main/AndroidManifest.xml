@@ -21,7 +21,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.PartyActivityStuff.PartyActivity"
+            android:name=".Activity.PartyActivityStuff.GuestPartyActivity"
+            android:label="@string/title_activity_party"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.PartyActivityStuff.AdminPartyActivity"
             android:label="@string/title_activity_party"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
