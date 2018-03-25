@@ -49,8 +49,6 @@ public class InitialActivity extends Activity {
     private Button mJoinPartyButton;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +64,12 @@ public class InitialActivity extends Activity {
         newThread.start();  //should be start();
 
         init();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setupViews();
     }
 
     private void init() {
@@ -88,6 +92,8 @@ public class InitialActivity extends Activity {
     }
 
     private void setupViews(){
+        mJoinAParty.setVisibility(VISIBLE);
+        mCreateAParty.setVisibility(VISIBLE);
         mLoginContainer.setVisibility(GONE);
         mJoinPartyContainer.setVisibility(GONE);
 

@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.R;
+import com.miloshzelembaba.play.api.Services.ImageDownloader;
 
 import java.util.ArrayList;
 
@@ -37,6 +39,12 @@ public class PartySongsAdapter extends ArrayAdapter {
         ((TextView)convertView.findViewById(R.id.song_name)).setText(song.getSongName());
         ((TextView)convertView.findViewById(R.id.song_artists)).setText(song.getSongArtists());
         ((TextView)convertView.findViewById(R.id.song_vote_count)).setText(Integer.toString(song.getVoteCount()));
+
+        if (song.getImage() == null){
+            ImageDownloader.getBitmapFromURL(song, convertView);
+        } else {
+            ((ImageView)convertView.findViewById(R.id.song_image)).setImageBitmap(song.getImage());
+        }
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

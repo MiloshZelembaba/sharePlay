@@ -1,5 +1,7 @@
 package com.miloshzelembaba.play.Models;
 
+import android.graphics.Bitmap;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,8 +16,8 @@ public class Song extends Serializable {
     private String mSpotifyURI;
     private String mSongName;
     private String mArtists;
-    private Image mImage;
     private String mImageUrl;
+    private Bitmap mImage;
     private int mVoteCount;
 
 
@@ -23,8 +25,7 @@ public class Song extends Serializable {
         this.mSpotifyURI = spotifyURI;
         this.mSongName = name;
         this.mArtists = artists;
-        this.mImage = image;
-        this.mImageUrl = "nothing yet";
+        this.mImageUrl = image.url;
         this.mVoteCount = 1;
     }
 
@@ -63,6 +64,19 @@ public class Song extends Serializable {
             throw new JSONException("invalid json object");
         }
     }
+
+    public String getImageUrl() {
+        return mImageUrl;
+    }
+
+    public void setImage(Bitmap bitmap) {
+        mImage = bitmap;
+    }
+
+    public Bitmap getImage() {
+        return mImage;
+    }
+
 
     public String getUri(){
         return mSpotifyURI;

@@ -140,6 +140,13 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
     }
 
     private void playSong(){
+        if (mParty.getSongs() == null || mParty.getSongs().size() == 0) {
+            currentlyPlayingSong = null;
+            mIsPlaying = false;
+            mPlaybackControl.setText(getString(R.string.play_song));
+            return;
+        }
+
         if (mIsPlaying || currentlyPlayingSong != null) {
             mPlayer.resume(null);
             mIsPlaying = true;
@@ -154,6 +161,13 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
     }
 
     private void playNextSong() {
+        if (mParty.getSongs() == null || mParty.getSongs().size() == 0) {
+            currentlyPlayingSong = null;
+            mIsPlaying = false;
+            mPlaybackControl.setText(getString(R.string.play_song));
+            return;
+        }
+
         removeSongFromPartyService.requestService(currentlyPlayingSong,
                 new RemoveSongFromPartyService.RemoveSongFromPartyServiceCallback() {
                     @Override

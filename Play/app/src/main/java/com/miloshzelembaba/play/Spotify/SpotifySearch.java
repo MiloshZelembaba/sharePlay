@@ -28,7 +28,11 @@ public class SpotifySearch{
     static public void getResults(String query, final SongSearchActivity.SongSearchResultCallBack callBack){
         api.setAccessToken(SpotifyInfo.ACCESS_TOKEN);
 
-        // TODO: big todo - can we make this async?
+        // TODO: should we make this async?
+        // - I don't think we need to since you can't do anything on the ui anyways until the
+        // result comes back
+        // - But when the user scrolls to the bottom the results list and more results are loaded,
+        // that part should be async so we might as well make everything async
 
         try {
             spotify.searchTracks(query, new Callback<TracksPager>() {
