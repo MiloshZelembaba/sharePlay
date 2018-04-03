@@ -3,6 +3,7 @@ package com.miloshzelembaba.play.api.Services;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.miloshzelembaba.play.Models.Song;
@@ -19,7 +20,7 @@ import java.net.URL;
 
 abstract public class ImageDownloader{
 
-    public static void getBitmapFromURL(final Song song, final View v) {
+    public static void getBitmapFromURL(final Song song, final View v, final ArrayAdapter adapter) {
 
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -31,11 +32,12 @@ abstract public class ImageDownloader{
                         connection.setDoInput(true);
                         connection.connect();
                         InputStream input = connection.getInputStream();
-                        Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                        final Bitmap myBitmap = BitmapFactory.decodeStream(input);
                         song.setImage(myBitmap);
                         ImageView albumCover = (ImageView) v.findViewById(R.id.song_image);
                         albumCover.setVisibility(View.VISIBLE);
                         albumCover.setImageBitmap(myBitmap);
+                        adapter.notifyDataSetChanged();
                     } catch (IOException e) {
                         // Log exception
                     }

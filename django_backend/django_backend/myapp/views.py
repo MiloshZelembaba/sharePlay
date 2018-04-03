@@ -10,10 +10,12 @@ from handlers import IncrementSongVoteCountHandler
 from handlers import UpdateNetworkInfo
 from handlers import LeavePartyHandler
 from handlers import RemoveSongFromPartyHandler
+from handlers import UpdateNetworkTemporary
 import json
 
 def login(request):
     if request.method == "POST":
+        UpdateNetworkTemporary.updateNetworkInfo(request)
         received_json_data = json.loads(request.body.decode("utf-8"))
         return LoginHandler.passOff(received_json_data)
     else:
@@ -21,6 +23,7 @@ def login(request):
 
 def joinParty(request):
     if request.method == "POST":
+        UpdateNetworkTemporary.updateNetworkInfo(request)
         received_json_data = json.loads(request.body.decode("utf-8"))
         return JoinPartyHandler.passOff(received_json_data)
     else:
@@ -28,6 +31,7 @@ def joinParty(request):
 
 def leaveParty(request):
     if request.method == "POST":
+        UpdateNetworkTemporary.updateNetworkInfo(request)
         received_json_data = json.loads(request.body.decode("utf-8"))
         return LeavePartyHandler.passOff(received_json_data)
     else:
@@ -35,6 +39,7 @@ def leaveParty(request):
 
 def createParty(request):
     if request.method == "POST":
+        UpdateNetworkTemporary.updateNetworkInfo(request)
         received_json_data = json.loads(request.body.decode("utf-8"))
         return CreatePartyHandler.passOff(received_json_data)
     else:
@@ -42,6 +47,7 @@ def createParty(request):
 
 def addSongToParty(request):
     if request.method == "POST":
+        UpdateNetworkTemporary.updateNetworkInfo(request)
         received_json_data = json.loads(request.body.decode("utf-8"))
         return AddSongToPartyHandler.passOff(received_json_data)
     else:
@@ -49,6 +55,7 @@ def addSongToParty(request):
 
 def removeSongFromParty(request):
     if request.method == "POST":
+        UpdateNetworkTemporary.updateNetworkInfo(request)
         received_json_data = json.loads(request.body.decode("utf-8"))
         return RemoveSongFromPartyHandler.passOff(received_json_data)
     else:
@@ -57,6 +64,7 @@ def removeSongFromParty(request):
 def getPartyDetails(request):
     # TODO: i could make this one a get but i mean does it really matter?
     if request.method == "POST":
+        UpdateNetworkTemporary.updateNetworkInfo(request)
         received_json_data = json.loads(request.body.decode("utf-8"))
         return GetPartyDetailsHandler.passOff(received_json_data)
     else:
@@ -65,6 +73,7 @@ def getPartyDetails(request):
 
 def incrementSongVoteCount(request):
     if request.method == "POST":
+        UpdateNetworkTemporary.updateNetworkInfo(request)
         received_json_data = json.loads(request.body.decode("utf-8"))
         return IncrementSongVoteCountHandler.passOff(received_json_data)
     else:
@@ -72,6 +81,7 @@ def incrementSongVoteCount(request):
 
 def updateNetworkInfo(request):
     if request.method == "POST":
+        UpdateNetworkTemporary.updateNetworkInfo(request)
         received_json_data = json.loads(request.body.decode("utf-8"))
         return UpdateNetworkInfo.passOff(received_json_data)
     else:

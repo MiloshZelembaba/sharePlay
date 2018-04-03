@@ -1,6 +1,7 @@
 package com.miloshzelembaba.play.api;
 
 import com.miloshzelembaba.play.Models.Serializable;
+import com.miloshzelembaba.play.Utils.ApplicationUtil;
 
 import org.json.JSONObject;
 
@@ -17,6 +18,7 @@ public class Request {
     public Request(){
         url = "http://10.0.0.234:8000/";
         params = new HashMap<>();
+        addParameter("user", ApplicationUtil.getInstance().getUser());
     }
 
     public void setUrl(String url){
@@ -25,7 +27,9 @@ public class Request {
     }
 
     public void addParameter(String key, Object value){
-        params.put(key, value);
+        if (!params.containsKey(key)) {
+            params.put(key, value);
+        }
     }
 
     public String buildURL(){

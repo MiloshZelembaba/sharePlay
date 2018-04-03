@@ -16,6 +16,7 @@ import com.miloshzelembaba.play.Activity.PartyActivityStuff.GuestPartyActivity;
 import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.Network.RequestListener;
 import com.miloshzelembaba.play.R;
+import com.miloshzelembaba.play.Utils.ApplicationUtil;
 import com.miloshzelembaba.play.api.Services.CreatePartyService;
 import com.miloshzelembaba.play.api.Services.JoinPartyService;
 import com.miloshzelembaba.play.api.Services.LoginService;
@@ -55,11 +56,12 @@ public class InitialActivity extends Activity {
         setContentView(R.layout.activity_start);
 
         // TODO: some sort of login thingy
-        user = new User("3", "milosh", "zelembaba", "miloshzelembaba@gmail.com");
+        user = new User("3", "milosh", "zelembaba", "miloshzelembaba@gmail.com"); // 10.0.0.253
+//        user = new User("4", "mike", "dantoni", "mikedantoni@gmail.com"); // 10.0.0.99
 
-        // Spin off the request listener thread
+        ApplicationUtil.getInstance().setUser(user);
         // TODO: should probably move this out of the activity, and into some sort of init code
-        RequestListener requestListener = new RequestListener(user);
+        RequestListener requestListener = new RequestListener(user, this);
         Thread newThread = new Thread(requestListener);
         newThread.start();  //should be start();
 

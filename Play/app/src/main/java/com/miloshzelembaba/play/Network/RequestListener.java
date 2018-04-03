@@ -1,6 +1,9 @@
 package com.miloshzelembaba.play.Network;
 
+import android.app.Activity;
 import android.os.Build;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.api.Services.UpdateNetworkInfoService;
@@ -19,9 +22,11 @@ import java.net.Socket;
 
 public class RequestListener implements Runnable {
     User user;
+    Activity baseActivity;
 
-    public RequestListener(User user) {
+    public RequestListener(User user, Activity a) {
         this.user = user;
+        baseActivity = a;
     }
 
     @Override
@@ -46,11 +51,21 @@ public class RequestListener implements Runnable {
                     Thread thread = new Thread(messenger);
                     thread.start();
 
-                } catch (Exception e) {
-                    // TODO: custom popup shit here
+                } catch (final Exception e) {
+                    baseActivity.runOnUiThread(new Runnable() {
+                        public void run() {
+                            try {
+                                Toast.makeText(baseActivity, e.getMessage(), Toast.LENGTH_LONG);
+                            } catch (Exception e){
+                                System.out.println("uhoh");
+                            }
+                        }
+                    });
+                    Log.e("Request Listener:", "idk what the error is");
                 }
             }
         } catch (Exception e){
+            System.out.println("wtf");
             // TODO: popup thing
         }
     }
@@ -59,11 +74,14 @@ public class RequestListener implements Runnable {
 
 
     private String getIpAddress(ServerSocket tcpSocket){
-        if (isEmulator()){
-            return "10.0.3.2";
-        } else {
-            return "10.0.0.253"; // for physical phone
-        }
+        return "";
+//        if (isEmulator()){
+//            return "10.0.3.2";
+//        } else {
+////            return "10.0.0.253"; // for physical phone
+//            return "10.0.0.99";
+//        }
+//
 
 //        try {
 //            return tcpSocket.getInetAddress().getLocalHost().toString().replace("localhost/", "");
@@ -93,7 +111,7 @@ public class RequestListener implements Runnable {
         NetworkInfo.getInstance().setPort(tcpSocket.getLocalPort()); // save the port
 
         try {
-            // TODO: VEERRYYY temporary, only does localhost
+//            NetworkInfo.getInstance().setAddress(tcpSocket.getInetAddress().getHostAddress());
             NetworkInfo.getInstance().setAddress(getIpAddress(tcpSocket));
         } catch (Exception e) {
             // TODO: custom popup shit here
@@ -123,7 +141,9 @@ public class RequestListener implements Runnable {
     private ServerSocket tryTCPOnPort(int port){
         ServerSocket socket;
         try {
-            socket = new ServerSocket(port);
+            // TODO: only just localhost
+//            socket = new ServerSocket(port, 10, InetAddress.getLocalHost());
+            socket = new ServerSocket(0);
             return socket;
         } catch (IOException e) {
             System.out.println(e);
