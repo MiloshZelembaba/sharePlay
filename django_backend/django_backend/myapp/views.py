@@ -15,7 +15,6 @@ import json
 
 def login(request):
     if request.method == "POST":
-        UpdateNetworkTemporary.updateNetworkInfo(request)
         received_json_data = json.loads(request.body.decode("utf-8"))
         return LoginHandler.passOff(received_json_data)
     else:

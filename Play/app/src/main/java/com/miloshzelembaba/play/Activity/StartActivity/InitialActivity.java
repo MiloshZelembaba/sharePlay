@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.miloshzelembaba.play.Activity.Login.LoginActivity;
 import com.miloshzelembaba.play.Activity.PartyActivityStuff.AdminPartyActivity;
 import com.miloshzelembaba.play.Activity.PartyActivityStuff.GuestPartyActivity;
 import com.miloshzelembaba.play.Models.User;
@@ -22,6 +23,7 @@ import com.miloshzelembaba.play.api.Services.JoinPartyService;
 import com.miloshzelembaba.play.api.Services.LoginService;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -29,7 +31,6 @@ import static android.view.View.VISIBLE;
 public class InitialActivity extends Activity {
     private TextView mJoinAParty;
     private TextView mCreateAParty;
-    private User user;
 
     // Services
     private LoginService loginService;
@@ -55,23 +56,13 @@ public class InitialActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        // TODO: some sort of login thingy
-        user = new User("3", "milosh", "zelembaba", "miloshzelembaba@gmail.com"); // 10.0.0.253
-//        user = new User("4", "mike", "dantoni", "mikedantoni@gmail.com"); // 10.0.0.99
-
-        ApplicationUtil.getInstance().setUser(user);
-        // TODO: should probably move this out of the activity, and into some sort of init code
-        RequestListener requestListener = new RequestListener(user, this);
-        Thread newThread = new Thread(requestListener);
-        newThread.start();  //should be start();
-
         init();
+        setupViews();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setupViews();
     }
 
     private void init() {
@@ -89,8 +80,6 @@ public class InitialActivity extends Activity {
         mJoinPartyButton = (Button) findViewById(R.id.join_party_button);
         mSimpleLogin = (TextView) findViewById(R.id.simple_login);
         mSimpleLoginContainer = (LinearLayout) findViewById(R.id.simple_login_container);
-
-        setupViews();
     }
 
     private void setupViews(){
@@ -111,7 +100,7 @@ public class InitialActivity extends Activity {
         mCreateAParty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createParty(user);
+                createParty(ApplicationUtil.getInstance().getUser());
             }
         });
 
@@ -129,6 +118,8 @@ public class InitialActivity extends Activity {
             }
         });
 
+
+        startActivityForResult(new Intent(this, LoginActivity.class), LoginActivity.LOGIN_ACTIVITY_USER_RESULT);
     }
 
     private void createParty(final User user){
@@ -178,7 +169,7 @@ public class InitialActivity extends Activity {
             return;
         }
 
-        joinPartyService.requestService(partyId, user,
+        joinPartyService.requestService(partyId, ApplicationUtil.getInstance().getUser(),
                 new JoinPartyService.JoinPartServiceCallback() {
                     @Override
                     public void onSuccess(String partyId) {
@@ -198,7 +189,7 @@ public class InitialActivity extends Activity {
         Intent intent = new Intent(this, AdminPartyActivity.class);
         intent.putExtra(AdminPartyActivity.EXTRA_PARTY_ID, partyId);
         try {
-            intent.putExtra(AdminPartyActivity.EXTRA_USER, user.serialize().toString());
+            intent.putExtra(AdminPartyActivity.EXTRA_USER, ApplicationUtil.getInstance().getUser().serialize().toString());
         } catch (JSONException e) {
             // error message
         }
@@ -209,35 +200,33 @@ public class InitialActivity extends Activity {
         Intent intent = new Intent(this, GuestPartyActivity.class);
         intent.putExtra(GuestPartyActivity.EXTRA_PARTY_ID, partyId);
         try {
-            intent.putExtra(GuestPartyActivity.EXTRA_USER, user.serialize().toString());
+            intent.putExtra(GuestPartyActivity.EXTRA_USER, ApplicationUtil.getInstance().getUser().serialize().toString());
         } catch (JSONException e) {
             // error message
         }
         startActivity(intent);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
 
-    // will be used later for logging in
-    private void loginButtonClicked(){
-        String email = mEmailInput.getText().toString();
-        String password = mPasswordInput.getText().toString();
+        if (requestCode == LoginActivity.LOGIN_ACTIVITY_USER_RESULT && intent != null) {
+            String serializedUser = intent.getStringExtra("user");
+            JSONObject jsonUser;
+            try {
+                jsonUser= new JSONObject(serializedUser);
+                User user = new User(jsonUser);
 
-        if (email.isEmpty() || password.isEmpty()){
-            return;
+                ApplicationUtil.getInstance().setUser(user);
+                // TODO: should probably move this out of the activity, and into some sort of init code
+                RequestListener requestListener = new RequestListener(user, this);
+                Thread newThread = new Thread(requestListener);
+                newThread.start();  //should be start();
+            } catch (Exception e) {
+                // make error popup thing
+            }
         }
 
-        loginService.requestService(email, password,
-                new LoginService.LoginServiceCallback() {
-                    @Override
-                    public void onSuccess(User user) {
-
-
-                    }
-
-                    @Override
-                    public void onFailure(String errorMessage) {
-
-                    }
-                });
     }
 }
