@@ -137,6 +137,8 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
         mPlayer.pause(null);
         mIsPlaying = false;
         mPlaybackControl.setText(getString(R.string.resume_song));
+        currentlyPlayingSong.setIsCurrentlyPlaying(false);
+        mPartySongsAdapter.notifyDataSetChanged();
     }
 
     private void playSong(){
@@ -147,15 +149,19 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
             return;
         }
 
-        if (mIsPlaying || currentlyPlayingSong != null) {
+        if (mIsPlaying || currentlyPlayingSong != null) { // resume song
             mPlayer.resume(null);
             mIsPlaying = true;
-        } else {
+        } else { // play new song
             currentlyPlayingSong = mParty.getSongs().get(0);
+
             mPlayer.playUri(null, currentlyPlayingSong.getUri(), 0, 0);
             mIsPlaying = true;
+
         }
 
+        currentlyPlayingSong.setIsCurrentlyPlaying(true);
+        mPartySongsAdapter.notifyDataSetChanged();
         mPlaybackControl.setText(getString(R.string.pause_song));
 
     }

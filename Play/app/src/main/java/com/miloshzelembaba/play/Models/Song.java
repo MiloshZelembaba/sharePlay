@@ -19,6 +19,7 @@ public class Song extends Serializable {
     private String mImageUrl;
     private Bitmap mImage;
     private int mVoteCount;
+    private boolean mIsCurrentlyPlaying;
 
 
     public Song(String spotifyURI, String name, String artists, Image image){
@@ -27,6 +28,7 @@ public class Song extends Serializable {
         this.mArtists = artists;
         this.mImageUrl = image.url;
         this.mVoteCount = 1;
+        mIsCurrentlyPlaying = false;
     }
 
     public Song(JSONObject object) throws JSONException{
@@ -96,6 +98,14 @@ public class Song extends Serializable {
 
     public void incrementVoteCount(){
         mVoteCount += 1;
+    }
+
+    public void setIsCurrentlyPlaying(boolean bool) {
+        mIsCurrentlyPlaying = bool;
+    }
+
+    public boolean isCurrentlyPlaying() {
+        return mIsCurrentlyPlaying;
     }
 
     @Override

@@ -11,6 +11,6 @@ import java.util.Comparator;
 public class SongVoteCountComparator implements Comparator<Song> {
     @Override
     public int compare(Song o1, Song o2) {
-        return (o1.getVoteCount() >= o2.getVoteCount() ? -1 : 1);
+        return (o1.getVoteCount() > o2.getVoteCount() ? -1 : 1);
     }
 }

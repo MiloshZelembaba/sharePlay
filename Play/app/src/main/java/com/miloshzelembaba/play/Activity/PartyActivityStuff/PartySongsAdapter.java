@@ -2,6 +2,7 @@ package com.miloshzelembaba.play.Activity.PartyActivityStuff;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,18 +39,28 @@ public class PartySongsAdapter extends ArrayAdapter {
         ((TextView)convertView.findViewById(R.id.song_artists)).setText(song.getSongArtists());
         ((TextView)convertView.findViewById(R.id.song_vote_count)).setText(Integer.toString(song.getVoteCount()));
 
+        if (song.isCurrentlyPlaying()) {
+            ((TextView) convertView.findViewById(R.id.song_name)).setTextColor(ContextCompat.getColor(getContext(), R.color.spotify_green));
+            ((TextView) convertView.findViewById(R.id.song_artists)).setTextColor(ContextCompat.getColor(getContext(), R.color.spotify_green));
+            ((TextView) convertView.findViewById(R.id.song_vote_count)).setTextColor(ContextCompat.getColor(getContext(), R.color.spotify_green));
+        } else {
+            ((TextView) convertView.findViewById(R.id.song_name)).setTextColor(ContextCompat.getColor(getContext(), R.color.gray2));
+            ((TextView) convertView.findViewById(R.id.song_artists)).setTextColor(ContextCompat.getColor(getContext(), R.color.gray2));
+            ((TextView) convertView.findViewById(R.id.song_vote_count)).setTextColor(ContextCompat.getColor(getContext(), R.color.gray2));
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((PartyMethods)mBaseActivity).incrementSongCount(song);
+                }
+            });
+        }
+
+
 //        if (song.getImage() == null){
 //            ImageDownloader.getBitmapFromURL(song, convertView, this);
 //        } else {
 //            ((ImageView)convertView.findViewById(R.id.song_image)).setImageBitmap(song.getImage());
 //        }
-
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((PartyMethods)mBaseActivity).incrementSongCount(song);
-            }
-        });
 
         return convertView;
     }

@@ -44,7 +44,7 @@ public class Party extends Serializable {
 
         object.put("id", mId);
         object.put("party_name", mPartyName);
-        object.put("host", mHost.serialize().toString()); // TODO: hmm, would rather not do this
+        object.put("host", mHost.serialize().toString());
 
         return object;
     }
