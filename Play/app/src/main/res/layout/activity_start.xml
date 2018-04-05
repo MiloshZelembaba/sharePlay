@@ -10,6 +10,28 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.miloshzelembaba.play.Activity.StartActivity.InitialActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/current_user_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:id="@+id/logout"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:text="@string/not_you"/>
+
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/join_party"
         android:layout_width="wrap_content"
@@ -27,35 +49,6 @@
         android:text="@string/create_party"
         android:paddingTop="@dimen/sixteen_padding"
         android:textSize="24dp"/>
-
-    <TextView
-        android:id="@+id/simple_login"
-        android:layout_width="wrap_content"
-        android:visibility="gone"
-        android:layout_height="wrap_content"
-        android:text="@string/login_button"
-        android:layout_centerInParent="true"
-        android:layout_below="@+id/create_party"
-        android:textSize="24dp"/>
-
-    <LinearLayout
-        android:id="@+id/simple_login_container"
-        android:visibility="gone"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@android:color/darker_gray"
-        android:padding="@dimen/sixteen_padding">
-
-        <EditText
-            android:id="@+id/simple_login_user_name_field"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:imeOptions="actionDone"
-            android:inputType="textImeMultiLine" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/join_party_container"
@@ -82,40 +75,5 @@
             android:text="@string/join_party_button"
             android:textSize="@dimen/login_button_text_size"
             android:layout_marginTop="@dimen/sixteen_padding"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/login_container"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true"
-        android:background="@android:color/darker_gray"
-        android:padding="@dimen/sixteen_padding">
-
-        <EditText
-            android:id="@+id/login_email"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:textSize="@dimen/login_email_text_size"
-            android:inputType="textEmailAddress"/>
-
-        <EditText
-            android:id="@+id/login_password"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:textSize="@dimen/login_email_text_size"
-            android:inputType="textEmailAddress"/>
-
-        <Button
-            android:id="@+id/login_login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/login_button"
-            android:textSize="@dimen/login_button_text_size"
-            android:layout_marginTop="@dimen/sixteen_padding"/>
-
     </LinearLayout>
 </RelativeLayout>

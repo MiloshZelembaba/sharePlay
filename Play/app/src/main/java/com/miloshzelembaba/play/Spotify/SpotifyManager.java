@@ -22,8 +22,8 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
     static SpotifyUpdateListener mSpotifyUpdateListener;
     static Activity baseActivity;
     static SpotifyApi mSpotifyApi;
-    static SpotifyManager instance;
     static SpotifyPlayer mSpotifyPlayer;
+    static SpotifyManager instance;
 
 
     private SpotifyManager() {}
@@ -41,6 +41,18 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
 
     public void setSpotifyUpdateListener(SpotifyUpdateListener spotifyUpdateListener) {
         mSpotifyUpdateListener = spotifyUpdateListener;
+    }
+
+    public void logout() {
+        // might not be possible for some stupid reason, stupid ass spotifyAPI
+    }
+
+    public void relogin() {
+        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(SpotifyInfo.CLIENT_ID,
+                AuthenticationResponse.Type.TOKEN,
+                SpotifyInfo.REDIRECT_URI).setShowDialog(true);
+        AuthenticationRequest request = builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email"}).build();
+        AuthenticationClient.openLoginActivity(baseActivity, SpotifyInfo.REQUEST_CODE, request);
     }
 
     public static void attemptSpotifyLogin(Activity activity){
@@ -86,7 +98,9 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         switch (playerEvent) {
             // Handle event type as necessary
             case kSpPlaybackNotifyAudioDeliveryDone:
-//                mSpotifyUpdateListener.onSongFinishedPlaying();
+                if (mSpotifyUpdateListener != null) {
+                    mSpotifyUpdateListener.onSongFinishedPlaying();
+                }
             default:
                 break;
         }
@@ -105,7 +119,6 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
     @Override
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
-//        mSpotifyUpdateListener.onLoggedIn();
     }
 
     @Override

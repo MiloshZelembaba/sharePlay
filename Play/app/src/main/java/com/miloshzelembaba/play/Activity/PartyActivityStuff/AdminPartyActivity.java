@@ -71,6 +71,7 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
         initViews();
         mIsPlaying = false;
         mSpotifyManager = SpotifyManager.getInstance();
+        mSpotifyManager.setSpotifyUpdateListener(this);
         mPlayer = mSpotifyManager.getPlayer();
 
 

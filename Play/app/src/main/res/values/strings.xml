@@ -7,6 +7,9 @@
     <string name="login_button">Login</string>
     <string name="join_party_button">Join</string>
     <string name="title_activity_party">PartyActivity</string>
+    <string name="current_login_email">Currently logged in with - %1$s</string>
+    <string name="logout">Logout</string>
+    <string name="not_you">Not you?</string>
 
     <!-- Song Search Activity -->
     <string name="no_songs">no songs</string>

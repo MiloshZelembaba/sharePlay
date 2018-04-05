@@ -58,6 +58,10 @@ public class User extends Serializable {
         return object;
     }
 
+    public String getEmail() {
+        return mEmail;
+    }
+
     public String getId(){
         return mId;
     }

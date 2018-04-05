@@ -2,11 +2,10 @@ package com.miloshzelembaba.play.Activity.StartActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -45,13 +44,9 @@ public class InitialActivity extends Activity {
     private SpotifyManager mSpotifyManager;
     private LoginService mLoginService;
 
-    // Login
-    private LinearLayout mLoginContainer;
-    private EditText mEmailInput;
-    private EditText mPasswordInput;
-    private Button  mLoginButton;
-    private TextView mSimpleLogin;
-    private LinearLayout mSimpleLoginContainer;
+    // Views
+    private TextView mCurrentEmail;
+    private TextView mLogoutButton;
 
     // Join Party
     private LinearLayout mJoinPartyContainer;
@@ -79,6 +74,10 @@ public class InitialActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
+        setupViews();
+        if (ApplicationUtil.getInstance().getUser() != null) {
+            showCurrentLoginInfo(ApplicationUtil.getInstance().getUser());
+        }
     }
 
     private void init() {
@@ -88,22 +87,19 @@ public class InitialActivity extends Activity {
         mLoginService = new LoginService();
         mJoinAParty = (TextView) findViewById(R.id.join_party);
         mCreateAParty = (TextView) findViewById(R.id.create_party);
-        mLoginContainer = (LinearLayout) findViewById(R.id.login_container);
-        mEmailInput = (EditText) findViewById(R.id.login_email);
-        mPasswordInput = (EditText) findViewById(R.id.login_password);
-        mLoginButton = (Button) findViewById(R.id.login_login_button);
         mJoinPartyContainer = (LinearLayout) findViewById(R.id.join_party_container);
         mPartyId = (EditText) findViewById(R.id.party_code);
         mJoinPartyButton = (Button) findViewById(R.id.join_party_button);
-        mSimpleLogin = (TextView) findViewById(R.id.simple_login);
-        mSimpleLoginContainer = (LinearLayout) findViewById(R.id.simple_login_container);
+        mCurrentEmail = (TextView) findViewById(R.id.current_user_email);
+        mLogoutButton = (TextView) findViewById(R.id.logout);
     }
 
     private void setupViews(){
         mJoinAParty.setVisibility(VISIBLE);
         mCreateAParty.setVisibility(VISIBLE);
-        mLoginContainer.setVisibility(GONE);
         mJoinPartyContainer.setVisibility(GONE);
+        mCurrentEmail.setVisibility(GONE);
+        mLogoutButton.setVisibility(GONE);
 
         mJoinAParty.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,13 +123,6 @@ public class InitialActivity extends Activity {
                 joinParty();
             }
         });
-
-        mSimpleLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                simpleLogin();
-            }
-        });
     }
 
     private void createParty(final User user){
@@ -150,30 +139,6 @@ public class InitialActivity extends Activity {
 
                     }
                 });
-    }
-
-    private void simpleLogin(){
-        mJoinAParty.setVisibility(GONE);
-        mCreateAParty.setVisibility(GONE);
-        mSimpleLoginContainer.setVisibility(VISIBLE);
-
-        mSimpleLogin.setOnEditorActionListener(
-                new EditText.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        // Identifier of the action. This will be either the identifier you supplied,
-                        // or EditorInfo.IME_NULL if being called due to the enter key being pressed.
-                        if (actionId == EditorInfo.IME_ACTION_SEARCH
-                                || actionId == EditorInfo.IME_ACTION_DONE
-                                || event.getAction() == KeyEvent.ACTION_DOWN
-                                && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-
-                        }
-                        // Return true if you have consumed the action, else false.
-                        return false;
-                    }
-                });
-
     }
 
     private void joinParty(){
@@ -248,7 +213,23 @@ public class InitialActivity extends Activity {
         });
     }
 
+    private void showCurrentLoginInfo(User user) {
+        mCurrentEmail.setVisibility(VISIBLE);
+        Resources res = getResources();
+        String text = String.format(res.getString(R.string.current_login_email), user.getEmail());
+        mCurrentEmail.setText(text);
+
+        mLogoutButton.setVisibility(VISIBLE);
+        mLogoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSpotifyManager.relogin();
+            }
+        });
+    }
+
     private void completeLoginTasks(User user) {
+        showCurrentLoginInfo(user);
         ApplicationUtil.getInstance().setUser(user);
         // TODO: should move this out of the activity, and into some sort of init code
         RequestListener requestListener = new RequestListener(user, this);
