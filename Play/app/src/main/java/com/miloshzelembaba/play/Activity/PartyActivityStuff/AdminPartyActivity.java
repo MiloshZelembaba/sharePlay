@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -19,7 +18,6 @@ import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnPartyUpdated;
 import com.miloshzelembaba.play.Network.NetworkInfo;
 import com.miloshzelembaba.play.R;
-import com.miloshzelembaba.play.Spotify.SpotifyInfo;
 import com.miloshzelembaba.play.Spotify.SpotifyManager;
 import com.miloshzelembaba.play.Spotify.SpotifyUpdateListener;
 import com.miloshzelembaba.play.Utils.StringUtil;
@@ -28,12 +26,7 @@ import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
 import com.miloshzelembaba.play.api.Services.IncrementSongVoteCountService;
 import com.miloshzelembaba.play.api.Services.LeavePartyService;
 import com.miloshzelembaba.play.api.Services.RemoveSongFromPartyService;
-import com.spotify.sdk.android.authentication.AuthenticationClient;
-import com.spotify.sdk.android.authentication.AuthenticationResponse;
-import com.spotify.sdk.android.player.Config;
 import com.spotify.sdk.android.player.Player;
-import com.spotify.sdk.android.player.Spotify;
-import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,12 +66,12 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         NetworkInfo.getInstance().addPartyUpdateListener(this);
-        mSpotifyManager = new SpotifyManager(this);
-        mSpotifyManager.attemptSpotifyLogin();
 
         initServices();
         initViews();
         mIsPlaying = false;
+        mSpotifyManager = SpotifyManager.getInstance();
+        mPlayer = mSpotifyManager.getPlayer();
 
 
         try {
@@ -128,6 +121,13 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
                 } else {
                     playSong();
                 }
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(AdminPartyActivity.this, SongSearchActivity.class), SongSearchActivity.SONG_SEARCH_RESULT);
             }
         });
 
@@ -248,28 +248,6 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
                 // make error popup thing
             }
         }
-
-        // Check if result comes from the correct activity
-        if (requestCode == SpotifyInfo.REQUEST_CODE) {
-            AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
-            if (response.getType() == AuthenticationResponse.Type.TOKEN) {
-                SpotifyInfo.setAccessToken(response.getAccessToken());
-                Config playerConfig = new Config(this, response.getAccessToken(), SpotifyInfo.CLIENT_ID);
-                Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
-                    @Override
-                    public void onInitialized(SpotifyPlayer spotifyPlayer) {
-                        mPlayer = spotifyPlayer;
-                        mPlayer.addConnectionStateCallback(mSpotifyManager);
-                        mPlayer.addNotificationCallback(mSpotifyManager);
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
-                    }
-                });
-            }
-        }
     }
 
     @Override
@@ -279,18 +257,13 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
 
     @Override
     public void onLoggedIn() {
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(new Intent(AdminPartyActivity.this, SongSearchActivity.class), SongSearchActivity.SONG_SEARCH_RESULT);
-            }
-        });
+
     }
 
     @Override
     protected void onDestroy() {
+        pauseSong();
         leavePartyService.requestService(user, null);
-        Spotify.destroyPlayer(this);
         super.onDestroy();
     }
 

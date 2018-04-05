@@ -7,7 +7,6 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse;
  */
 
 abstract public class SpotifyInfo {
-
     // TODO: Replace with your client ID
     public static final String CLIENT_ID = "75cc7c4b4c6d49388044414a5ba6aaa6";
     // TODO: Replace with your redirect URI

@@ -29,6 +29,7 @@ public class SpotifySearch{
         api.setAccessToken(SpotifyInfo.ACCESS_TOKEN);
 
         // TODO: should we make this async?
+        // TODO: i think we should also make this part of the spotify manager
         // - I don't think we need to since you can't do anything on the ui anyways until the
         // result comes back
         // - But when the user scrolls to the bottom the results list and more results are loaded,
