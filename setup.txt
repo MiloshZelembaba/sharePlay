@@ -1,0 +1,11 @@
+starting mysql:
+- `mysql.server start`
+- `mysql -uroot -p`
+
+
+starting the django server:
+- `cd /Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend`
+- `virtualenv env`
+- `source env/bin/activate`
+- `cd django_backend`
+- `./manage.py runserver`
