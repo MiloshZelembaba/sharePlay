@@ -57,7 +57,7 @@ public class PartySongsAdapter extends ArrayAdapter {
 
 
 //        if (song.getImage() == null){
-//            ImageDownloader.getBitmapFromURL(song, convertView, this);
+//            ImageDownloader.getBitmapFromURL(song, convertView, mBaseActivity);
 //        } else {
 //            ((ImageView)convertView.findViewById(R.id.song_image)).setImageBitmap(song.getImage());
 //        }

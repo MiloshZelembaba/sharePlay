@@ -19,8 +19,7 @@ def passOff(json_data):
         return HttpResponse("Object does't exist", content_type='application/json', status=418)
 
     response = {}
-    response['party'] = party.to_dict()
-    response['songs'] = party.get_songs()
+    response['party'] = party.to_dict(addSongs=True)
 
     # the thread implementation below is how i should be doing it
     # thread = Thread(target=send_update, args=(party))

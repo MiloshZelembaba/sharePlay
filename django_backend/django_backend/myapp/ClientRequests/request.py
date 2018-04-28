@@ -9,4 +9,4 @@ def send_request(data, address, port):
         s.sendall(data + "\n")
         s.close()
     except Exception:
-        print("Error sending packet to %s at port %s", str(address), port)
+        print("Error sending packet to %s at port %s", str(address), int(port))

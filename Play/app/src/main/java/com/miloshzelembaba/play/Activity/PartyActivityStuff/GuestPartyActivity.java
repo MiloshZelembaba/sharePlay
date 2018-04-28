@@ -106,7 +106,7 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
     // this method should be updated prolly
     private void setParty(Party party) {
         mParty = party;
-        mPartySongsAdapter = new PartySongsAdapter(this, 0, party.getSongs());
+        mPartySongsAdapter = new PartySongsAdapter(this, 0, party.getQueuedSongs());
         mSongsListView.setAdapter(mPartySongsAdapter);
         setTitle(mParty.getName() + " " + StringUtil.padZeros(mParty.getId()));
     }

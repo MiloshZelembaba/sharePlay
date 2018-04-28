@@ -39,8 +39,7 @@ def passOff(json_data):
 
     # TODO: need to broadcast an update here to everyone in tha party
     data = {}
-    data['party'] = party.to_dict()
-    data['songs'] = party.get_songs()
+    data['party'] = party.to_dict(addSongs=True)
 
     try:
         NotifyPartyUpdated.run(party)

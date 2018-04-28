@@ -1,10 +1,12 @@
 package com.miloshzelembaba.play.Activity.PartyActivityStuff;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -128,22 +130,26 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(AdminPartyActivity.this, SongSearchActivity.class), SongSearchActivity.SONG_SEARCH_RESULT);
+                if (user != null) {
+                    startActivityForResult(new Intent(AdminPartyActivity.this, SongSearchActivity.class), SongSearchActivity.SONG_SEARCH_RESULT);
+                }
             }
         });
 
     }
 
     private void pauseSong(){
-        mPlayer.pause(null);
-        mIsPlaying = false;
-        mPlaybackControl.setText(getString(R.string.resume_song));
-        currentlyPlayingSong.setIsCurrentlyPlaying(false);
-        mPartySongsAdapter.notifyDataSetChanged();
+        if (currentlyPlayingSong != null) {
+            mPlayer.pause(null);
+            mIsPlaying = false;
+            mPlaybackControl.setText(getString(R.string.resume_song));
+            currentlyPlayingSong.setIsCurrentlyPlaying(false);
+            mPartySongsAdapter.notifyDataSetChanged();
+        }
     }
 
     private void playSong(){
-        if (mParty.getSongs() == null || mParty.getSongs().size() == 0) {
+        if (mParty.getQueuedSongs() == null || mParty.getQueuedSongs().size() == 0) {
             currentlyPlayingSong = null;
             mIsPlaying = false;
             mPlaybackControl.setText(getString(R.string.play_song));
@@ -154,7 +160,7 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
             mPlayer.resume(null);
             mIsPlaying = true;
         } else { // play new song
-            currentlyPlayingSong = mParty.getSongs().get(0);
+            currentlyPlayingSong = mParty.getQueuedSongs().get(0);
 
             mPlayer.playUri(null, currentlyPlayingSong.getUri(), 0, 0);
             mIsPlaying = true;
@@ -168,7 +174,7 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
     }
 
     private void playNextSong() {
-        if (mParty.getSongs() == null || mParty.getSongs().size() == 0) {
+        if (mParty.getQueuedSongs() == null || mParty.getQueuedSongs().size() == 0) {
             currentlyPlayingSong = null;
             mIsPlaying = false;
             mPlaybackControl.setText(getString(R.string.play_song));
@@ -193,10 +199,24 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
     }
 
     private void setParty(Party party) {
+//        mSongsListView.removeHeaderView()
         mParty = party;
-        mPartySongsAdapter = new PartySongsAdapter(this, 0, party.getSongs());
+        mPartySongsAdapter = new PartySongsAdapter(this, 0, party.getQueuedSongs());
+        if (party.getCurrentlyPlaying() != null) {
+            mSongsListView.addHeaderView(inflateSong(party.getCurrentlyPlaying()));
+        }
         mSongsListView.setAdapter(mPartySongsAdapter);
         setTitle(mParty.getName() + " " + StringUtil.padZeros(mParty.getId()));
+    }
+
+    private View inflateSong(Song song) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view= inflater.inflate(R.layout.party_song_layout, null, false);
+        ((TextView)view.findViewById(R.id.song_name)).setText(song.getSongName());
+        ((TextView)view.findViewById(R.id.song_artists)).setText(song.getSongArtists());
+        ((TextView)view.findViewById(R.id.song_vote_count)).setText(Integer.toString(song.getVoteCount()));
+
+        return view;
     }
 
     private void addSongToParty(Song song) {

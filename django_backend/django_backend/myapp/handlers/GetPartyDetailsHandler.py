@@ -13,6 +13,5 @@ def passOff(json_data):
         return HttpResponse("Object does't exist", content_type='application/json', status=418)
 
     data = {}
-    data['party'] = party.to_dict()
-    data['songs'] = party.get_songs()
+    data['party'] = party.to_dict(addSongs=True)
     return HttpResponse(json.dumps(data, indent=4, sort_keys=True, default=str), content_type='application/json', status=200)

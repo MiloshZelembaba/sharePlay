@@ -20,13 +20,14 @@ class User(models.Model):
         _dict["last_name"] = self.last_name
         _dict["email"] = self.email
         _dict["last_login"] = self.last_login
-        #_dict["current_party"] = self.current_party
+        # _dict["current_party"] = self.current_party
 
         return _dict
 
 class Party(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30, null=False)
+    current_song_uri = models.CharField(max_length=100, null=True)
     host = models.ForeignKey(
                 'User',
                 null=False,
@@ -38,11 +39,15 @@ class Party(models.Model):
 
         return songs
 
-    def to_dict(self):
+    def to_dict(self, addSongs=False):
         _dict = {}
         _dict['id'] = self.id
         _dict['name'] = self.name
         _dict['host'] = self.host.to_dict()
+        _dict['current_song_uri'] = self.current_song_uri
+
+        if addSongs:
+            _dict['songs'] = self.get_songs()
 
         return _dict
 

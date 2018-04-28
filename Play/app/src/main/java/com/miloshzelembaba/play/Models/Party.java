@@ -18,6 +18,7 @@ public class Party extends Serializable {
     private String mPartyName;
     private User mHost;
     private ArrayList<Song> songs;
+    private Song mCurrentlyPlaying;
 
     public Party(JSONObject object) throws JSONException{
         if (object.has("id")) {
@@ -37,6 +38,23 @@ public class Party extends Serializable {
         } else {
             throw new JSONException("invalid json object");
         }
+
+        if (object.has("songs")) {
+            addSongs(object.getJSONArray("songs"));
+
+            if (object.has("currently_playing_uri")) {
+                String uri = object.getString("currently_playing_uri");
+
+                for (Song song: songs) {
+                    if (song.getUri().equals(uri)) {
+                        mCurrentlyPlaying = song;
+                        break;
+                    }
+                }
+            }
+        }
+
+
     }
 
     public JSONObject serialize() throws JSONException{
@@ -49,8 +67,11 @@ public class Party extends Serializable {
         return object;
     }
 
-    public ArrayList<Song> getSongs(){
+    public ArrayList<Song> getQueuedSongs(){
         Collections.sort(songs, new SongVoteCountComparator());
+        if (mCurrentlyPlaying != null && songs.contains(mCurrentlyPlaying)) {
+            songs.remove(mCurrentlyPlaying);
+        }
         return songs;
     }
 
@@ -64,7 +85,10 @@ public class Party extends Serializable {
         for (int i=0; i<array.length(); ++i){
             songs.add(new Song(array.getJSONObject(i)));
         }
+    }
 
+    public Song getCurrentlyPlaying() {
+        return mCurrentlyPlaying;
     }
 
     public User getHost() {

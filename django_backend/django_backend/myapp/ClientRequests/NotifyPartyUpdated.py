@@ -7,8 +7,7 @@ def run(party):
     try:
         users = User.objects.filter(current_party=party)
         data = {}
-        data['party'] = party.to_dict()
-        data['songs'] = party.get_songs()
+        data['party'] = party.to_dict(addSongs=True)
         data['type'] = 'update_party'
 
         for user in users:

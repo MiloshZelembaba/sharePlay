@@ -5,12 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.R;
-import com.miloshzelembaba.play.api.Services.ImageDownloader;
 
 import java.util.ArrayList;
 
@@ -20,20 +18,20 @@ import java.util.ArrayList;
 
 public class SongSearchAdapter extends ArrayAdapter {
 //    ArrayList<Song> songs;
-    SongSearchActivity baseActivity;
+    SongSearchActivity mBaseActivity;
 
     public SongSearchAdapter(SongSearchActivity context, int textViewResourceId, ArrayList<Song> listItems){
         super(context, textViewResourceId, listItems);
 //        songs = listItems;
 
-        baseActivity = context;
+        mBaseActivity = context;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
          if (convertView == null) {
-             LayoutInflater inflater = (LayoutInflater) baseActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+             LayoutInflater inflater = (LayoutInflater) mBaseActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
              convertView = inflater.inflate(R.layout.song_layout, parent, false);
         }
 
@@ -43,15 +41,15 @@ public class SongSearchAdapter extends ArrayAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                baseActivity.addSong((Song)getItem(position));
+                mBaseActivity.addSong((Song)getItem(position));
             }
         });
 
-        if (song.getImage() == null){
-            ImageDownloader.getBitmapFromURL(song, convertView, this);
-        } else {
-            ((ImageView)convertView.findViewById(R.id.song_image)).setImageBitmap(song.getImage());
-        }
+//        if (song.getImage() == null){
+//            ImageDownloader.getBitmapFromURL(song, convertView, mBaseActivity);
+//        } else {
+//            ((ImageView)convertView.findViewById(R.id.song_image)).setImageBitmap(song.getImage());
+//        }
 
         return convertView;
     }

@@ -33,7 +33,6 @@ public class GetPartyDetailsService {
                         // TODO: should this be spun off of a new thread?
                         try {
                             Party party = new Party(result.getJSONObject("party"));
-                            party.addSongs(result.getJSONArray("songs")); // hmm this should be remodled
 
                             callback.onSuccess(party);
                         } catch (JSONException e) {

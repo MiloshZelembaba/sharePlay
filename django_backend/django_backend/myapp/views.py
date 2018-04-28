@@ -93,6 +93,9 @@ def getEmailAddress(request):
 
 
 def initMilosh(request):
-    milosh = User(first_name="mike", last_name="dantoni", email="mikedantoni@gmail.com", password="fire")
+    milosh = User(first_name="milosh", last_name="zelembaba", email="miloshzelembaba@gmail.com", password="fire", address="nothing yet", port=0)
     milosh.save()
     return HttpResponse("Success")
+
+    # milosh = User(first_name="mike", last_name="dantoni", email="mikedantoni@gmail.com", password="fire")
+    # milosh.save()

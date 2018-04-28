@@ -21,6 +21,7 @@ import com.miloshzelembaba.play.Spotify.SpotifyManager;
 import com.miloshzelembaba.play.Utils.ApplicationUtil;
 import com.miloshzelembaba.play.api.Services.CreatePartyService;
 import com.miloshzelembaba.play.api.Services.JoinPartyService;
+import com.miloshzelembaba.play.api.Services.LeavePartyService;
 import com.miloshzelembaba.play.api.Services.LoginService;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -43,6 +44,7 @@ public class InitialActivity extends Activity {
     private CreatePartyService createPartyService;
     private SpotifyManager mSpotifyManager;
     private LoginService mLoginService;
+    private LeavePartyService mLeavePartyService;
 
     // Views
     private TextView mCurrentEmail;
@@ -78,6 +80,8 @@ public class InitialActivity extends Activity {
         if (ApplicationUtil.getInstance().getUser() != null) {
             showCurrentLoginInfo(ApplicationUtil.getInstance().getUser());
         }
+
+        mLeavePartyService.requestService(ApplicationUtil.getInstance().getUser(), null);
     }
 
     private void init() {
@@ -85,6 +89,7 @@ public class InitialActivity extends Activity {
         joinPartyService = new JoinPartyService();
         createPartyService = new CreatePartyService();
         mLoginService = new LoginService();
+        mLeavePartyService = new LeavePartyService();
         mJoinAParty = (TextView) findViewById(R.id.join_party);
         mCreateAParty = (TextView) findViewById(R.id.create_party);
         mJoinPartyContainer = (LinearLayout) findViewById(R.id.join_party_container);
