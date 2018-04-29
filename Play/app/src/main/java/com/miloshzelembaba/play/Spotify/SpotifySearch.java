@@ -1,7 +1,5 @@
 package com.miloshzelembaba.play.Spotify;
 
-import android.util.Log;
-
 import com.miloshzelembaba.play.Activity.SongSearch.SongSearchActivity;
 import com.miloshzelembaba.play.Models.Song;
 
@@ -26,7 +24,7 @@ public class SpotifySearch{
     static ArrayList<Song> tmp = new ArrayList<>();
 
     static public void getResults(String query, final SongSearchActivity.SongSearchResultCallBack callBack){
-        api.setAccessToken(SpotifyInfo.ACCESS_TOKEN);
+        api.setAccessToken(SpotifyManager.ACCESS_TOKEN);
 
         // TODO: should we make this async?
         // TODO: i think we should also make this part of the spotify manager
@@ -54,12 +52,10 @@ public class SpotifySearch{
                 @Override
                 public void failure(RetrofitError error) {
                     callBack.onFailure(error.toString());
-                    Log.d("Album failure", error.toString());
                 }
             });
         } catch (RetrofitError e){
             callBack.onFailure(e.getResponse().toString());
-            System.out.println(e.getResponse().getStatus());
         }
     }
 

@@ -38,7 +38,7 @@ public class NetworkInfoMessenger implements Runnable {
     private void handlePartyReceieved() throws JSONException{
         Party party = new Party(recievedJSON.getJSONObject("party"));
 
-        ArrayList<OnPartyUpdated> listeners = NetworkInfo.getInstance().getOnPartyUpdatedListeners();
+        ArrayList<OnPartyUpdated> listeners = NetworkManager.getInstance().getOnPartyUpdatedListeners();
 
         for (OnPartyUpdated listener: listeners){
             listener.onPartyUpdated(party);

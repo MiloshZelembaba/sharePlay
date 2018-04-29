@@ -17,13 +17,10 @@ import java.util.ArrayList;
  */
 
 public class SongSearchAdapter extends ArrayAdapter {
-//    ArrayList<Song> songs;
     SongSearchActivity mBaseActivity;
 
     public SongSearchAdapter(SongSearchActivity context, int textViewResourceId, ArrayList<Song> listItems){
         super(context, textViewResourceId, listItems);
-//        songs = listItems;
-
         mBaseActivity = context;
     }
 
@@ -53,10 +50,4 @@ public class SongSearchAdapter extends ArrayAdapter {
 
         return convertView;
     }
-
-    public void updateData(ArrayList<Song> songs){
-//        this.songs = songs;
-        notifyDataSetChanged();
-    }
-
 }

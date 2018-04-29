@@ -43,7 +43,7 @@ public class CreatePartyService {
                     @Override
                     public void onFailure(String errorMessage) {
                         // TODO: create a generic error popup
-                        callback.onFailure(errorMessage);
+                        callback.onFailure("Couldn't create a party");
                     }
                 }
         );

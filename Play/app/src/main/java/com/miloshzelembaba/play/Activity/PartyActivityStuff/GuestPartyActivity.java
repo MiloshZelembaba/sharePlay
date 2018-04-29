@@ -1,5 +1,6 @@
 package com.miloshzelembaba.play.Activity.PartyActivityStuff;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,11 +11,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.miloshzelembaba.play.Activity.SongSearch.SongSearchActivity;
+import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnPartyUpdated;
-import com.miloshzelembaba.play.Network.NetworkInfo;
+import com.miloshzelembaba.play.Network.NetworkManager;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifyUpdateListener;
 import com.miloshzelembaba.play.Utils.StringUtil;
@@ -22,7 +24,6 @@ import com.miloshzelembaba.play.api.Services.AddSongToPartyService;
 import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
 import com.miloshzelembaba.play.api.Services.IncrementSongVoteCountService;
 import com.miloshzelembaba.play.api.Services.LeavePartyService;
-import com.spotify.sdk.android.player.Player;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,10 +38,8 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
     IncrementSongVoteCountService incrementSongVoteCountService;
     LeavePartyService leavePartyService;
 
-    // Spotify
-    private Player mPlayer;
-
     // Local
+    private Context mContext;
     private Party mParty;
     private User user;
 
@@ -53,8 +52,9 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NetworkInfo.getInstance().addPartyUpdateListener(this);
         setContentView(R.layout.guest_activity_party);
+        mContext = this;
+        NetworkManager.getInstance().addPartyUpdateListener(this);
 
         initServices();
         initViews();
@@ -76,7 +76,9 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
 
                     @Override
                     public void onFailure(String errorMessage) {
-
+                        ErrorService.showErrorMessage(mContext,
+                                errorMessage,
+                                ErrorService.ErrorSeverity.HIGH);
                     }
                 });
     }
@@ -130,7 +132,6 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
 
                     }
                 });
-
     }
 
     @Override
@@ -139,9 +140,7 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
             public void run() {
                 try {
                     setParty(party);
-                } catch (Exception e){
-                    System.out.println("uhoh");
-                }
+                } catch (Exception e) {}
             }
         });
     }
@@ -159,7 +158,9 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
                 Song song = new Song(jsonSong);
                 addSongToParty(song);
             } catch (Exception e) {
-                // make error popup thing
+                ErrorService.showErrorMessage(mContext,
+                        "Unable to add song",
+                        ErrorService.ErrorSeverity.LOW);
             }
         }
     }
@@ -171,12 +172,12 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
 
     @Override
     public void onLoggedIn() {
+        // unused for guest parties
     }
 
     @Override
     protected void onDestroy() {
         leavePartyService.requestService(user, null);
-//        Spotify.destroyPlayer(this);
         super.onDestroy();
     }
 

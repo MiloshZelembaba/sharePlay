@@ -1,7 +1,7 @@
 package com.miloshzelembaba.play.api.Services;
 
 import com.miloshzelembaba.play.Models.User;
-import com.miloshzelembaba.play.Network.NetworkInfo;
+import com.miloshzelembaba.play.Network.NetworkManager;
 import com.miloshzelembaba.play.api.APIRequest;
 import com.miloshzelembaba.play.api.Request;
 
@@ -19,8 +19,8 @@ public class UpdateNetworkInfoService {
         Request request = new Request();
         request.setUrl("updateNetworkInfo/");
         request.addParameter("user", user);
-        request.addParameter("address", NetworkInfo.getInstance().getAddress());
-        request.addParameter("port", NetworkInfo.getInstance().getPort());
+        request.addParameter("address", NetworkManager.getInstance().getAddress());
+        request.addParameter("port", NetworkManager.getInstance().getPort());
 
         apiService.sendRequest(request,
                 new APIRequest.APIRequestCallBack() {

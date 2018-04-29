@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifySearch;
@@ -53,12 +54,9 @@ public class SongSearchActivity extends Activity {
     }
 
     private void init(){
-//        songSearchAdapter = new SongSearchAdapter(this, 0); // this might crash
         mListView = (ListView) findViewById(R.id.search_result_listview);
         mSearchField = (EditText) findViewById(R.id.song_search);
         mEmptyListview = (TextView) findViewById(R.id.empty_listview_text);
-
-//        mListView.setAdapter(songSearchAdapter);
 
         setup();
     }
@@ -95,7 +93,9 @@ public class SongSearchActivity extends Activity {
 
             @Override
             public void onFailure(String errorMessage) {
-                // TODO: create failure popup
+                ErrorService.showErrorMessage(thisActivity,
+                        errorMessage,
+                        ErrorService.ErrorSeverity.HIGH);
             }
         });
     }

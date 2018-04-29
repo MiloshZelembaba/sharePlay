@@ -8,20 +8,20 @@ import java.util.ArrayList;
  * Created by miloshzelembaba on 2018-03-18.
  */
 
-public class NetworkInfo {
-    private static NetworkInfo instance;
+public class NetworkManager {
+    private static NetworkManager instance;
     private static String address;
     private static int port;
     private static ArrayList<OnPartyUpdated> onPartyUpdatedListeners;
 
-    private NetworkInfo(){
+    private NetworkManager(){
         onPartyUpdatedListeners = new ArrayList<>();
     }
 
     // should be a singleton
-    public static NetworkInfo getInstance(){
+    public static NetworkManager getInstance(){
         if (instance == null){
-            instance = new NetworkInfo();
+            instance = new NetworkManager();
         }
 
         return instance;

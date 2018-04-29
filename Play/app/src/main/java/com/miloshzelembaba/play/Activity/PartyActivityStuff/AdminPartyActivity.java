@@ -18,7 +18,7 @@ import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnPartyUpdated;
-import com.miloshzelembaba.play.Network.NetworkInfo;
+import com.miloshzelembaba.play.Network.NetworkManager;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifyManager;
 import com.miloshzelembaba.play.Spotify.SpotifyUpdateListener;
@@ -67,7 +67,7 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NetworkInfo.getInstance().addPartyUpdateListener(this);
+        NetworkManager.getInstance().addPartyUpdateListener(this);
 
         initServices();
         initViews();

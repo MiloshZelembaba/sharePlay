@@ -43,7 +43,7 @@ public class GetPartyDetailsService {
                     @Override
                     public void onFailure(String errorMessage) {
                         // TODO: create a generic error popup
-                        callback.onFailure(errorMessage);
+                        callback.onFailure("Could not get party details");
                     }
                 }
         );

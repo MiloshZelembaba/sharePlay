@@ -20,6 +20,8 @@ import java.net.Socket;
  * Created by miloshzelembaba on 2018-03-18.
  */
 
+
+// TODO: i think that this should be implemented as a handler
 public class RequestListener implements Runnable {
     User user;
     Activity baseActivity;
@@ -35,7 +37,7 @@ public class RequestListener implements Runnable {
             ServerSocket tcpSocket = establishTCPConnection(); // the socket clients will communicate
 
             UpdateNetworkInfoService updateNetworkInfoService = new UpdateNetworkInfoService();
-            updateNetworkInfoService.requestService(user); // updates the NetworkInfo server side
+            updateNetworkInfoService.requestService(user); // updates the NetworkManager server side
 
             while (true) {
                 // accept any incoming connections
@@ -55,7 +57,8 @@ public class RequestListener implements Runnable {
                     baseActivity.runOnUiThread(new Runnable() {
                         public void run() {
                             try {
-                                Toast.makeText(baseActivity, e.getMessage(), Toast.LENGTH_LONG);
+                                Toast t = Toast.makeText(baseActivity, e.getMessage(), Toast.LENGTH_LONG);
+                                t.show();
                             } catch (Exception e){
                                 System.out.println("uhoh");
                             }
@@ -108,14 +111,11 @@ public class RequestListener implements Runnable {
         ServerSocket tcpSocket;
 
         tcpSocket = createTCPSocket(); // open tcp connection
-        NetworkInfo.getInstance().setPort(tcpSocket.getLocalPort()); // save the port
+        NetworkManager.getInstance().setPort(tcpSocket.getLocalPort()); // save the port
 
         try {
-//            NetworkInfo.getInstance().setAddress(tcpSocket.getInetAddress().getHostAddress());
-            NetworkInfo.getInstance().setAddress(getIpAddress(tcpSocket));
-        } catch (Exception e) {
-            // TODO: custom popup shit here
-        }
+            NetworkManager.getInstance().setAddress(getIpAddress(tcpSocket));
+        } catch (Exception e) {}
 
         return tcpSocket;
     }
@@ -142,7 +142,6 @@ public class RequestListener implements Runnable {
         ServerSocket socket;
         try {
             // TODO: only just localhost
-//            socket = new ServerSocket(port, 10, InetAddress.getLocalHost());
             socket = new ServerSocket(0);
             return socket;
         } catch (IOException e) {

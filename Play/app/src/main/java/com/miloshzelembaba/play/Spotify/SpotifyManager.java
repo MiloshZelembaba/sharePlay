@@ -19,6 +19,11 @@ import kaaes.spotify.webapi.android.SpotifyApi;
  */
 
 public class SpotifyManager implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
+    public static final String CLIENT_ID = "75cc7c4b4c6d49388044414a5ba6aaa6";
+    public static final String REDIRECT_URI = "what://localhost:8888/callback";
+    public static final int REQUEST_CODE = 1337;
+    public static String ACCESS_TOKEN;
+
     static SpotifyUpdateListener mSpotifyUpdateListener;
     static Activity baseActivity;
     static SpotifyApi mSpotifyApi;
@@ -43,32 +48,36 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         mSpotifyUpdateListener = spotifyUpdateListener;
     }
 
+    public static void setAccessToken(String a){
+        ACCESS_TOKEN = a;
+    }
+
     public void logout() {
         // might not be possible for some stupid reason, stupid ass spotifyAPI
     }
 
     public void relogin() {
-        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(SpotifyInfo.CLIENT_ID,
+        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN,
-                SpotifyInfo.REDIRECT_URI).setShowDialog(true);
+                REDIRECT_URI).setShowDialog(true);
         AuthenticationRequest request = builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email"}).build();
-        AuthenticationClient.openLoginActivity(baseActivity, SpotifyInfo.REQUEST_CODE, request);
+        AuthenticationClient.openLoginActivity(baseActivity, REQUEST_CODE, request);
     }
 
     public static void attemptSpotifyLogin(Activity activity){
         baseActivity = activity;
-        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(SpotifyInfo.CLIENT_ID,
+        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN,
-                SpotifyInfo.REDIRECT_URI);
+                REDIRECT_URI);
         builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email"});
         AuthenticationRequest request = builder.build();
 
-        AuthenticationClient.openLoginActivity(baseActivity, SpotifyInfo.REQUEST_CODE, request);
+        AuthenticationClient.openLoginActivity(baseActivity, REQUEST_CODE, request);
     }
 
     public void createSpotifyApi() {
         mSpotifyApi = new SpotifyApi();
-        mSpotifyApi.setAccessToken(SpotifyInfo.ACCESS_TOKEN);
+        mSpotifyApi.setAccessToken(ACCESS_TOKEN);
     }
 
     public void getEmail(final InitialActivity.SpotifyResultCallback callback) {

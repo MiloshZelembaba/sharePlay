@@ -1,6 +1,7 @@
 package com.miloshzelembaba.play.Activity.StartActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -13,10 +14,10 @@ import android.widget.TextView;
 
 import com.miloshzelembaba.play.Activity.PartyActivityStuff.AdminPartyActivity;
 import com.miloshzelembaba.play.Activity.PartyActivityStuff.GuestPartyActivity;
+import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.Network.RequestListener;
 import com.miloshzelembaba.play.R;
-import com.miloshzelembaba.play.Spotify.SpotifyInfo;
 import com.miloshzelembaba.play.Spotify.SpotifyManager;
 import com.miloshzelembaba.play.Utils.ApplicationUtil;
 import com.miloshzelembaba.play.api.Services.CreatePartyService;
@@ -35,8 +36,12 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class InitialActivity extends Activity {
+    private Context mContext;
     private TextView mJoinAParty;
     private TextView mCreateAParty;
+
+    // local fields
+    private boolean onJoinPartyView;
 
     // Services
     private LoginService loginService;
@@ -65,23 +70,34 @@ public class InitialActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        mContext = this;
 
         init();
         setupViews();
 
         SpotifyManager.attemptSpotifyLogin(this);
-        mSpotifyManager = SpotifyManager.getInstance();
+        mSpotifyManager = SpotifyManager.getInstance(); // getInstance only works once logged in
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        mContext = this;
         setupViews();
         if (ApplicationUtil.getInstance().getUser() != null) {
             showCurrentLoginInfo(ApplicationUtil.getInstance().getUser());
         }
 
         mLeavePartyService.requestService(ApplicationUtil.getInstance().getUser(), null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (onJoinPartyView) {
+            setupViews();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void init() {
@@ -100,6 +116,7 @@ public class InitialActivity extends Activity {
     }
 
     private void setupViews(){
+        onJoinPartyView = false;
         mJoinAParty.setVisibility(VISIBLE);
         mCreateAParty.setVisibility(VISIBLE);
         mJoinPartyContainer.setVisibility(GONE);
@@ -109,6 +126,7 @@ public class InitialActivity extends Activity {
         mJoinAParty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onJoinPartyView = true;
                 mJoinAParty.setVisibility(GONE);
                 mCreateAParty.setVisibility(GONE);
                 mJoinPartyContainer.setVisibility(VISIBLE);
@@ -131,7 +149,7 @@ public class InitialActivity extends Activity {
     }
 
     private void createParty(final User user){
-        String partyName = "Fun Timez";
+        String partyName = "Fun Times";
         createPartyService.requestService(user, partyName,
                 new CreatePartyService.CreatePartyServiceCallback() {
                     @Override
@@ -141,7 +159,9 @@ public class InitialActivity extends Activity {
 
                     @Override
                     public void onFailure(String errorMessage) {
-
+                        ErrorService.showErrorMessage(mContext,
+                                errorMessage,
+                                ErrorService.ErrorSeverity.HIGH);
                     }
                 });
     }
@@ -162,7 +182,9 @@ public class InitialActivity extends Activity {
 
                     @Override
                     public void onFailure(String errorMessage) {
-
+                        ErrorService.showErrorMessage(mContext,
+                                errorMessage,
+                                ErrorService.ErrorSeverity.HIGH);
                     }
                 });
 
@@ -201,19 +223,23 @@ public class InitialActivity extends Activity {
                         new LoginService.LoginServiceCallback() {
                             @Override
                             public void onSuccess(User user) {
+                                ApplicationUtil.getInstance().setUser(user);
                                 completeLoginTasks(user);
                             }
 
                             @Override
                             public void onFailure(String errorMessage) {
-
+                                ErrorService.showErrorMessage(mContext,
+                                        "Login Failed!",
+                                        ErrorService.ErrorSeverity.HIGH);
                             }
                         });
             }
-
             @Override
             public void onFailure() {
-
+                ErrorService.showErrorMessage(mContext,
+                        "Couldn't get user's spotify email",
+                        ErrorService.ErrorSeverity.HIGH);
             }
         });
     }
@@ -235,8 +261,7 @@ public class InitialActivity extends Activity {
 
     private void completeLoginTasks(User user) {
         showCurrentLoginInfo(user);
-        ApplicationUtil.getInstance().setUser(user);
-        // TODO: should move this out of the activity, and into some sort of init code
+
         RequestListener requestListener = new RequestListener(user, this);
         Thread newThread = new Thread(requestListener);
         newThread.start();
@@ -246,13 +271,14 @@ public class InitialActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        if (requestCode == SpotifyInfo.REQUEST_CODE) {
+        if (requestCode == SpotifyManager.REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
-                SpotifyInfo.setAccessToken(response.getAccessToken());
+                SpotifyManager.setAccessToken(response.getAccessToken());
                 mSpotifyManager.createSpotifyApi(); // create here since at this point we have the access token
                 startLoginTasks();
-                Config playerConfig = new Config(this, response.getAccessToken(), SpotifyInfo.CLIENT_ID);
+
+                Config playerConfig = new Config(this, SpotifyManager.ACCESS_TOKEN, SpotifyManager.CLIENT_ID);
                 Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
                     @Override
                     public void onInitialized(SpotifyPlayer spotifyPlayer) {
