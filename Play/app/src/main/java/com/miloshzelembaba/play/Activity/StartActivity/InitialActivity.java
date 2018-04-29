@@ -187,8 +187,6 @@ public class InitialActivity extends Activity {
                                 ErrorService.ErrorSeverity.HIGH);
                     }
                 });
-
-
     }
 
     private void startAdminPartyActivity(String partyId){

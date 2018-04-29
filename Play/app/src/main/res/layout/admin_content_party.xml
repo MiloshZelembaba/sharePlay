@@ -36,6 +36,16 @@
             android:gravity="center"
             android:paddingLeft="@dimen/sixteen_padding"
             android:paddingRight="@dimen/sixteen_padding"/>
+
+        <TextView
+            android:id="@+id/music_controls_next_song"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingLeft="@dimen/sixteen_padding"
+            android:paddingRight="@dimen/sixteen_padding"/>
     </LinearLayout>
 
 </RelativeLayout>

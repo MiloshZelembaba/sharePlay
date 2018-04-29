@@ -58,7 +58,8 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
     private ListView mSongsListView;
     private PartySongsAdapter mPartySongsAdapter;
     private LinearLayout mMusicControls;
-    private TextView mPlaybackControl;
+    private TextView mPlaybackControlPlay;
+    private TextView mPlaybackControlNextSong;
     private boolean mIsPlaying;
     private Song currentlyPlayingSong;
     private FloatingActionButton fab;
@@ -111,12 +112,13 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mSongsListView = (ListView) findViewById(R.id.party_songs);
-        mPlaybackControl = (TextView) findViewById(R.id.music_controls_play);
+        mPlaybackControlPlay = (TextView) findViewById(R.id.music_controls_play);
+        mPlaybackControlNextSong = (TextView) findViewById(R.id.music_controls_next_song);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         mMusicControls = (LinearLayout) findViewById(R.id.music_controls_container);
         mMusicControls.setVisibility(VISIBLE);
-        mPlaybackControl.setText(getString(R.string.play_song));
-        mPlaybackControl.setOnClickListener(new View.OnClickListener() {
+        mPlaybackControlPlay.setText(getString(R.string.play));
+        mPlaybackControlPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mIsPlaying) {
@@ -124,6 +126,13 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
                 } else {
                     playSong();
                 }
+            }
+        });
+        mPlaybackControlNextSong.setText(getString(R.string.next));
+        mPlaybackControlNextSong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playNextSong();
             }
         });
 
@@ -142,7 +151,7 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
         if (currentlyPlayingSong != null) {
             mPlayer.pause(null);
             mIsPlaying = false;
-            mPlaybackControl.setText(getString(R.string.resume_song));
+            mPlaybackControlPlay.setText(getString(R.string.resume));
             currentlyPlayingSong.setIsCurrentlyPlaying(false);
             mPartySongsAdapter.notifyDataSetChanged();
         }
@@ -152,11 +161,11 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
         if (mParty.getQueuedSongs() == null || mParty.getQueuedSongs().size() == 0) {
             currentlyPlayingSong = null;
             mIsPlaying = false;
-            mPlaybackControl.setText(getString(R.string.play_song));
+            mPlaybackControlPlay.setText(getString(R.string.play));
             return;
         }
 
-        if (mIsPlaying || currentlyPlayingSong != null) { // resume song
+        if (!mIsPlaying && currentlyPlayingSong != null) { // resume song
             mPlayer.resume(null);
             mIsPlaying = true;
         } else { // play new song
@@ -169,7 +178,7 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
 
         currentlyPlayingSong.setIsCurrentlyPlaying(true);
         mPartySongsAdapter.notifyDataSetChanged();
-        mPlaybackControl.setText(getString(R.string.pause_song));
+        mPlaybackControlPlay.setText(getString(R.string.pause));
 
     }
 
@@ -177,7 +186,7 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
         if (mParty.getQueuedSongs() == null || mParty.getQueuedSongs().size() == 0) {
             currentlyPlayingSong = null;
             mIsPlaying = false;
-            mPlaybackControl.setText(getString(R.string.play_song));
+            mPlaybackControlPlay.setText(getString(R.string.play));
             return;
         }
 

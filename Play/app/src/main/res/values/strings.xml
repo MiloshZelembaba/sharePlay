@@ -15,9 +15,10 @@
     <string name="no_songs">no songs</string>
 
     <!-- Party Activity -->
-    <string name="play_song">Play</string>
-    <string name="pause_song">Pause</string>
-    <string name="resume_song">Resume</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+    <string name="next">Next</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->

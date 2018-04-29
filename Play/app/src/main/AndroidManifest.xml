@@ -28,10 +28,14 @@
         <activity
             android:name=".Activity.PartyActivityStuff.GuestPartyActivity"
             android:label="@string/title_activity_party"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.PartyActivityStuff.AdminPartyActivity"
             android:label="@string/title_activity_party"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.SongSearch.SongSearchActivity"
