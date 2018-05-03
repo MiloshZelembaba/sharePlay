@@ -8,6 +8,9 @@ import org.json.JSONObject;
  */
 
 public class User extends Serializable {
+    public final static String EMAIL = "email_key";
+    public final static String DISPLAY_NAME = "display_name_key";
+
     String mId;
     String mFirstName;
     String mLastName;

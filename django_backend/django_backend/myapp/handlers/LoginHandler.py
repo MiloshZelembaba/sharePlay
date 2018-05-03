@@ -5,15 +5,15 @@ from myapp.models import User
 
 def passOff(json_data):
     email = json_data['email']
-    first_name = "tmp"
-    last_name = "tmp"
+    display_name = json_data['display_name']
 
     try:
         user = User.objects.get(email=email)
+        user.current_party_id = None
+        user.save()
         data = user.to_dict()
     except User.DoesNotExist:
-        new_user = User(first_name=first_name, last_name=last_name, email=email,
-                      password="fire", address="nothing yet", port=0)
+        new_user = User(display_name=display_name, email=email, address="nothing yet", port=0)
         new_user.save()
         data = new_user.to_dict()
 

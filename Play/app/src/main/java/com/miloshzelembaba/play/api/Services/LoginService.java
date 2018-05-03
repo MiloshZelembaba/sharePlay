@@ -20,12 +20,12 @@ public class LoginService {
     }
 
 
-    public void requestService(String email, String password, final LoginServiceCallback callback){
+    public void requestService(String email, String displayName, final LoginServiceCallback callback){
         apiService = new APIRequest();
         Request request = new Request();
         request.setUrl("login/");
         request.addParameter("email", email);
-        request.addParameter("password", password);
+        request.addParameter("display_name", displayName);
 
         apiService.sendRequest(request,
                 new APIRequest.APIRequestCallBack() {

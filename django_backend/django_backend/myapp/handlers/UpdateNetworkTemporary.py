@@ -10,7 +10,7 @@ server.
 
 def updateNetworkInfo(request):
     received_json_data = json.loads(request.body.decode("utf-8"))
-    remote_address = request.META.get('REMOTE_ADDR') # this shouldn't be relied on, bad practice
+    remote_address = request.META.get('REMOTE_ADDR')  # this shouldn't be relied on, bad practice
     email = received_json_data['user']['email']
 
     try:

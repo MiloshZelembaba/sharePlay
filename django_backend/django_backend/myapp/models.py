@@ -2,10 +2,11 @@ from django.db import models
 
 class User(models.Model):
     id = models.AutoField(primary_key=True)
-    first_name = models.CharField(max_length=30, null=False)
-    last_name = models.CharField(max_length=30, null=False)
+    first_name = models.CharField(max_length=30, null=True)
+    last_name = models.CharField(max_length=30, null=True)
+    display_name = models.CharField(max_length=50, null=False)
     email = models.CharField(max_length=50, null=False)
-    password = models.CharField(max_length=30, null=False)
+    password = models.CharField(max_length=30, null=True)
     last_login = models.DateField(null=True)
     address = models.CharField(max_length=100, null=False)
     port = models.IntegerField(null=False)

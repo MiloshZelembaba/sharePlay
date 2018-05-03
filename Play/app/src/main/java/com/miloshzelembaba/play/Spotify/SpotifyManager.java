@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 
 import com.miloshzelembaba.play.Activity.StartActivity.InitialActivity;
+import com.miloshzelembaba.play.Models.User;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -12,7 +13,12 @@ import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.models.UserPrivate;
+import kaaes.spotify.webapi.android.models.UserPublic;
 
 /**
  * Created by miloshzelembaba on 2018-03-25.
@@ -29,6 +35,10 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
     static SpotifyApi mSpotifyApi;
     static SpotifyPlayer mSpotifyPlayer;
     static SpotifyManager instance;
+
+    // Spotify Objects
+    UserPrivate mPrivateUser;
+    UserPublic mPublicUser;
 
 
     private SpotifyManager() {}
@@ -80,12 +90,37 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         mSpotifyApi.setAccessToken(ACCESS_TOKEN);
     }
 
-    public void getEmail(final InitialActivity.SpotifyResultCallback callback) {
+    public void pauseSong() {
+        if (mSpotifyPlayer != null) {
+            mSpotifyPlayer.pause(null);
+        }
+    }
+
+    private UserPrivate getPrivateUser() {
+        if (mPrivateUser == null) {
+            mPrivateUser = mSpotifyApi.getService().getMe();
+        }
+
+        return mPrivateUser;
+    }
+
+    private UserPublic getPublicUser(String id) {
+        if (mPublicUser == null) {
+            mPublicUser = mSpotifyApi.getService().getUser(id);
+        }
+
+        return  mPublicUser;
+    }
+
+    public void getUserDetails(final InitialActivity.SpotifyResultCallback callback) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                String email = mSpotifyApi.getService().getMe().email;
-                callback.onSuccess(email);
+                Map<String, String> userDetails = new HashMap<>();
+                userDetails.put(User.EMAIL, getPrivateUser().email);
+                userDetails.put(User.DISPLAY_NAME, getPrivateUser().display_name);
+
+                callback.onSuccess(userDetails);
             }
         };
         Thread getEmailThread = new Thread(runnable);

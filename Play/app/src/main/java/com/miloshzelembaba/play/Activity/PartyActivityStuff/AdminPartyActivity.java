@@ -149,7 +149,7 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
 
     private void pauseSong(){
         if (currentlyPlayingSong != null) {
-            mPlayer.pause(null);
+            mSpotifyManager.pauseSong();
             mIsPlaying = false;
             mPlaybackControlPlay.setText(getString(R.string.resume));
             currentlyPlayingSong.setIsCurrentlyPlaying(false);

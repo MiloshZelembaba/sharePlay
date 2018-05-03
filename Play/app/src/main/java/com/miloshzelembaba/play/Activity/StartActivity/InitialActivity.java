@@ -32,6 +32,8 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import org.json.JSONException;
 
+import java.util.HashMap;
+
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -82,13 +84,16 @@ public class InitialActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
+        mSpotifyManager.pauseSong();
         mContext = this;
         setupViews();
         if (ApplicationUtil.getInstance().getUser() != null) {
             showCurrentLoginInfo(ApplicationUtil.getInstance().getUser());
         }
 
-        mLeavePartyService.requestService(ApplicationUtil.getInstance().getUser(), null);
+        if (ApplicationUtil.getInstance().getUser() != null) {
+            mLeavePartyService.requestService(ApplicationUtil.getInstance().getUser(), null);
+        }
     }
 
     @Override
@@ -212,12 +217,14 @@ public class InitialActivity extends Activity {
     }
 
     private void startLoginTasks() {
-        mSpotifyManager.getEmail(new SpotifyResultCallback(){
+        mSpotifyManager.getUserDetails(new SpotifyResultCallback(){
             @Override
             public void onSuccess(Object result) {
-                String email = (String) result;
+                HashMap<String, String> userDetails = (HashMap<String,String>) result;
+                String email = userDetails.get(User.EMAIL);
+                String displayName = userDetails.get(User.DISPLAY_NAME);
 
-                mLoginService.requestService(email, "",
+                mLoginService.requestService(email, displayName,
                         new LoginService.LoginServiceCallback() {
                             @Override
                             public void onSuccess(User user) {
