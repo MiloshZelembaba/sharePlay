@@ -151,6 +151,10 @@ public class InitialActivity extends Activity {
                 joinParty();
             }
         });
+
+        if (ApplicationUtil.getInstance().getUser() != null) {
+            showCurrentLoginInfo(ApplicationUtil.getInstance().getUser());
+        }
     }
 
     private void createParty(final User user){

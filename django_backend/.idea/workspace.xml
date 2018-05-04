@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="63d4ecfb-bf05-4da5-9649-d8da514a2e33" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/api/Request.java" afterPath="$PROJECT_DIR$/../Play/app/src/main/java/com/miloshzelembaba/play/api/Request.java" />
-      <change beforePath="$PROJECT_DIR$/django_backend/myapp/handlers/LoginHandler.py" afterPath="$PROJECT_DIR$/django_backend/myapp/handlers/LoginHandler.py" />
-      <change beforePath="$PROJECT_DIR$/django_backend/myapp/handlers/UpdateNetworkTemporary.py" afterPath="$PROJECT_DIR$/django_backend/myapp/handlers/UpdateNetworkTemporary.py" />
-      <change beforePath="$PROJECT_DIR$/django_backend/myapp/models.py" afterPath="$PROJECT_DIR$/django_backend/myapp/models.py" />
-      <change beforePath="$PROJECT_DIR$/django_backend/myapp/scripts/oneoff/init.py" afterPath="$PROJECT_DIR$/django_backend/myapp/scripts/oneoff/init.py" />
-      <change beforePath="$PROJECT_DIR$/django_backend/myapp/views.py" afterPath="$PROJECT_DIR$/django_backend/myapp/views.py" />
-    </list>
+    <list default="true" id="63d4ecfb-bf05-4da5-9649-d8da514a2e33" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,13 +33,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoginHandler.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LoginHandler.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/LoginHandler.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="345">
               <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RemoveSongFromPartyHandler.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/RemoveSongFromPartyHandler.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="23" lean-forward="true" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -246,7 +251,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-    <property name="SearchEverywhereHistoryKey" value="updateNetwork&#9;FILE&#9;file:///Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend/django_backend/myapp/handlers/UpdateNetworkTemporary.py&#10;urls&#9;FILE&#9;file:///Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend/django_backend/django_backend/urls.py&#10;update&#9;FILE&#9;file:///Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend/django_backend/myapp/ClientRequests/NotifyPartyUpdated.py&#10;get&#9;FILE&#9;file:///Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend/django_backend/myapp/handlers/GetPartyDetailsHandler.py&#10;mode&#9;FILE&#9;file:///Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend/django_backend/myapp/models.py" />
+    <property name="SearchEverywhereHistoryKey" value="remove&#9;FILE&#9;file:///Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend/django_backend/myapp/handlers/RemoveSongFromPartyHandler.py&#10;updateNetwork&#9;FILE&#9;file:///Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend/django_backend/myapp/handlers/UpdateNetworkTemporary.py&#10;urls&#9;FILE&#9;file:///Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend/django_backend/django_backend/urls.py&#10;update&#9;FILE&#9;file:///Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend/django_backend/myapp/ClientRequests/NotifyPartyUpdated.py&#10;get&#9;FILE&#9;file:///Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend/django_backend/myapp/handlers/GetPartyDetailsHandler.py&#10;mode&#9;FILE&#9;file:///Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend/django_backend/myapp/models.py" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -285,7 +290,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24305555" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -471,13 +475,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/RemoveSongFromPartyHandler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="52" lean-forward="false" selection-start-line="21" selection-start-column="52" selection-end-line="21" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/AddSongToPartyHandler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
@@ -573,6 +570,16 @@
           <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django_backend/myapp/handlers/RemoveSongFromPartyHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="23" lean-forward="true" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
