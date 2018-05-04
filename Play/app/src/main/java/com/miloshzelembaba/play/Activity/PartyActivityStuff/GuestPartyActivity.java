@@ -90,6 +90,7 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
         fab = (FloatingActionButton) findViewById(R.id.fab);
         mSongsListView = (ListView) findViewById(R.id.party_songs);
 
+        fab.setImageResource(R.drawable.ic_search_white_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,7 +118,7 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
         mParty = party;
         mPartySongsAdapter = new PartySongsAdapter(this, 0, party.getQueuedSongs());
         mSongsListView.setAdapter(mPartySongsAdapter);
-        setTitle(mParty.getName() + " " + StringUtil.padZeros(mParty.getId()));
+        setTitle(mParty.getName() + "      Party Code: " + StringUtil.padZeros(mParty.getId()));
     }
 
     private void addSongToParty(Song song) {

@@ -136,6 +136,7 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
             }
         });
 
+        fab.setImageResource(R.drawable.ic_search_white_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -216,7 +217,7 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
             mSongsListView.addHeaderView(inflateSong(party.getCurrentlyPlaying()));
         }
         mSongsListView.setAdapter(mPartySongsAdapter);
-        setTitle(mParty.getName() + " " + StringUtil.padZeros(mParty.getId()));
+        setTitle(mParty.getName() + "      Party Code: " + StringUtil.padZeros(mParty.getId()));
     }
 
     private View inflateSong(Song song) {

@@ -139,6 +139,7 @@ public class InitialActivity extends Activity {
                 mJoinAParty.setVisibility(GONE);
                 mCreateAParty.setVisibility(GONE);
                 mJoinPartyContainer.setVisibility(VISIBLE);
+                mPartyId.setHint("Enter Party ID");
             }
         });
 
