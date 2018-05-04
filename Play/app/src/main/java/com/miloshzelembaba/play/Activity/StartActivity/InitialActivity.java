@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -78,13 +80,15 @@ public class InitialActivity extends Activity {
         setupViews();
 
         SpotifyManager.attemptSpotifyLogin(this);
-        mSpotifyManager = SpotifyManager.getInstance(); // getInstance only works once logged in
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mSpotifyManager.pauseSong();
+
+        if (mSpotifyManager != null) {
+            mSpotifyManager.pauseSong();
+        }
         mContext = this;
         setupViews();
         if (ApplicationUtil.getInstance().getUser() != null) {
@@ -158,6 +162,9 @@ public class InitialActivity extends Activity {
     }
 
     private void createParty(final User user){
+        if (user == null) {
+            return;
+        }
         String partyName = "Fun Times";
         createPartyService.requestService(user, partyName,
                 new CreatePartyService.CreatePartyServiceCallback() {
@@ -178,7 +185,7 @@ public class InitialActivity extends Activity {
     private void joinParty(){
         String partyId = mPartyId.getText().toString();
 
-        if (partyId.isEmpty()){
+        if (partyId.isEmpty() || ApplicationUtil.getInstance().getUser() == null){
             return;
         }
 
@@ -253,10 +260,39 @@ public class InitialActivity extends Activity {
         });
     }
 
+    private void updateViewsByPermissions(User user) {
+        if (user.isTemporaryUser() || mSpotifyManager == null || !mSpotifyManager.getProduct().toLowerCase().equals("premium")) {
+            mCreateAParty.setTextColor(ContextCompat.getColor(this, R.color.gray2));
+            mCreateAParty.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ErrorService.showErrorMessage(mContext,
+                            "you must be a premium spotify user to be create a party, sorry",
+                            ErrorService.ErrorSeverity.LOW);
+                }
+            });
+        } else {
+            mCreateAParty.setTextColor(ContextCompat.getColor(this, R.color.white));
+            mCreateAParty.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createParty(ApplicationUtil.getInstance().getUser());
+                }
+            });
+        }
+    }
+
     private void showCurrentLoginInfo(User user) {
+        updateViewsByPermissions(user);
         mCurrentEmail.setVisibility(VISIBLE);
         Resources res = getResources();
-        String text = String.format(res.getString(R.string.current_login_email), user.getEmail());
+
+        String text;
+        if (!user.isTemporaryUser()) {
+            text = String.format(res.getString(R.string.current_login_email), user.getEmail());
+        } else {
+            text = String.format(res.getString(R.string.current_login_email), user.getDisplayName());
+        }
         mCurrentEmail.setText(text);
 
         mLogoutButton.setVisibility(VISIBLE);
@@ -276,6 +312,26 @@ public class InitialActivity extends Activity {
         newThread.start();
     }
 
+    private void createTemporaryUser() {
+        String displayName = User.TEMPORARY_USER_DISPLAY_NAME;
+        String email = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        mLoginService.requestService(email, displayName,
+                new LoginService.LoginServiceCallback() {
+                    @Override
+                    public void onSuccess(User user) {
+                        ApplicationUtil.getInstance().setUser(user);
+                        completeLoginTasks(user);
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        ErrorService.showErrorMessage(mContext,
+                                "Login Failed!",
+                                ErrorService.ErrorSeverity.HIGH);
+                    }
+                });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -283,6 +339,7 @@ public class InitialActivity extends Activity {
         if (requestCode == SpotifyManager.REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
+                mSpotifyManager = SpotifyManager.getInstance(); // getInstance only works once logged in
                 SpotifyManager.setAccessToken(response.getAccessToken());
                 mSpotifyManager.createSpotifyApi(); // create here since at this point we have the access token
                 startLoginTasks();
@@ -301,6 +358,8 @@ public class InitialActivity extends Activity {
                         Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
                     }
                 });
+            } else if (response.getType() == AuthenticationResponse.Type.EMPTY) {
+                createTemporaryUser();
             }
         }
 

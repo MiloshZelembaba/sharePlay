@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:text="@string/join_party"
         android:layout_centerInParent="true"
+        android:textColor="@color/white"
         android:textSize="24dp"/>
 
     <TextView
@@ -48,6 +49,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/create_party"
         android:paddingTop="@dimen/sixteen_padding"
+        android:textColor="@color/white"
         android:textSize="24dp"/>
 
     <LinearLayout

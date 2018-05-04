@@ -10,11 +10,13 @@ import org.json.JSONObject;
 public class User extends Serializable {
     public final static String EMAIL = "email_key";
     public final static String DISPLAY_NAME = "display_name_key";
+    public final static String TEMPORARY_USER_DISPLAY_NAME = "Temporary User";
 
     String mId;
     String mFirstName;
     String mLastName;
     String mEmail;
+    String mDisplayName;
 
     public User(String id, String fn, String ln, String email){
         mId = id;
@@ -47,6 +49,12 @@ public class User extends Serializable {
         } else {
             throw new JSONException("invalid json object");
         }
+
+        if (object.has("display_name")) {
+            mDisplayName = object.getString("display_name");
+        } else {
+            throw new JSONException("invalid json object");
+        }
     }
 
     @Override
@@ -57,8 +65,17 @@ public class User extends Serializable {
         object.put("first_name", mFirstName);
         object.put("last_name", mLastName);
         object.put("email", mEmail);
+        object.put("display_name", mDisplayName);
 
         return object;
+    }
+
+    public String getDisplayName() {
+        return mDisplayName;
+    }
+
+    public boolean isTemporaryUser() {
+        return mDisplayName.equals(TEMPORARY_USER_DISPLAY_NAME);
     }
 
     public String getEmail() {

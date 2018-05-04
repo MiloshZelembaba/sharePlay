@@ -19,6 +19,7 @@ import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnPartyUpdated
 import com.miloshzelembaba.play.Network.NetworkManager;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifyUpdateListener;
+import com.miloshzelembaba.play.Utils.ApplicationUtil;
 import com.miloshzelembaba.play.Utils.StringUtil;
 import com.miloshzelembaba.play.api.Services.AddSongToPartyService;
 import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
@@ -92,7 +93,13 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(GuestPartyActivity.this, SongSearchActivity.class), SongSearchActivity.SONG_SEARCH_RESULT);
+                if (ApplicationUtil.getInstance().getUser().isTemporaryUser()) {
+                    ErrorService.showErrorMessage(mContext,
+                            "you must have a spotify account to add songs, sorry",
+                            ErrorService.ErrorSeverity.LOW);
+                } else {
+                    startActivityForResult(new Intent(GuestPartyActivity.this, SongSearchActivity.class), SongSearchActivity.SONG_SEARCH_RESULT);
+                }
             }
         });
 

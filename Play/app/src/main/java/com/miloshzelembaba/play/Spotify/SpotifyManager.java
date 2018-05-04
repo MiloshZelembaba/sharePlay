@@ -96,6 +96,10 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         }
     }
 
+    public String getProduct() {
+        return getPrivateUser().product;
+    }
+
     private UserPrivate getPrivateUser() {
         if (mPrivateUser == null) {
             mPrivateUser = mSpotifyApi.getService().getMe();
