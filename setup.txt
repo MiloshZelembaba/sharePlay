@@ -2,10 +2,13 @@ starting mysql:
 - `mysql.server start`
 - `mysql -uroot -p`
 
-
 starting the django server:
 - `cd /Users/miloshzelembaba/AndroidStudioProjects/MusicShare/django_backend`
 - `virtualenv env`
 - `source env/bin/activate`
 - `cd django_backend`
 - `./manage.py runserver 0.0.0.0:8000`
+
+DB Migrations
+- `./manage.py schemamigration myapp --auto`
+- `./manage.py migrate myapp`

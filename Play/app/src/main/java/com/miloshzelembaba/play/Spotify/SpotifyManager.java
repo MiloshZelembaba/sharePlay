@@ -15,6 +15,8 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.models.UserPrivate;
@@ -41,7 +43,17 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
     UserPublic mPublicUser;
 
 
-    private SpotifyManager() {}
+    private SpotifyManager() {
+        final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+        executor.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                attemptSpotifyLogin(baseActivity);
+            }
+        }, 55, 55, TimeUnit.MINUTES); // just less than an hour (token expires every hour)
+    }
+
+
     public static SpotifyManager getInstance() {
         if (baseActivity == null) { // this means we haven't logged in so you don't get one
             return null;

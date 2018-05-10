@@ -16,7 +16,7 @@ public class Request {
     private String url;
 
     public Request(){
-        url = "http://192.168.0.20:8000/";
+        url = "http://192.168.1.162:8000/";
         params = new HashMap<>();
         addParameter("user", ApplicationUtil.getInstance().getUser());
     }
