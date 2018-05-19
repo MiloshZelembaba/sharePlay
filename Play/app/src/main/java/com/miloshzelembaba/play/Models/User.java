@@ -10,6 +10,7 @@ import org.json.JSONObject;
 public class User extends Serializable {
     public final static String EMAIL = "email_key";
     public final static String DISPLAY_NAME = "display_name_key";
+    public final static String PRODUCT = "product_flavour";
     public final static String TEMPORARY_USER_DISPLAY_NAME = "Temporary User";
 
     String mId;
@@ -17,6 +18,7 @@ public class User extends Serializable {
     String mLastName;
     String mEmail;
     String mDisplayName;
+    String mProduct;
 
     public User(String id, String fn, String ln, String email){
         mId = id;
@@ -55,6 +57,12 @@ public class User extends Serializable {
         } else {
             throw new JSONException("invalid json object");
         }
+
+        if (object.has("product")) {
+            mProduct = object.getString("product");
+        } else {
+            throw new JSONException("invalid json object");
+        }
     }
 
     @Override
@@ -66,6 +74,7 @@ public class User extends Serializable {
         object.put("last_name", mLastName);
         object.put("email", mEmail);
         object.put("display_name", mDisplayName);
+        object.put("product", mProduct);
 
         return object;
     }
@@ -74,6 +83,7 @@ public class User extends Serializable {
         return mDisplayName;
     }
 
+    // should change this to use mProduct instead
     public boolean isTemporaryUser() {
         return mDisplayName.equals(TEMPORARY_USER_DISPLAY_NAME);
     }

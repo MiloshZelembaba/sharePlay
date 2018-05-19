@@ -15,6 +15,7 @@ import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.Models.User;
+import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnHostSwitchEvent;
 import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnPartyUpdated;
 import com.miloshzelembaba.play.Network.NetworkManager;
 import com.miloshzelembaba.play.R;
@@ -29,7 +30,7 @@ import com.miloshzelembaba.play.api.Services.LeavePartyService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpdated, PartyMethods, SpotifyUpdateListener {
+public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpdated, PartyMethods, SpotifyUpdateListener, OnHostSwitchEvent {
     public static final String EXTRA_PARTY_ID = "ExtraPartyId";
     public static final String EXTRA_USER = "ExtraUser";
 
@@ -55,6 +56,7 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guest_activity_party);
         mContext = this;
+        NetworkManager.getInstance().setHostSwitchListener(this);
         NetworkManager.getInstance().addPartyUpdateListener(this);
 
         initServices();
@@ -149,6 +151,29 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
                 try {
                     setParty(party);
                 } catch (Exception e) {}
+            }
+        });
+    }
+
+    @Override
+    public void onHostSwitchEvent(final String partyId) {
+        // TODO: does this need to be run on the UI thread?
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(mContext, "you've become the party host!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(mContext, AdminPartyActivity.class);
+                intent.putExtra(AdminPartyActivity.EXTRA_PARTY_ID, partyId);
+                try {
+                    intent.putExtra(AdminPartyActivity.EXTRA_USER, ApplicationUtil.getInstance().getUser().serialize().toString());
+                } catch (JSONException e) {
+                    ErrorService.showErrorMessage(mContext,
+                            "couldn't switch parties",
+                            ErrorService.ErrorSeverity.HIGH);
+                }
+                startActivity(intent);
+
+                finish();
             }
         });
     }
