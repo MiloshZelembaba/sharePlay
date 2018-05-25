@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.miloshzelembaba.play">
+    package="com.miloshzelembaba.play"
+    android:minSdkVersion="8" >
 
     <!-- PERMISSIONS -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,37 +20,53 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Activity.StartActivity.InitialActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden">
+            android:theme="@android:style/Theme.Black.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Activity.PartyActivityStuff.GuestPartyActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_party"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.PartyActivityStuff.AdminPartyActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_party"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.SongSearch.SongSearchActivity"
-            android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.SongSearchTheme" />
         <activity
             android:name=".Activity.Login.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
         <activity
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <service
+            android:name=".api.Services.FCMService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service android:name=".Network.RequestListener">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

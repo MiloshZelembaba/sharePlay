@@ -13,7 +13,7 @@ def passOff(json_data):
         user.current_party = None
         user.save()
 
-        if user.id is party.host_id:  # this means the host is leaving the party
+        if party is not None and user.id is party.host_id:  # this means the host is leaving the party
             performPartySwitch(party, user)
 
 

@@ -1,5 +1,6 @@
 package com.miloshzelembaba.play.api.Services;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.api.APIRequest;
 import com.miloshzelembaba.play.api.Request;
@@ -30,6 +31,7 @@ public class LoginService {
         request.setUrl("login/");
         request.addParameter("email", email);
         request.addParameter("display_name", displayName);
+        request.addParameter("refresh_token", FirebaseInstanceId.getInstance().getToken());
 
         if (product.equals("premium")) {
             request.addParameter("product", SPOTIFY_PREMIUM);
