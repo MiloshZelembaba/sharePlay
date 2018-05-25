@@ -1,5 +1,6 @@
 package com.miloshzelembaba.play.Network;
 
+import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnHostSwitchEvent;
 import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnPartyUpdated;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class NetworkManager {
     private static String address;
     private static int port;
     private static ArrayList<OnPartyUpdated> onPartyUpdatedListeners;
+    private static OnHostSwitchEvent onHostSwitchEventListener;
 
     private NetworkManager(){
         onPartyUpdatedListeners = new ArrayList<>();
@@ -33,6 +35,14 @@ public class NetworkManager {
 
     public ArrayList<OnPartyUpdated> getOnPartyUpdatedListeners(){
         return onPartyUpdatedListeners;
+    }
+
+    public void setHostSwitchListener(OnHostSwitchEvent listener) {
+        onHostSwitchEventListener = listener;
+    }
+
+    public OnHostSwitchEvent getOnHostSwitchEventListener() {
+        return onHostSwitchEventListener;
     }
 
     public void setAddress(String ad){

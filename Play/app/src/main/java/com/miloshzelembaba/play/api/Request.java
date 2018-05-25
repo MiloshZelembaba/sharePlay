@@ -16,7 +16,7 @@ public class Request {
     private String url;
 
     public Request(){
-        url = "http://192.168.1.162:8000/";
+        url = "https://shareplay-204722.appspot.com/";
         params = new HashMap<>();
         addParameter("user", ApplicationUtil.getInstance().getUser());
     }

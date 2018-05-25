@@ -235,8 +235,9 @@ public class InitialActivity extends Activity {
                 HashMap<String, String> userDetails = (HashMap<String,String>) result;
                 String email = userDetails.get(User.EMAIL);
                 String displayName = userDetails.get(User.DISPLAY_NAME);
+                String product = userDetails.get(User.PRODUCT);
 
-                mLoginService.requestService(email, displayName,
+                mLoginService.requestService(email, displayName, product,
                         new LoginService.LoginServiceCallback() {
                             @Override
                             public void onSuccess(User user) {
@@ -316,7 +317,7 @@ public class InitialActivity extends Activity {
     private void createTemporaryUser() {
         String displayName = User.TEMPORARY_USER_DISPLAY_NAME;
         String email = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        mLoginService.requestService(email, displayName,
+        mLoginService.requestService(email, displayName, "none",
                 new LoginService.LoginServiceCallback() {
                     @Override
                     public void onSuccess(User user) {

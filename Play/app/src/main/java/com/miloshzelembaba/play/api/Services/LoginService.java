@@ -1,5 +1,6 @@
 package com.miloshzelembaba.play.api.Services;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.api.APIRequest;
 import com.miloshzelembaba.play.api.Request;
@@ -12,6 +13,10 @@ import org.json.JSONObject;
  */
 
 public class LoginService {
+    public static final String SPOTIFY_PREMIUM = "spotify_premium";
+    public static final String SPOTIFY_FREE = "spotify_free";
+    public static final String NONE = "none";
+    public static final String APPLE_MUSIC = "apple_music";
     private APIRequest apiService;
 
     public interface LoginServiceCallback{
@@ -20,12 +25,21 @@ public class LoginService {
     }
 
 
-    public void requestService(String email, String displayName, final LoginServiceCallback callback){
+    public void requestService(String email, String displayName, String product, final LoginServiceCallback callback){
         apiService = new APIRequest();
         Request request = new Request();
         request.setUrl("login/");
         request.addParameter("email", email);
         request.addParameter("display_name", displayName);
+        request.addParameter("refresh_token", FirebaseInstanceId.getInstance().getToken());
+
+        if (product.equals("premium")) {
+            request.addParameter("product", SPOTIFY_PREMIUM);
+        } else if (product.equals("open")) {
+            request.addParameter("product", SPOTIFY_FREE);
+        } else {
+            request.addParameter("product", NONE);
+        }
 
         apiService.sendRequest(request,
                 new APIRequest.APIRequestCallBack() {

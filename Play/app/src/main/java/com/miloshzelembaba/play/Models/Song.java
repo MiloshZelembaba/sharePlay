@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import kaaes.spotify.webapi.android.models.Image;
 
 /**
@@ -22,11 +24,11 @@ public class Song extends Serializable {
     private boolean mIsCurrentlyPlaying;
 
 
-    public Song(String spotifyURI, String name, String artists, Image image){
+    public Song(String spotifyURI, String name, String artists, List<Image> images){
         this.mSpotifyURI = spotifyURI;
         this.mSongName = name;
         this.mArtists = artists;
-        this.mImageUrl = image.url;
+        this.mImageUrl = (images != null && images.size() > 0 ? images.get(0).url : null);
         this.mVoteCount = 1;
         mIsCurrentlyPlaying = false;
     }

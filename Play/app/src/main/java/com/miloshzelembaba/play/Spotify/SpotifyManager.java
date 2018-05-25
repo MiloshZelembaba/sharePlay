@@ -135,6 +135,7 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
                 Map<String, String> userDetails = new HashMap<>();
                 userDetails.put(User.EMAIL, getPrivateUser().email);
                 userDetails.put(User.DISPLAY_NAME, getPrivateUser().display_name);
+                userDetails.put(User.PRODUCT, getPrivateUser().product);
 
                 callback.onSuccess(userDetails);
             }

@@ -202,19 +202,19 @@ public class LoginActivity extends Activity {
 //            mAuthTask = new UserLoginTask(email, password);
 //            mAuthTask.execute((Void) null);
 
-            mLoginService.requestService(mEmailView.getText().toString(), mPasswordView.getText().toString(),
-                    new LoginService.LoginServiceCallback() {
-                        @Override
-                        public void onSuccess(User user) {
-                            showProgress(false);
-                            finishAndReturn(user);
-                        }
-
-                        @Override
-                        public void onFailure(String errorMessage) {
-
-                        }
-                    });
+//            mLoginService.requestService(mEmailView.getText().toString(), mPasswordView.getText().toString(),
+//                    new LoginService.LoginServiceCallback() {
+//                        @Override
+//                        public void onSuccess(User user) {
+//                            showProgress(false);
+//                            finishAndReturn(user);
+//                        }
+//
+//                        @Override
+//                        public void onFailure(String errorMessage) {
+//
+//                        }
+//                    });
 //        }
     }
 

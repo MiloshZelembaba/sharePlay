@@ -5,6 +5,7 @@ class User(models.Model):
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=30, null=True)
     display_name = models.CharField(max_length=50, null=False)
+    product = models.CharField(max_length=100, null=True)
     email = models.CharField(max_length=100, null=False)
     password = models.CharField(max_length=30, null=True)
     last_login = models.DateField(null=True)
@@ -22,6 +23,7 @@ class User(models.Model):
         _dict["email"] = self.email
         _dict["last_login"] = self.last_login
         _dict["display_name"] = self.display_name
+        _dict["product"] = self.product
         # _dict["current_party"] = self.current_party
 
         return _dict
