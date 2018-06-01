@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.miloshzelembaba.play"
-    android:minSdkVersion="8" >
+    android:minSdkVersion="8">
 
     <!-- PERMISSIONS -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -58,7 +58,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service android:name=".Network.RequestListener">
@@ -67,6 +67,11 @@
             </intent-filter>
         </service>
 
+        <activity
+            android:name=".Activity.PartyMembers.PartyMembersActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.SongSearchTheme"/>
     </application>
 
 </manifest>

@@ -18,6 +18,7 @@ public class Party extends Serializable {
     private String mPartyName;
     private User mHost;
     private ArrayList<Song> songs;
+    private ArrayList<User> partyMembers;
     private Song mCurrentlyPlaying;
 
     public Party(JSONObject object) throws JSONException{
@@ -27,14 +28,20 @@ public class Party extends Serializable {
             throw new JSONException("invalid json object");
         }
 
-        if (object.has("name")) {
-            mPartyName = object.getString("name");
+        if (object.has("party_name")) {
+            mPartyName = object.getString("party_name");
         } else {
             throw new JSONException("invalid json object");
         }
 
         if (object.has("host")) {
             mHost = new User(object.getJSONObject("host"));
+        } else {
+            throw new JSONException("invalid json object");
+        }
+
+        if (object.has("party_members")) {
+            addPartyMembers(object.getJSONArray("party_members"));
         } else {
             throw new JSONException("invalid json object");
         }
@@ -62,9 +69,22 @@ public class Party extends Serializable {
 
         object.put("id", mId);
         object.put("party_name", mPartyName);
-        object.put("host", mHost.serialize().toString());
+        object.put("host", mHost.serialize());
+        object.put("party_members",  createJsonArray(partyMembers));
 
         return object;
+    }
+
+    private JSONArray createJsonArray(ArrayList<User> objects) { // should be extended more generally
+        JSONArray array = new JSONArray();
+
+        for (User user: objects) {
+            try {
+                array.put(user.serialize());
+            } catch(Exception e) {}
+        }
+
+        return array;
     }
 
     public ArrayList<Song> getQueuedSongs(){
@@ -73,6 +93,18 @@ public class Party extends Serializable {
             songs.remove(mCurrentlyPlaying);
         }
         return songs;
+    }
+
+    public void addPartyMembers(JSONArray array) throws JSONException{
+        if (partyMembers != null){
+            partyMembers.clear();
+        } else {
+            partyMembers= new ArrayList<>();
+        }
+
+        for (int i=0; i<array.length(); ++i){
+            partyMembers.add(new User(array.getJSONObject(i)));
+        }
     }
 
     public void addSongs(JSONArray array) throws JSONException{
@@ -85,6 +117,10 @@ public class Party extends Serializable {
         for (int i=0; i<array.length(); ++i){
             songs.add(new Song(array.getJSONObject(i)));
         }
+    }
+
+    public ArrayList<User> getPartyMembers() {
+        return partyMembers;
     }
 
     public Song getCurrentlyPlaying() {

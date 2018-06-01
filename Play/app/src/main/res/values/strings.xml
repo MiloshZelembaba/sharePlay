@@ -14,6 +14,10 @@
     <!-- Song Search Activity -->
     <string name="no_songs">no songs</string>
 
+    <!-- Party Members Activity -->
+    <string name="members_currently_in_party">Members currently in party</string>
+
+
     <!-- Party Activity -->
     <string name="play">Play</string>
     <string name="pause">Pause</string>

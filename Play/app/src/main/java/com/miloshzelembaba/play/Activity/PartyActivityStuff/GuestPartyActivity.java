@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.miloshzelembaba.play.Activity.PartyMembers.PartyMembersActivity;
 import com.miloshzelembaba.play.Activity.SongSearch.SongSearchActivity;
 import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Party;
@@ -49,6 +51,8 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
     private ListView mSongsListView;
     private PartySongsAdapter mPartySongsAdapter;
     private FloatingActionButton fab;
+    private TextView header;
+    private ImageView partyMembersIcon;
 
 
     @Override
@@ -87,10 +91,26 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
     }
 
     private void initViews() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         mSongsListView = (ListView) findViewById(R.id.party_songs);
+        partyMembersIcon = (ImageView) findViewById(R.id.party_members);
+        header = (TextView) findViewById(R.id.party_activity_header);
+
+        partyMembersIcon.setImageResource(R.drawable.baseline_supervisor_account_white_24dp);
+        partyMembersIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mParty == null || mParty.getHost() == null) { // host should only be null for old parties when leaving parties wasn't fully consistent yet
+                    return;
+                }
+                Intent intent = new Intent(GuestPartyActivity.this, PartyMembersActivity.class);
+                try {
+                    intent.putExtra(PartyMembersActivity.PARTY, mParty.serialize().toString());
+                } catch (Exception e) {}
+
+                startActivity(intent);
+            }
+        });
 
         fab.setImageResource(R.drawable.ic_search_white_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +140,8 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
         mParty = party;
         mPartySongsAdapter = new PartySongsAdapter(this, 0, party.getQueuedSongs());
         mSongsListView.setAdapter(mPartySongsAdapter);
-        setTitle(mParty.getName() + "      Party Code: " + StringUtil.padZeros(mParty.getId()));
+        String headerText = "Party Code: " + StringUtil.padZeros(mParty.getId());
+        header.setText(headerText);
     }
 
     private void addSongToParty(Song song) {

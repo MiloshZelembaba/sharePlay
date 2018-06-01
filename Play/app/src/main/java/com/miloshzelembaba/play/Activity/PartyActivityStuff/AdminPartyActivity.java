@@ -5,14 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.miloshzelembaba.play.Activity.PartyMembers.PartyMembersActivity;
 import com.miloshzelembaba.play.Activity.SongSearch.SongSearchActivity;
 import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
@@ -63,6 +64,8 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
     private boolean mIsPlaying;
     private Song currentlyPlayingSong;
     private FloatingActionButton fab;
+    private TextView header;
+    private ImageView partyMembersIcon;
 
 
     @Override
@@ -109,8 +112,8 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
 
     private void initViews() {
         setContentView(R.layout.admin_activity_party);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        partyMembersIcon = (ImageView) findViewById(R.id.party_members);
+        header = (TextView) findViewById(R.id.party_activity_header);
         mSongsListView = (ListView) findViewById(R.id.party_songs);
         mPlaybackControlPlay = (TextView) findViewById(R.id.music_controls_play);
         mPlaybackControlNextSong = (TextView) findViewById(R.id.music_controls_next_song);
@@ -135,6 +138,22 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
                 playNextSong();
             }
         });
+
+        partyMembersIcon.setImageResource(R.drawable.baseline_supervisor_account_white_24dp);partyMembersIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mParty == null || mParty.getHost() == null) { // host should only be null for old parties when leaving parties wasn't fully consistent yet
+                    return;
+                }
+                Intent intent = new Intent(AdminPartyActivity.this, PartyMembersActivity.class);
+                try {
+                    intent.putExtra(PartyMembersActivity.PARTY, mParty.serialize().toString());
+                } catch (Exception e) {}
+
+                startActivity(intent);
+            }
+        });
+
 
         fab.setImageResource(R.drawable.ic_search_white_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +236,8 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
             mSongsListView.addHeaderView(inflateSong(party.getCurrentlyPlaying()));
         }
         mSongsListView.setAdapter(mPartySongsAdapter);
-        setTitle(mParty.getName() + "      Party Code: " + StringUtil.padZeros(mParty.getId()));
+        String headerText = "Party Code: " + StringUtil.padZeros(mParty.getId());
+        header.setText(headerText);
     }
 
     private View inflateSong(Song song) {
