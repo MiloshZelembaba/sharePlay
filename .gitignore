@@ -13,6 +13,7 @@ __pycache__
 .externalNativeBuild
 .idea/vcs.xml
 django_backend/django_backend/myapp/migrations/
+Play/app/google-services.json
 app/libs/spotify-auth-1.0.0-beta12.aar
 app/libs/spotify-player-24-noconnect-2.20b.aar
 app/libs/android-auth-1.0/.gitignore
