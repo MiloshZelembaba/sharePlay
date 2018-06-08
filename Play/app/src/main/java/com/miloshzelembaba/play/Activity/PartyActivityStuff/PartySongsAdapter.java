@@ -50,7 +50,7 @@ public class PartySongsAdapter extends ArrayAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((PartyMethods)mBaseActivity).incrementSongCount(song);
+                    ((BaseParty)mBaseActivity).incrementSongCount(song);
                 }
             });
         }

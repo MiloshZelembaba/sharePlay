@@ -1,33 +1,24 @@
 package com.miloshzelembaba.play.Activity.PartyActivityStuff;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.miloshzelembaba.play.Activity.PartyMembers.PartyMembersActivity;
 import com.miloshzelembaba.play.Activity.SongSearch.SongSearchActivity;
 import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.Models.User;
-import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnPartyUpdated;
 import com.miloshzelembaba.play.Network.NetworkManager;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifyManager;
 import com.miloshzelembaba.play.Spotify.SpotifyUpdateListener;
-import com.miloshzelembaba.play.Utils.StringUtil;
-import com.miloshzelembaba.play.api.Services.AddSongToPartyService;
 import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
-import com.miloshzelembaba.play.api.Services.IncrementSongVoteCountService;
-import com.miloshzelembaba.play.api.Services.LeavePartyService;
 import com.miloshzelembaba.play.api.Services.RemoveSongFromPartyService;
 import com.spotify.sdk.android.player.Player;
 
@@ -36,35 +27,24 @@ import org.json.JSONObject;
 
 import static android.view.View.VISIBLE;
 
-public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpdated, PartyMethods, SpotifyUpdateListener {
+public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListener {
     public static final String EXTRA_PARTY_ID = "ExtraPartyId";
     public static final String EXTRA_USER = "ExtraUser";
 
     // Services
-    GetPartyDetailsService getPartyDetailsService;
-    AddSongToPartyService addSongToPartyService;
-    IncrementSongVoteCountService incrementSongVoteCountService;
-    LeavePartyService leavePartyService;
     RemoveSongFromPartyService removeSongFromPartyService;
 
     // Spotify
     private Player mPlayer;
     private SpotifyManager mSpotifyManager;
 
-    // Local
-    private Party mParty;
-    private User user;
-
     // Views
-    private ListView mSongsListView;
-    private PartySongsAdapter mPartySongsAdapter;
     private LinearLayout mMusicControls;
     private TextView mPlaybackControlPlay;
     private TextView mPlaybackControlNextSong;
     private boolean mIsPlaying;
     private Song currentlyPlayingSong;
     private FloatingActionButton fab;
-    private TextView header;
     private ImageView partyMembersIcon;
 
 
@@ -102,15 +82,14 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
                 });
     }
 
-    private void initServices() {
-        getPartyDetailsService = new GetPartyDetailsService();
-        addSongToPartyService = new AddSongToPartyService();
-        incrementSongVoteCountService = new IncrementSongVoteCountService();
-        leavePartyService = new LeavePartyService();
+    @Override
+    protected void initServices() {
+        super.initServices(); // init the base services
         removeSongFromPartyService = new RemoveSongFromPartyService();
     }
 
-    private void initViews() {
+    @Override
+    protected void initViews() {
         setContentView(R.layout.admin_activity_party);
         partyMembersIcon = (ImageView) findViewById(R.id.party_members);
         header = (TextView) findViewById(R.id.party_activity_header);
@@ -226,63 +205,6 @@ public class AdminPartyActivity extends AppCompatActivity implements OnPartyUpda
 
                     }
                 });
-    }
-
-    private void setParty(Party party) {
-//        mSongsListView.removeHeaderView()
-        mParty = party;
-        mPartySongsAdapter = new PartySongsAdapter(this, 0, party.getQueuedSongs());
-        if (party.getCurrentlyPlaying() != null) {
-            mSongsListView.addHeaderView(inflateSong(party.getCurrentlyPlaying()));
-        }
-        mSongsListView.setAdapter(mPartySongsAdapter);
-        String headerText = "Party Code: " + StringUtil.padZeros(mParty.getId());
-        header.setText(headerText);
-    }
-
-    private View inflateSong(Song song) {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view= inflater.inflate(R.layout.party_song_layout, null, false);
-        ((TextView)view.findViewById(R.id.song_name)).setText(song.getSongName());
-        ((TextView)view.findViewById(R.id.song_artists)).setText(song.getSongArtists());
-        ((TextView)view.findViewById(R.id.song_vote_count)).setText(Integer.toString(song.getVoteCount()));
-
-        return view;
-    }
-
-    private void addSongToParty(Song song) {
-        Toast.makeText(this, "Added " + song.getSongName(), Toast.LENGTH_SHORT).show();
-
-        addSongToPartyService.requestService(user, mParty, song, null);
-    }
-
-    @Override
-    public void incrementSongCount(Song song) {
-        incrementSongVoteCountService.requestService(song,
-                new IncrementSongVoteCountService.IncrementSongVoteCountServiceCallback() {
-                    @Override
-                    public void onSuccess(Party party) {
-                        setParty(party); // this should be updated
-                    }
-
-                    @Override
-                    public void onFailure(String errorMessage) {
-
-                    }
-                });
-    }
-
-    @Override
-    public void onPartyUpdated(final Party party) {
-        this.runOnUiThread(new Runnable() {
-            public void run() {
-                try {
-                    setParty(party);
-                } catch (Exception e){
-                    System.out.println("uhoh");
-                }
-            }
-        });
     }
 
     @Override

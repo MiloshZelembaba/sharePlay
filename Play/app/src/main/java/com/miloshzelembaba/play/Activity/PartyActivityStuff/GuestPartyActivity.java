@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,40 +17,24 @@ import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnHostSwitchEvent;
-import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnPartyUpdated;
 import com.miloshzelembaba.play.Network.NetworkManager;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifyUpdateListener;
 import com.miloshzelembaba.play.Utils.ApplicationUtil;
-import com.miloshzelembaba.play.Utils.StringUtil;
-import com.miloshzelembaba.play.api.Services.AddSongToPartyService;
 import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
-import com.miloshzelembaba.play.api.Services.IncrementSongVoteCountService;
-import com.miloshzelembaba.play.api.Services.LeavePartyService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpdated, PartyMethods, SpotifyUpdateListener, OnHostSwitchEvent {
+public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListener, OnHostSwitchEvent {
     public static final String EXTRA_PARTY_ID = "ExtraPartyId";
     public static final String EXTRA_USER = "ExtraUser";
 
-    // Services
-    GetPartyDetailsService getPartyDetailsService;
-    AddSongToPartyService addSongToPartyService;
-    IncrementSongVoteCountService incrementSongVoteCountService;
-    LeavePartyService leavePartyService;
-
     // Local
     private Context mContext;
-    private Party mParty;
-    private User user;
 
     // Views
-    private ListView mSongsListView;
-    private PartySongsAdapter mPartySongsAdapter;
     private FloatingActionButton fab;
-    private TextView header;
     private ImageView partyMembersIcon;
 
 
@@ -90,7 +73,8 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
                 });
     }
 
-    private void initViews() {
+    @Override
+    protected void initViews() {
         fab = (FloatingActionButton) findViewById(R.id.fab);
         mSongsListView = (ListView) findViewById(R.id.party_songs);
         partyMembersIcon = (ImageView) findViewById(R.id.party_members);
@@ -128,52 +112,9 @@ public class GuestPartyActivity extends AppCompatActivity implements OnPartyUpda
 
     }
 
-    private void initServices() {
-        getPartyDetailsService = new GetPartyDetailsService();
-        addSongToPartyService = new AddSongToPartyService();
-        incrementSongVoteCountService = new IncrementSongVoteCountService();
-        leavePartyService = new LeavePartyService();
-    }
-
-    // this method should be updated prolly
-    private void setParty(Party party) {
-        mParty = party;
-        mPartySongsAdapter = new PartySongsAdapter(this, 0, party.getQueuedSongs());
-        mSongsListView.setAdapter(mPartySongsAdapter);
-        String headerText = "Party Code: " + StringUtil.padZeros(mParty.getId());
-        header.setText(headerText);
-    }
-
-    private void addSongToParty(Song song) {
-        Toast.makeText(this, "Added " + song.getSongName(), Toast.LENGTH_SHORT).show();
-        addSongToPartyService.requestService(user, mParty, song, null);
-    }
-
     @Override
-    public void incrementSongCount(Song song){
-        incrementSongVoteCountService.requestService(song,
-                new IncrementSongVoteCountService.IncrementSongVoteCountServiceCallback() {
-                    @Override
-                    public void onSuccess(Party party) {
-                        setParty(party);
-                    }
-
-                    @Override
-                    public void onFailure(String errorMessage) {
-
-                    }
-                });
-    }
-
-    @Override
-    public void onPartyUpdated(final Party party) {
-        this.runOnUiThread(new Runnable() {
-            public void run() {
-                try {
-                    setParty(party);
-                } catch (Exception e) {}
-            }
-        });
+    protected void initServices() {
+        super.initServices();
     }
 
     @Override
