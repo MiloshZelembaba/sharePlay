@@ -23,7 +23,7 @@ import com.miloshzelembaba.play.api.Services.LeavePartyService;
  * Created by miloshzelembaba on 2018-06-08.
  */
 
-public abstract class BaseParty extends AppCompatActivity implements OnPartyUpdatedg {
+public abstract class BaseParty extends AppCompatActivity implements OnPartyUpdated {
     protected Party mParty;
     protected PartySongsAdapter mPartySongsAdapter;
     protected ListView mSongsListView;
