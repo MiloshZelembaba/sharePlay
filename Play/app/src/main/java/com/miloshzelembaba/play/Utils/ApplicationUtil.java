@@ -9,6 +9,8 @@ import com.miloshzelembaba.play.Models.User;
 public class ApplicationUtil {
     private static ApplicationUtil instance;
     private static User user;
+    private static String appMode = "local"; // local or dev server
+    private static String localServerAddress = "";
 
     private ApplicationUtil(){}
 
@@ -18,6 +20,26 @@ public class ApplicationUtil {
         }
 
         return instance;
+    }
+
+    public void setLocalServerAddress(String address) {
+        localServerAddress = address;
+    }
+
+    public String getLocalServerAddress() {
+        return localServerAddress;
+    }
+
+    public String getAppMode() {
+        return appMode;
+    }
+
+    public void switchAppMode() {
+        if (appMode.equals("dev_server")) {
+            appMode = "local";
+        } else {
+            appMode = "dev_server";
+        }
     }
 
     public User getUser() {

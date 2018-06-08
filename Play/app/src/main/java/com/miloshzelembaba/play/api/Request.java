@@ -16,10 +16,23 @@ public class Request {
     private String url;
 
     public Request(){
-//        url = "https://shareplay-204722.appspot.com/";
-        url = "http://192.168.0.20:8000/";
+        url = "https://shareplay-204722.appspot.com/";
+//        url = "http://192.168.0.20:8000/";
+//        if (ApplicationUtil.getInstance().getAppMode().equals("dev_server")) {
+//            url = "https://shareplay-204722.appspot.com/";
+//        } else if (ApplicationUtil.getInstance().getAppMode().equals("local")) {
+//            if (ApplicationUtil.getInstance().getLocalServerAddress().isEmpty()) {
+//                findLocalServer();
+//            }
+//            url = ApplicationUtil.getInstance().getLocalServerAddress();
+//        }
         params = new HashMap<>();
         addParameter("user", ApplicationUtil.getInstance().getUser());
+    }
+
+    private void findLocalServer() {
+        ApplicationUtil.getInstance().setLocalServerAddress("http://192.168.0.21:8000/");
+        //            url = "http://192.168.0.21:8000/";
     }
 
     public void setUrl(String url){
