@@ -36,6 +36,7 @@
     <ListView
         android:id="@+id/search_result_listview"
         android:visibility="gone"
+        android:scrollbars="none"
         android:layout_below="@+id/song_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

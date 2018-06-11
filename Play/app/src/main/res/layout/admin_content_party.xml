@@ -15,6 +15,9 @@
 
     <ListView
         android:id="@+id/party_songs"
+        android:scrollbars="none"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </ListView>
