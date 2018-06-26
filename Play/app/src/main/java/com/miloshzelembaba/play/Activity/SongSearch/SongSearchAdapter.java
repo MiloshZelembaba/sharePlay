@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Created by miloshzelembaba on 2018-03-14.
  */
 
-public class SongSearchAdapter extends ArrayAdapter {
+public class SongSearchAdapter extends ArrayAdapter<Song> {
     SongSearchActivity mBaseActivity;
 
     public SongSearchAdapter(SongSearchActivity context, int textViewResourceId, ArrayList<Song> listItems){
@@ -32,15 +32,19 @@ public class SongSearchAdapter extends ArrayAdapter {
              convertView = inflater.inflate(R.layout.song_layout, parent, false);
         }
 
-        Song song = ((Song)getItem(position));
+        Song song = getItem(position);
         ((TextView)convertView.findViewById(R.id.song_name)).setText(song.getSongName());
         ((TextView)convertView.findViewById(R.id.song_artists)).setText(song.getSongArtists());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBaseActivity.addSong((Song)getItem(position));
+                mBaseActivity.addSong(getItem(position));
             }
         });
+
+        if (position == getCount() - 1) {
+            mBaseActivity.updateFragment();
+        }
 
 //        if (song.getImage() == null){
 //            ImageDownloader.getBitmapFromURL(song, convertView, mBaseActivity);

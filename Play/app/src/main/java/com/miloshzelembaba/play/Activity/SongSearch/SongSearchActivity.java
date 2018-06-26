@@ -1,35 +1,27 @@
 package com.miloshzelembaba.play.Activity.SongSearch;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
-import android.view.KeyEvent;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.R;
-import com.miloshzelembaba.play.Spotify.SpotifySearch;
 
 import java.util.ArrayList;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-
-public class SongSearchActivity extends Activity {
+public class SongSearchActivity extends FragmentActivity implements OnFragmentInteractionListener {
     public static final int SONG_SEARCH_RESULT = 1;
-    ListView mListView;
-    EditText mSearchField;
-    TextView mEmptyListview;
 
-    SongSearchAdapter songSearchAdapter;
     SongSearchActivity thisActivity;
 
 
+    TabLayout mTabLayout;
+    PagerAdapter mPagerAdapter;
+    ViewPager mPager;
 
     public interface SongSearchResultCallBack{
         void onSuccess(ArrayList<Song> songs);
@@ -42,62 +34,51 @@ public class SongSearchActivity extends Activity {
         setContentView(R.layout.activity_song_search);
         thisActivity = this;
 
+        /* init the size of the activity */
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-
         int height = dm.heightPixels;
         int width = dm.widthPixels;
-
         getWindow().setLayout((int)(width * 0.8), (int)(height * 0.6));
 
-        init();
-    }
+        /* init the pager adapter */
+        mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        mPager = (ViewPager) findViewById(R.id.pager);
+        ArrayList<android.support.v4.app.Fragment> searchActivityFragments = new ArrayList<>();
+        searchActivityFragments.add(SearchFragment.newInstance());
+        searchActivityFragments.add(UserLibraryFragment.newInstance());
+        searchActivityFragments.add(UserPlaylistFragment.newInstance());
+        mPagerAdapter.setItems(searchActivityFragments);
+        mPager.setAdapter(mPagerAdapter);
 
-    private void init(){
-        mListView = (ListView) findViewById(R.id.search_result_listview);
-        mSearchField = (EditText) findViewById(R.id.song_search);
-        mEmptyListview = (TextView) findViewById(R.id.empty_listview_text);
-
-        setup();
-    }
-
-    private void setup(){
-        mSearchField.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        mSearchField.setOnEditorActionListener(
-                new EditText.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        // Identifier of the action. This will be either the identifier you supplied,
-                        // or EditorInfo.IME_NULL if being called due to the enter key being pressed.
-                        if (actionId == EditorInfo.IME_ACTION_SEARCH
-                                || actionId == EditorInfo.IME_ACTION_DONE
-                                || event.getAction() == KeyEvent.ACTION_DOWN
-                                && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                            searchSpotify(mSearchField.getText().toString());
-                        }
-                        // Return true if you have consumed the action, else false.
-                        return false;
-                    }
-                });
-    }
-
-    private void searchSpotify(String query){
-        SpotifySearch.getResults(query, new SongSearchResultCallBack() {
+        /* init tabs */
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mTabLayout.setupWithViewPager(mPager);
+        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onSuccess(ArrayList<Song> songs) {
-                mEmptyListview.setVisibility(GONE);
-                mListView.setVisibility(VISIBLE);
-                songSearchAdapter = new SongSearchAdapter(thisActivity, 0, songs); // are activities singletons?
-                mListView.setAdapter(songSearchAdapter);
+            public void onTabSelected(TabLayout.Tab tab) {
+                mPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
-            public void onFailure(String errorMessage) {
-                ErrorService.showErrorMessage(thisActivity,
-                        errorMessage,
-                        ErrorService.ErrorSeverity.HIGH);
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
+
+    }
+
+    public void onFragmentInteraction(Uri uri){
+
+    }
+
+    public void updateFragment() {
+        ((SongFragmentUpdate)mPagerAdapter.getItem(mPager.getCurrentItem())).updateFragment();
     }
 
     public void addSong(Song song){

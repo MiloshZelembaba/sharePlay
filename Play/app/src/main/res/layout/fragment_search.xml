@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_song_search"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray1"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="horizontal"
+    tools:context="com.miloshzelembaba.play.Activity.SongSearch.SearchFragment">
+
+    <EditText
+        android:id="@+id/song_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/search_bar_height"
+        android:imeOptions="actionDone"
+        android:inputType="textImeMultiLine"
+        android:layout_alignParentTop="true"
+        android:background="@color/gray2"
+        android:textSize="@dimen/search_bar_text_size"/>
+
+    <TextView
+        android:id="@+id/empty_listview_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:gravity="center"
+        android:layout_below="@+id/song_search"
+        android:text="@string/no_songs"
+        android:textSize="@dimen/empty_listview_text"
+    />
+
+    <ListView
+        android:id="@+id/search_result_listview"
+        android:visibility="gone"
+        android:scrollbars="none"
+        android:layout_below="@+id/song_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>
