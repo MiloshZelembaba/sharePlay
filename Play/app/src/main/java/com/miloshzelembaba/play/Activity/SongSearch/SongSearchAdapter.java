@@ -5,10 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.R;
+import com.miloshzelembaba.play.api.Services.ImageDownloader;
 
 import java.util.ArrayList;
 
@@ -46,11 +48,11 @@ public class SongSearchAdapter extends ArrayAdapter<Song> {
             mBaseActivity.updateFragment();
         }
 
-//        if (song.getImage() == null){
-//            ImageDownloader.getBitmapFromURL(song, convertView, mBaseActivity);
-//        } else {
-//            ((ImageView)convertView.findViewById(R.id.song_image)).setImageBitmap(song.getImage());
-//        }
+        if (song.getImage() == null){
+            ImageDownloader.getBitmapFromURL(song, convertView, mBaseActivity);
+        } else {
+            ((ImageView)convertView.findViewById(R.id.song_image)).setImageBitmap(song.getImage());
+        }
 
         return convertView;
     }
