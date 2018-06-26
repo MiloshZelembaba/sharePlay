@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 
 import com.miloshzelembaba.play.Activity.StartActivity.InitialActivity;
+import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.Models.User;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -13,14 +14,19 @@ import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.SavedTrack;
+import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import kaaes.spotify.webapi.android.models.UserPublic;
+import retrofit.RetrofitError;
 
 /**
  * Created by miloshzelembaba on 2018-03-25.
@@ -82,7 +88,7 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN,
                 REDIRECT_URI).setShowDialog(true);
-        AuthenticationRequest request = builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email"}).build();
+        AuthenticationRequest request = builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email","user-library-read"}).build();
         AuthenticationClient.openLoginActivity(baseActivity, REQUEST_CODE, request);
     }
 
@@ -91,7 +97,7 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN,
                 REDIRECT_URI);
-        builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email"});
+        builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email","user-library-read"});
         AuthenticationRequest request = builder.build();
 
         AuthenticationClient.openLoginActivity(baseActivity, REQUEST_CODE, request);
@@ -118,6 +124,28 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         }
 
         return mPrivateUser;
+    }
+
+    public ArrayList<Song> getUserLibrary() {
+        Pager<SavedTrack> userLibraryPager = new Pager<>();
+        try {
+            userLibraryPager = mSpotifyApi.getService().getMySavedTracks();
+        } catch (RetrofitError r) {
+            System.out.println(r.toString());
+        }
+        ArrayList<Song> songs = new ArrayList<>();
+
+        for (SavedTrack savedTrack: userLibraryPager.items) {
+            Track track = savedTrack.track;
+            String allArtists = track.artists.get(0).name;
+            for (int i = 1; i < track.artists.size(); ++i) { // notice that it starts on i=1
+                allArtists += " & " + track.artists.get(i).name;
+            }
+            Song song = new Song(track.uri, track.name, allArtists, track.album.images);
+            songs.add(song);
+        }
+
+        return songs;
     }
 
     private UserPublic getPublicUser(String id) {

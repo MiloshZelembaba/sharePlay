@@ -13,6 +13,7 @@
 
     <!-- Song Search Activity -->
     <string name="no_songs">no songs</string>
+    <string name="not_signed_in">Youre not signed into Spotify\nPlease sign in to view your library</string>
 
     <!-- Party Members Activity -->
     <string name="members_currently_in_party">Members currently in party</string>
@@ -37,5 +38,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
