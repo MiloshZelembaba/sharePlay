@@ -23,8 +23,11 @@ import com.miloshzelembaba.play.Spotify.SpotifyUpdateListener;
 import com.miloshzelembaba.play.Utils.ApplicationUtil;
 import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListener, OnHostSwitchEvent {
     public static final String EXTRA_PARTY_ID = "ExtraPartyId";
@@ -148,16 +151,18 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
         super.onActivityResult(requestCode, resultCode, intent);
 
         if (requestCode == SongSearchActivity.SONG_SEARCH_RESULT && intent != null){
-            String serializedSong = intent.getStringExtra("song");
-            JSONObject jsonSong;
+            String serializedSongs = intent.getStringExtra("songs");
             try {
-                jsonSong = new JSONObject(serializedSong);
-                Song song = new Song(jsonSong);
-                addSongToParty(song);
+                JSONArray jsonArray = new JSONArray(serializedSongs);
+                ArrayList<Song> songs = new ArrayList<>();
+
+                for (int i=0; i<jsonArray.length(); ++i){
+                    songs.add(new Song(jsonArray.getJSONObject(i)));
+                }
+
+                addSongsToParty(songs);
             } catch (Exception e) {
-                ErrorService.showErrorMessage(mContext,
-                        "Unable to add song",
-                        ErrorService.ErrorSeverity.LOW);
+                ErrorService.showErrorMessage(this, "error with multiple songs", ErrorService.ErrorSeverity.HIGH);
             }
         }
     }

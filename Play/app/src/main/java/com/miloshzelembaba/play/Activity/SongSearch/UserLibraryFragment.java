@@ -84,7 +84,7 @@ public class UserLibraryFragment extends Fragment implements SongFragmentUpdate 
             public void onSuccess(ArrayList<Song> songs) {
                 mListView.setVisibility(View.VISIBLE);
                 if (songSearchAdapter == null) {
-                    songSearchAdapter = new SongSearchAdapter((SongSearchActivity) getContext(), 0, songs); // are activities singletons?
+                    songSearchAdapter = new SongSearchAdapter((SongSearchActivity) getContext(), 0, songs,mListView); // are activities singletons?
                 } else {
                     songSearchAdapter.addAll(songs);
                 }

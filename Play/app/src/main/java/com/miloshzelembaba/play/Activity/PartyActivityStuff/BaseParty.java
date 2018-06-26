@@ -19,6 +19,8 @@ import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
 import com.miloshzelembaba.play.api.Services.IncrementSongVoteCountService;
 import com.miloshzelembaba.play.api.Services.LeavePartyService;
 
+import java.util.ArrayList;
+
 /**
  * Created by miloshzelembaba on 2018-06-08.
  */
@@ -72,9 +74,9 @@ public abstract class BaseParty extends AppCompatActivity implements OnPartyUpda
         });
     }
 
-    protected void addSongToParty(Song song) {
-        Toast.makeText(this, "Added " + song.getSongName(), Toast.LENGTH_SHORT).show();
-        addSongToPartyService.requestService(user, mParty, song, null);
+    protected void addSongsToParty(ArrayList<Song> songs) {
+//        Toast.makeText(this, "Added " + song.getSongName(), Toast.LENGTH_SHORT).show();
+        addSongToPartyService.requestService(user, mParty, songs, null);
     }
 
     protected void setParty(Party party) {

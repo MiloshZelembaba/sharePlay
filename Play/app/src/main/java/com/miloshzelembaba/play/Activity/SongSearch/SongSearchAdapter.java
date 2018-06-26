@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.miloshzelembaba.play.Models.Song;
@@ -20,10 +21,12 @@ import java.util.ArrayList;
 
 public class SongSearchAdapter extends ArrayAdapter<Song> {
     SongSearchActivity mBaseActivity;
+    ListView listView;
 
-    public SongSearchAdapter(SongSearchActivity context, int textViewResourceId, ArrayList<Song> listItems){
+    public SongSearchAdapter(SongSearchActivity context, int textViewResourceId, ArrayList<Song> listItems, ListView l){
         super(context, textViewResourceId, listItems);
         mBaseActivity = context;
+        listView = l;
     }
 
     @Override
@@ -41,11 +44,21 @@ public class SongSearchAdapter extends ArrayAdapter<Song> {
             @Override
             public void onClick(View v) {
                 mBaseActivity.addSong(getItem(position));
+                listView.invalidateViews();
             }
         });
 
         if (position == getCount() - 1) {
             mBaseActivity.updateFragment();
+        }
+
+        if (mBaseActivity.containsSong(song)) {
+            ImageView imageView = ((ImageView)convertView.findViewById(R.id.song_added));
+            imageView.setVisibility(View.VISIBLE);
+            imageView.setImageResource(R.mipmap.baseline_done_black_24);
+        } else {
+            ImageView imageView = ((ImageView)convertView.findViewById(R.id.song_added));
+            imageView.setVisibility(View.GONE);
         }
 
         if (song.getImage() == null){
