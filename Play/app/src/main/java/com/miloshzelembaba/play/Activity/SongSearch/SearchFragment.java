@@ -103,7 +103,7 @@ public class SearchFragment extends Fragment implements SongFragmentUpdate{
                 mEmptyListview.setVisibility(View.GONE);
                 mListView.setVisibility(View.VISIBLE);
                 if (songSearchAdapter == null) {
-                    songSearchAdapter = new SongSearchAdapter((SongSearchActivity) getContext(), 0, songs); // are activities singletons?
+                    songSearchAdapter = new SongSearchAdapter((SongSearchActivity) getContext(), 0, songs, mListView); // are activities singletons?
                 } else {
                     songSearchAdapter.addAll(songs);
                 }

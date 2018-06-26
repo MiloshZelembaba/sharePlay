@@ -7,21 +7,33 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.R;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SongSearchActivity extends FragmentActivity implements OnFragmentInteractionListener {
     public static final int SONG_SEARCH_RESULT = 1;
 
+    // local
     SongSearchActivity thisActivity;
+//    ArrayList<Song> songsToAdd;
+    Map<String, Song> songsToAdd;
 
-
+    // views
     TabLayout mTabLayout;
     PagerAdapter mPagerAdapter;
     ViewPager mPager;
+    Button mAddSongs;
+    TextView mNumSongsAdded;
 
     public interface SongSearchResultCallBack{
         void onSuccess(ArrayList<Song> songs);
@@ -33,6 +45,8 @@ public class SongSearchActivity extends FragmentActivity implements OnFragmentIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_search);
         thisActivity = this;
+//        songsToAdd = new ArrayList<>();
+        songsToAdd = new HashMap<>();
 
         /* init the size of the activity */
         DisplayMetrics dm = new DisplayMetrics();
@@ -71,6 +85,23 @@ public class SongSearchActivity extends FragmentActivity implements OnFragmentIn
             }
         });
 
+
+        /* init views */
+        mAddSongs = (Button) findViewById(R.id.add_songs);
+        mNumSongsAdded = (TextView) findViewById(R.id.num_songs_added);
+        setupViews();
+    }
+
+    public void setupViews() {
+        String text = String.format(getResources().getString(R.string.selected_songs), songsToAdd.size());
+        mNumSongsAdded.setText(text);
+
+        mAddSongs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishWithResult();
+            }
+        });
     }
 
     public void onFragmentInteraction(Uri uri){
@@ -81,14 +112,40 @@ public class SongSearchActivity extends FragmentActivity implements OnFragmentIn
         ((SongFragmentUpdate)mPagerAdapter.getItem(mPager.getCurrentItem())).updateFragment();
     }
 
-    public void addSong(Song song){
+    private void finishWithResult() {
         Intent data = new Intent();
+        JSONArray array = new JSONArray();
+
         try {
-            data.putExtra("song", song.serialize().toString());
-        } catch (Exception e){
-            data.putExtra("song", "");
+            for (Song song: songsToAdd.values()) {
+                try {
+                    array.put(song.serialize());
+                } catch (Exception e) {}
+            }
+
+            data.putExtra("songs", array.toString());
+        } catch (Exception e) {
+            data.putExtra("songs", "");
         }
+
         setResult(SONG_SEARCH_RESULT, data);
         finish();
+
+    }
+
+    public void addSong(Song song){
+        if (songsToAdd.containsKey(song.getUri())) {
+            songsToAdd.remove(song.getUri());
+        } else {
+            songsToAdd.put(song.getUri(), song);
+        }
+
+
+        String text = String.format(getResources().getString(R.string.selected_songs), songsToAdd.size());
+        mNumSongsAdded.setText(text);
+    }
+
+    public boolean containsSong(Song song) {
+        return songsToAdd.containsKey(song.getUri());
     }
 }

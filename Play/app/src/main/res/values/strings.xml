@@ -14,6 +14,8 @@
     <!-- Song Search Activity -->
     <string name="no_songs">no songs</string>
     <string name="not_signed_in">Youre not signed into Spotify\nPlease sign in to view your library</string>
+    <string name="add_songs">Add Songs</string>
+    <string name="selected_songs">Selected Songs: %1$d</string>
 
     <!-- Party Members Activity -->
     <string name="members_currently_in_party">Members currently in party</string>

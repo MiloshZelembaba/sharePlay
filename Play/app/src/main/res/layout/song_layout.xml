@@ -44,14 +44,14 @@
             android:gravity="left"/>
     </LinearLayout>
 
-    <!--<TextView-->
-        <!--android:id="@+id/song_add"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:padding="@dimen/four_padding"-->
-        <!--android:text="+"/>-->
+    <ImageView
+        android:id="@+id/song_added"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:padding="@dimen/four_padding" />
 
 
 </RelativeLayout>
