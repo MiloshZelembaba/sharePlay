@@ -1,16 +1,19 @@
 package com.miloshzelembaba.play.Activity.StartActivity;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -56,8 +59,10 @@ public class InitialActivity extends Activity {
     private LeavePartyService mLeavePartyService;
 
     // Views
-    private TextView mCurrentEmail;
+    private TextView mCurrentUserDisplayName;
     private TextView mLogoutButton;
+    private ImageView mProfileLogo;
+    private View mDivider;
 
     // Join Party
     private LinearLayout mJoinPartyContainer;
@@ -71,10 +76,19 @@ public class InitialActivity extends Activity {
 
 
     @Override
+    @TargetApi(21) // TODO: this is stupid
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         mContext = this;
+
+        Window window = getWindow();
+        // clear FLAG_TRANSLUCENT_STATUS flag:
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        // finally change the color
+        window.setStatusBarColor(ContextCompat.getColor(this,R.color.gray1));
 
         init();
         setupViews();
@@ -120,17 +134,22 @@ public class InitialActivity extends Activity {
         mJoinPartyContainer = (LinearLayout) findViewById(R.id.join_party_container);
         mPartyId = (EditText) findViewById(R.id.party_code);
         mJoinPartyButton = (Button) findViewById(R.id.join_party_button);
-        mCurrentEmail = (TextView) findViewById(R.id.current_user_email);
+        mCurrentUserDisplayName = (TextView) findViewById(R.id.current_user_display_name);
         mLogoutButton = (TextView) findViewById(R.id.logout);
+        mProfileLogo = (ImageView) findViewById(R.id.profile_logo);
+        mDivider = findViewById(R.id.divider);
     }
 
     private void setupViews(){
         onJoinPartyView = false;
         mJoinAParty.setVisibility(VISIBLE);
         mCreateAParty.setVisibility(VISIBLE);
+        mDivider.setVisibility(VISIBLE);
         mJoinPartyContainer.setVisibility(GONE);
-        mCurrentEmail.setVisibility(GONE);
+        mCurrentUserDisplayName.setVisibility(GONE);
         mLogoutButton.setVisibility(GONE);
+
+        mProfileLogo.setImageResource(R.drawable.baseline_face_black_24dp);
 
         mJoinAParty.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +157,7 @@ public class InitialActivity extends Activity {
                 onJoinPartyView = true;
                 mJoinAParty.setVisibility(GONE);
                 mCreateAParty.setVisibility(GONE);
+                mDivider.setVisibility(GONE);
                 mJoinPartyContainer.setVisibility(VISIBLE);
                 mPartyId.setHint("Enter Party ID");
             }
@@ -274,7 +294,7 @@ public class InitialActivity extends Activity {
                 }
             });
         } else {
-            mCreateAParty.setTextColor(ContextCompat.getColor(this, R.color.white));
+            mCreateAParty.setTextColor(ContextCompat.getColor(this, R.color.black));
             mCreateAParty.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -286,16 +306,10 @@ public class InitialActivity extends Activity {
 
     private void showCurrentLoginInfo(User user) {
         updateViewsByPermissions(user);
-        mCurrentEmail.setVisibility(VISIBLE);
-        Resources res = getResources();
+        mCurrentUserDisplayName.setVisibility(VISIBLE);
 
-        String text;
-        if (!user.isTemporaryUser()) {
-            text = String.format(res.getString(R.string.current_login_email), user.getEmail());
-        } else {
-            text = String.format(res.getString(R.string.current_login_email), user.getDisplayName());
-        }
-        mCurrentEmail.setText(text);
+        String text = user.getDisplayName();
+        mCurrentUserDisplayName.setText(text);
 
         mLogoutButton.setVisibility(VISIBLE);
         mLogoutButton.setOnClickListener(new View.OnClickListener() {

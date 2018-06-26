@@ -36,6 +36,7 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
     // Views
     private FloatingActionButton fab;
     private ImageView partyMembersIcon;
+    private ImageView mPartyControlAddSong;
 
 
     @Override
@@ -79,6 +80,8 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
         mSongsListView = (ListView) findViewById(R.id.party_songs);
         partyMembersIcon = (ImageView) findViewById(R.id.party_members);
         header = (TextView) findViewById(R.id.party_activity_header);
+        mPartyControlAddSong = (ImageView) findViewById(R.id.music_controls_add_song);
+        mPartyControlAddSong.setImageResource(R.mipmap.baseline_add_black_36);
 
         partyMembersIcon.setImageResource(R.drawable.baseline_supervisor_account_white_24dp);
         partyMembersIcon.setOnClickListener(new View.OnClickListener() {
@@ -96,8 +99,7 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
             }
         });
 
-        fab.setImageResource(R.drawable.ic_search_white_24dp);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mPartyControlAddSong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (ApplicationUtil.getInstance().getUser().isTemporaryUser()) {

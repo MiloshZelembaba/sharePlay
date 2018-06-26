@@ -40,8 +40,9 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
 
     // Views
     private LinearLayout mMusicControls;
-    private TextView mPlaybackControlPlay;
-    private TextView mPlaybackControlNextSong;
+    private ImageView mPlaybackControlPlay;
+    private ImageView mPlaybackControlNextSong;
+    private ImageView mPlaybackControlAddSong;
     private boolean mIsPlaying;
     private Song currentlyPlayingSong;
     private FloatingActionButton fab;
@@ -94,12 +95,14 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
         partyMembersIcon = (ImageView) findViewById(R.id.party_members);
         header = (TextView) findViewById(R.id.party_activity_header);
         mSongsListView = (ListView) findViewById(R.id.party_songs);
-        mPlaybackControlPlay = (TextView) findViewById(R.id.music_controls_play);
-        mPlaybackControlNextSong = (TextView) findViewById(R.id.music_controls_next_song);
+        mPlaybackControlPlay = (ImageView) findViewById(R.id.music_controls_play);
+        mPlaybackControlNextSong = (ImageView) findViewById(R.id.music_controls_next_song);
+        mPlaybackControlAddSong = (ImageView) findViewById(R.id.music_controls_add_song);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         mMusicControls = (LinearLayout) findViewById(R.id.music_controls_container);
         mMusicControls.setVisibility(VISIBLE);
-        mPlaybackControlPlay.setText(getString(R.string.play));
+        mPlaybackControlAddSong.setImageResource(R.mipmap.baseline_add_black_36);
+        mPlaybackControlPlay.setImageResource(R.mipmap.baseline_play_arrow_black_36);
         mPlaybackControlPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,7 +113,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
                 }
             }
         });
-        mPlaybackControlNextSong.setText(getString(R.string.next));
+        mPlaybackControlNextSong.setImageResource(R.mipmap.baseline_skip_next_black_36);
         mPlaybackControlNextSong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,7 +138,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
 
 
         fab.setImageResource(R.drawable.ic_search_white_24dp);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mPlaybackControlAddSong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (user != null) {
@@ -150,7 +153,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
         if (currentlyPlayingSong != null) {
             mSpotifyManager.pauseSong();
             mIsPlaying = false;
-            mPlaybackControlPlay.setText(getString(R.string.resume));
+            mPlaybackControlPlay.setImageResource(R.mipmap.baseline_play_arrow_black_36);
             currentlyPlayingSong.setIsCurrentlyPlaying(false);
             mPartySongsAdapter.notifyDataSetChanged();
         }
@@ -161,7 +164,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
             mSpotifyManager.pauseSong();
             currentlyPlayingSong = null;
             mIsPlaying = false;
-            mPlaybackControlPlay.setText(getString(R.string.play));
+            mPlaybackControlPlay.setImageResource(R.mipmap.baseline_play_arrow_black_36);
             return;
         }
 
@@ -178,7 +181,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
 
         currentlyPlayingSong.setIsCurrentlyPlaying(true);
         mPartySongsAdapter.notifyDataSetChanged();
-        mPlaybackControlPlay.setText(getString(R.string.pause));
+        mPlaybackControlPlay.setImageResource(R.mipmap.baseline_pause_black_36);
 
     }
 
@@ -186,7 +189,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
         if (mParty.getQueuedSongs() == null || mParty.getQueuedSongs().size() == 0) {
             currentlyPlayingSong = null;
             mIsPlaying = false;
-            mPlaybackControlPlay.setText(getString(R.string.play));
+            mPlaybackControlPlay.setImageResource(R.mipmap.baseline_play_arrow_black_36);
             return;
         }
 
