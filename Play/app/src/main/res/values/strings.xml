@@ -25,6 +25,9 @@
     <string name="resume">Resume</string>
     <string name="next">Next</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="leave_party_alert">Leaving the party will transfer host privileges to someone else</string>
+    <string name="leave">Leave</string>
+    <string name="stay">Stay</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

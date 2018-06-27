@@ -87,6 +87,7 @@ public class SearchFragment extends Fragment implements SongFragmentUpdate{
                                 || actionId == EditorInfo.IME_ACTION_DONE
                                 || event.getAction() == KeyEvent.ACTION_DOWN
                                 && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                            songSearchAdapter.clear();
                             searchSpotify(mSearchField.getText().toString(), 50);
                         }
                         // Return true if you have consumed the action, else false.

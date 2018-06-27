@@ -1,8 +1,11 @@
 package com.miloshzelembaba.play.Activity.PartyActivityStuff;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -235,6 +238,25 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
     @Override
     public void onLoggedIn() {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.leave_party_alert)
+                .setPositiveButton(R.string.leave, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        AdminPartyActivity.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton(R.string.stay, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+        // Create the AlertDialog object and return it
+        Dialog d = builder.create();
+        d.show();
     }
 
     @Override
