@@ -103,6 +103,17 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         AuthenticationClient.openLoginActivity(baseActivity, REQUEST_CODE, request);
     }
 
+    public static void getAuthCode(Activity activity) {
+        baseActivity = activity;
+        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
+                AuthenticationResponse.Type.TOKEN,
+                REDIRECT_URI);
+        builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email","user-library-read"});
+        AuthenticationRequest request = builder.build();
+
+        AuthenticationClient.openLoginActivity(baseActivity, REQUEST_CODE, request);
+    }
+
     public void createSpotifyApi() {
         mSpotifyApi = new SpotifyApi();
         mSpotifyApi.setAccessToken(ACCESS_TOKEN);
