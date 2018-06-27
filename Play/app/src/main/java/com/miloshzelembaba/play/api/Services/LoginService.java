@@ -2,6 +2,7 @@ package com.miloshzelembaba.play.api.Services;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.miloshzelembaba.play.Models.User;
+import com.miloshzelembaba.play.Spotify.SpotifyManager;
 import com.miloshzelembaba.play.api.APIRequest;
 import com.miloshzelembaba.play.api.Request;
 
@@ -32,6 +33,7 @@ public class LoginService {
         request.addParameter("email", email);
         request.addParameter("display_name", displayName);
         request.addParameter("refresh_token", FirebaseInstanceId.getInstance().getToken());
+        request.addParameter("spotify_refresh_token", SpotifyManager.REFRESH_TOKEN);
 
         if (product.equals("premium")) {
             request.addParameter("product", SPOTIFY_PREMIUM);

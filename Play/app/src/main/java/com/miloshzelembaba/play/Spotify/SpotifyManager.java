@@ -6,6 +6,8 @@ import android.util.Log;
 import com.miloshzelembaba.play.Activity.StartActivity.InitialActivity;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.Models.User;
+import com.miloshzelembaba.play.Utils.ApplicationUtil;
+import com.miloshzelembaba.play.api.Services.RefreshSpotifyAccessTokenService;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -36,7 +38,9 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
     public static final String CLIENT_ID = "75cc7c4b4c6d49388044414a5ba6aaa6";
     public static final String REDIRECT_URI = "what://localhost:8888/callback";
     public static final int REQUEST_CODE = 1337;
+    public static String REFRESH_TOKEN;
     public static String ACCESS_TOKEN;
+    public static String AUTH_CODE;
 
     static SpotifyUpdateListener mSpotifyUpdateListener;
     static Activity baseActivity;
@@ -48,13 +52,22 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
     UserPrivate mPrivateUser;
     UserPublic mPublicUser;
 
+    //Services
+    RefreshSpotifyAccessTokenService refreshSpotifyAccessTokenService;
+
 
     private SpotifyManager() {
         final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
         executor.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                attemptSpotifyLogin(baseActivity);
+                if (refreshSpotifyAccessTokenService==null){
+                    refreshSpotifyAccessTokenService=new RefreshSpotifyAccessTokenService();
+                }
+                User user = ApplicationUtil.getInstance().getUser();
+                if (user != null && !user.isTemporaryUser()) {
+                    refreshSpotifyAccessTokenService.requestService(ApplicationUtil.getInstance().getUser());
+                }
             }
         }, 55, 55, TimeUnit.MINUTES); // just less than an hour (token expires every hour)
     }
@@ -80,6 +93,14 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         ACCESS_TOKEN = a;
     }
 
+    public static void setRefreshToken(String r) {
+        REFRESH_TOKEN = r;
+    }
+
+    public static void setAuthCode(String a) {
+        AUTH_CODE = a;
+    }
+
     public void logout() {
         // might not be possible for some stupid reason, stupid ass spotifyAPI
     }
@@ -96,6 +117,17 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         baseActivity = activity;
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN,
+                REDIRECT_URI);
+        builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email","user-library-read"});
+        AuthenticationRequest request = builder.build();
+
+        AuthenticationClient.openLoginActivity(baseActivity, REQUEST_CODE, request);
+    }
+
+    public static void getAuthCode(Activity activity) {
+        baseActivity = activity;
+        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
+                AuthenticationResponse.Type.CODE,
                 REDIRECT_URI);
         builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email","user-library-read"});
         AuthenticationRequest request = builder.build();
