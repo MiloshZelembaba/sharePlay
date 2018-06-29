@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.miloshzelembaba.play.Image.ImageStore;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.api.Services.ImageDownloader;
@@ -58,9 +59,10 @@ public class PartySongsAdapter extends ArrayAdapter {
         }
 
 
-        if (song.getImage() == null){
+        if (song.getImage() == null && !ImageStore.getInstance().has(song.getImageUrl())){
             ImageDownloader.getBitmapFromURL(song, (ImageView)convertView.findViewById(R.id.song_image), mBaseActivity);
         } else {
+            song.setImage(ImageStore.getInstance().getBitmap(song.getImageUrl()));
             ((ImageView)convertView.findViewById(R.id.song_image)).setImageBitmap(song.getImage());
         }
 
