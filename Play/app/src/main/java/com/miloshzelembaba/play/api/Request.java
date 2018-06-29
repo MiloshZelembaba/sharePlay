@@ -17,7 +17,7 @@ public class Request {
 
     public Request(){
         url = "https://shareplay-204722.appspot.com/";
-//        url = "http://192.168.0.19:8000/";
+//        url = "http://192.168.0.17:8000/";
 //        if (ApplicationUtil.getInstance().getAppMode().equals("dev_server")) {
 //            url = "https://shareplay-204722.appspot.com/";
 //        } else if (ApplicationUtil.getInstance().getAppMode().equals("local")) {

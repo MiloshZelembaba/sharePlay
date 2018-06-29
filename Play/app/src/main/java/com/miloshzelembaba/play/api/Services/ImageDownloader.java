@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.miloshzelembaba.play.Models.Song;
-import com.miloshzelembaba.play.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +19,7 @@ import java.net.URL;
 
 abstract public class ImageDownloader{
 
-    public static void getBitmapFromURL(final Song song, final View v, final Activity activity) {
+    public static void getBitmapFromURL(final Song song, final ImageView albumCover, final Activity activity) {
 
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -39,7 +38,7 @@ abstract public class ImageDownloader{
                             @Override
                             public void run() {
                                 song.setImage(myBitmap);
-                                ImageView albumCover = (ImageView) v.findViewById(R.id.song_image);
+//                                ImageView albumCover = (ImageView) v.findViewById(R.id.song_image);
                                 albumCover.setVisibility(View.VISIBLE);
                                 albumCover.setImageBitmap(myBitmap);
 //                              adapter.notifyDataSetChanged();

@@ -62,7 +62,7 @@ public class SongSearchAdapter extends ArrayAdapter<Song> {
         }
 
         if (song.getImage() == null){
-            ImageDownloader.getBitmapFromURL(song, convertView, mBaseActivity);
+            ImageDownloader.getBitmapFromURL(song, (ImageView)convertView.findViewById(R.id.song_image), mBaseActivity);
         } else {
             ((ImageView)convertView.findViewById(R.id.song_image)).setImageBitmap(song.getImage());
         }

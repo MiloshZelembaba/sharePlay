@@ -30,6 +30,8 @@
     <string name="leave_party_alert">Leaving the party will transfer host privileges to someone else</string>
     <string name="leave">Leave</string>
     <string name="stay">Stay</string>
+    <string name="currently_playing">Currently Playing</string>
+    <string name="no_song_playing">No song currently playing</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

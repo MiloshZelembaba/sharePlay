@@ -42,9 +42,9 @@ public class PartySongsAdapter extends ArrayAdapter {
         ((TextView)convertView.findViewById(R.id.song_vote_count)).setText(Integer.toString(song.getVoteCount()));
 
         if (song.isCurrentlyPlaying()) {
-            ((TextView) convertView.findViewById(R.id.song_name)).setTextColor(ContextCompat.getColor(getContext(), R.color.spotify_green));
-            ((TextView) convertView.findViewById(R.id.song_artists)).setTextColor(ContextCompat.getColor(getContext(), R.color.spotify_green));
-            ((TextView) convertView.findViewById(R.id.song_vote_count)).setTextColor(ContextCompat.getColor(getContext(), R.color.spotify_green));
+//            ((TextView) convertView.findViewById(R.id.song_name)).setTextColor(ContextCompat.getColor(getContext(), R.color.spotify_green));
+//            ((TextView) convertView.findViewById(R.id.song_artists)).setTextColor(ContextCompat.getColor(getContext(), R.color.spotify_green));
+//            ((TextView) convertView.findViewById(R.id.song_vote_count)).setTextColor(ContextCompat.getColor(getContext(), R.color.spotify_green));
         } else {
             ((TextView) convertView.findViewById(R.id.song_name)).setTextColor(ContextCompat.getColor(getContext(), R.color.gray2));
             ((TextView) convertView.findViewById(R.id.song_artists)).setTextColor(ContextCompat.getColor(getContext(), R.color.gray2));
@@ -59,7 +59,7 @@ public class PartySongsAdapter extends ArrayAdapter {
 
 
         if (song.getImage() == null){
-            ImageDownloader.getBitmapFromURL(song, convertView, mBaseActivity);
+            ImageDownloader.getBitmapFromURL(song, (ImageView)convertView.findViewById(R.id.song_image), mBaseActivity);
         } else {
             ((ImageView)convertView.findViewById(R.id.song_image)).setImageBitmap(song.getImage());
         }

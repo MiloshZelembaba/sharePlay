@@ -23,6 +23,7 @@ import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifyManager;
 import com.miloshzelembaba.play.Spotify.SpotifyUpdateListener;
 import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
+import com.miloshzelembaba.play.api.Services.ImageDownloader;
 import com.miloshzelembaba.play.api.Services.RemoveSongFromPartyService;
 import com.spotify.sdk.android.player.Player;
 
@@ -54,6 +55,9 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
     private Song currentlyPlayingSong;
     private FloatingActionButton fab;
     private ImageView partyMembersIcon;
+    private ImageView cpSongImage;
+    private TextView cpSongName;
+    private TextView cpArtists;
 
 
     @Override
@@ -106,6 +110,9 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
         mPlaybackControlNextSong = (ImageView) findViewById(R.id.music_controls_next_song);
         mPlaybackControlAddSong = (ImageView) findViewById(R.id.music_controls_add_song);
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        cpArtists = (TextView) findViewById(R.id.currently_plauying_song_artists);
+        cpSongName = (TextView) findViewById(R.id.currently_playing_song_name);
+        cpSongImage = (ImageView) findViewById(R.id.currently_playing_song_image);
         mMusicControls = (LinearLayout) findViewById(R.id.music_controls_container);
         mMusicControls.setVisibility(VISIBLE);
         mPlaybackControlAddSong.setImageResource(R.mipmap.baseline_add_black_36);
@@ -161,60 +168,63 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
             mSpotifyManager.pauseSong();
             mIsPlaying = false;
             mPlaybackControlPlay.setImageResource(R.mipmap.baseline_play_arrow_black_36);
-            currentlyPlayingSong.setIsCurrentlyPlaying(false);
-            mPartySongsAdapter.notifyDataSetChanged();
         }
     }
 
-    private void playSong(){
-        if (mParty.getQueuedSongs() == null || mParty.getQueuedSongs().size() == 0) {
-            mSpotifyManager.pauseSong();
-            currentlyPlayingSong = null;
-            mIsPlaying = false;
-            mPlaybackControlPlay.setImageResource(R.mipmap.baseline_play_arrow_black_36);
-            return;
-        }
-
-        if (!mIsPlaying && currentlyPlayingSong != null) { // resume song
+    private void playSong() {
+        if (currentlyPlayingSong != null) { // resume a song
+            mIsPlaying = true;
             mPlayer.resume(null);
-            mIsPlaying = true;
-        } else { // play new song
-            currentlyPlayingSong = mParty.getQueuedSongs().get(0);
+            mPlaybackControlPlay.setImageResource(R.mipmap.baseline_pause_black_36);
+        } else {
+            ArrayList<Song> queuedSongs = mParty.getQueuedSongs();
+            if (queuedSongs != null && queuedSongs.size() > 0) { // play the next available song
+                currentlyPlayingSong = queuedSongs.get(0);
+                mPlaybackControlPlay.setImageResource(R.mipmap.baseline_pause_black_36);
+                removeSongFromPartyService.requestService(currentlyPlayingSong,
+                    new RemoveSongFromPartyService.RemoveSongFromPartyServiceCallback() {
+                        @Override
+                        public void onSuccess(Party party) {
+                            setParty(party);
+                            mPlayer.playUri(null, currentlyPlayingSong.getUri(), 0, 0);
+                            mIsPlaying = true;
+                            setCurrentlyPlayingViews();
+                        }
 
-            mPlayer.playUri(null, currentlyPlayingSong.getUri(), 0, 0);
-            mIsPlaying = true;
+                        @Override
+                        public void onFailure(String errorMessage) {
 
+                        }
+                    });
+            } else { // nothing to play
+                mSpotifyManager.pauseSong();
+                currentlyPlayingSong = null;
+                mIsPlaying = false;
+                mPlaybackControlPlay.setImageResource(R.mipmap.baseline_play_arrow_black_36);
+                setCurrentlyPlayingViews();
+            }
         }
+    }
 
-        currentlyPlayingSong.setIsCurrentlyPlaying(true);
-        mPartySongsAdapter.notifyDataSetChanged();
-        mPlaybackControlPlay.setImageResource(R.mipmap.baseline_pause_black_36);
-
+    private void setCurrentlyPlayingViews() {
+        if (currentlyPlayingSong != null) {
+            cpArtists.setText(currentlyPlayingSong.getSongArtists());
+            cpSongImage.setImageBitmap(currentlyPlayingSong.getImage());
+            if (currentlyPlayingSong.getImage() == null){
+                ImageDownloader.getBitmapFromURL(currentlyPlayingSong, cpSongImage, this);
+            }
+            cpSongName.setText(currentlyPlayingSong.getSongName());
+        } else {
+            cpArtists.setText("");
+            cpSongImage.setImageBitmap(null);
+            cpSongName.setText(getResources().getString(R.string.no_song_playing));
+        }
     }
 
     private void playNextSong() {
-        if (mParty.getQueuedSongs() == null || mParty.getQueuedSongs().size() == 0) {
-            currentlyPlayingSong = null;
-            mIsPlaying = false;
-            mPlaybackControlPlay.setImageResource(R.mipmap.baseline_play_arrow_black_36);
-            return;
-        }
-
-        removeSongFromPartyService.requestService(currentlyPlayingSong,
-                new RemoveSongFromPartyService.RemoveSongFromPartyServiceCallback() {
-                    @Override
-                    public void onSuccess(Party party) {
-                        setParty(party);
-                        currentlyPlayingSong = null;
-                        mIsPlaying = false;
-                        playSong();
-                    }
-
-                    @Override
-                    public void onFailure(String errorMessage) {
-
-                    }
-                });
+        currentlyPlayingSong = null;
+        mIsPlaying = false;
+        playSong();
     }
 
     @Override
