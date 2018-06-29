@@ -66,7 +66,7 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
                 }
                 User user = ApplicationUtil.getInstance().getUser();
                 if (user != null && !user.isTemporaryUser()) {
-                    refreshSpotifyAccessTokenService.requestService(ApplicationUtil.getInstance().getUser());
+                    refreshSpotifyAccessTokenService.requestService();
                 }
             }
         }, 55, 55, TimeUnit.MINUTES); // just less than an hour (token expires every hour)

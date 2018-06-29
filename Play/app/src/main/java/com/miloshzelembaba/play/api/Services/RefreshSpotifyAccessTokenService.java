@@ -1,6 +1,5 @@
 package com.miloshzelembaba.play.api.Services;
 
-import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.Spotify.SpotifyManager;
 import com.miloshzelembaba.play.api.APIRequest;
 import com.miloshzelembaba.play.api.Request;
@@ -14,11 +13,10 @@ import org.json.JSONObject;
 public class RefreshSpotifyAccessTokenService {
     private APIRequest apiService;
 
-    public void requestService(User user){
+    public void requestService(){
         apiService = new APIRequest();
         Request request = new Request();
         request.setUrl("refreshSpotifyAccessToken/");
-        request.addParameter("user", user);
 
         apiService.sendRequest(request,
                 new APIRequest.APIRequestCallBack() {

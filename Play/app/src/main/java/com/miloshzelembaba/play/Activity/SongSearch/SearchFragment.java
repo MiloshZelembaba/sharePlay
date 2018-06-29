@@ -17,6 +17,7 @@ import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifySearch;
+import com.miloshzelembaba.play.api.Services.RefreshSpotifyAccessTokenService;
 
 import java.util.ArrayList;
 
@@ -90,6 +91,7 @@ public class SearchFragment extends Fragment implements SongFragmentUpdate{
                             if (songSearchAdapter != null) {
                                 songSearchAdapter.clear();
                             }
+                            offset = 0;
                             searchSpotify(mSearchField.getText().toString(), 50);
                         }
                         // Return true if you have consumed the action, else false.
@@ -117,6 +119,11 @@ public class SearchFragment extends Fragment implements SongFragmentUpdate{
 
             @Override
             public void onFailure(String errorMessage) {
+                if (errorMessage.contains("401")) {
+                    // TODO: temporary fix, not sure why this happens
+                    RefreshSpotifyAccessTokenService service = new RefreshSpotifyAccessTokenService();
+                    service.requestService();
+                }
                 ErrorService.showErrorMessage(getContext(),
                         errorMessage,
                         ErrorService.ErrorSeverity.HIGH);
