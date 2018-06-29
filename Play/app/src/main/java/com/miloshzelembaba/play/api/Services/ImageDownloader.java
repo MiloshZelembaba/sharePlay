@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.miloshzelembaba.play.Image.ImageStore;
 import com.miloshzelembaba.play.Models.Song;
 
 import java.io.IOException;
@@ -20,18 +21,29 @@ import java.net.URL;
 abstract public class ImageDownloader{
 
     public static void getBitmapFromURL(final Song song, final ImageView albumCover, final Activity activity) {
-
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try  {
                     try {
-                        URL url = new URL(song.getImageUrl());
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setDoInput(true);
-                        connection.connect();
-                        InputStream input = connection.getInputStream();
-                        final Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                        final ImageStore imageStore = ImageStore.getInstance();
+                        String imageUrl = song.getImageUrl();
+                        Bitmap tmp;
+                        if (!imageStore.has(imageUrl)) {
+                            URL url = new URL(song.getImageUrl());
+                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                            connection.setDoInput(true);
+                            connection.connect();
+                            InputStream input = connection.getInputStream();
+                            tmp = BitmapFactory.decodeStream(input);
+                            imageStore.storeBitmap(imageUrl, tmp);
+                            System.out.println("downloading image");
+                        } else {
+                            tmp = imageStore.getBitmap(imageUrl);
+                            System.out.println("got image from image store");
+                        }
+
+                        final Bitmap myBitmap = tmp;
 
 
                         activity.runOnUiThread(new Runnable() {

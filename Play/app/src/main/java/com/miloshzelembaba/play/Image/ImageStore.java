@@ -1,5 +1,10 @@
 package com.miloshzelembaba.play.Image;
 
+import android.graphics.Bitmap;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by miloshzelembaba on 2018-04-09.
  *
@@ -12,15 +17,30 @@ package com.miloshzelembaba.play.Image;
 
 public class ImageStore {
     private static ImageStore instance;
+    private Map<String, Bitmap> savedBitmaps;
 
-    private ImageStore() {}
+    private ImageStore() {
+        savedBitmaps = new HashMap<>();
+    }
 
-    public ImageStore getInstance() {
+    public static ImageStore getInstance() {
         if (instance == null) {
             instance = new ImageStore();
         }
 
         return instance;
+    }
+
+    public void storeBitmap(String imageUrl, Bitmap bitmap) {
+        savedBitmaps.put(imageUrl, bitmap);
+    }
+
+    public boolean has(String imageUrl) {
+        return savedBitmaps.containsKey(imageUrl);
+    }
+
+    public Bitmap getBitmap(String imageUrl) {
+        return savedBitmaps.get(imageUrl);
     }
 
 
