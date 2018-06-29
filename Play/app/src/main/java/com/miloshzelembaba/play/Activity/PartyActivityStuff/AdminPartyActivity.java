@@ -181,12 +181,12 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
             if (queuedSongs != null && queuedSongs.size() > 0) { // play the next available song
                 currentlyPlayingSong = queuedSongs.get(0);
                 mPlaybackControlPlay.setImageResource(R.mipmap.baseline_pause_black_36);
+                mPlayer.playUri(null, currentlyPlayingSong.getUri(), 0, 0);
                 removeSongFromPartyService.requestService(currentlyPlayingSong,
                     new RemoveSongFromPartyService.RemoveSongFromPartyServiceCallback() {
                         @Override
                         public void onSuccess(Party party) {
                             setParty(party);
-                            mPlayer.playUri(null, currentlyPlayingSong.getUri(), 0, 0);
                             mIsPlaying = true;
                             setCurrentlyPlayingViews();
                         }
