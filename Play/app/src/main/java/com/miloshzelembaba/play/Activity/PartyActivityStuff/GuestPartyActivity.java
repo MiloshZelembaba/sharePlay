@@ -21,7 +21,9 @@ import com.miloshzelembaba.play.Network.NetworkManager;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifyUpdateListener;
 import com.miloshzelembaba.play.Utils.ApplicationUtil;
+import com.miloshzelembaba.play.Utils.StringUtil;
 import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
+import com.miloshzelembaba.play.api.Services.ImageDownloader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +42,9 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
     private FloatingActionButton fab;
     private ImageView partyMembersIcon;
     private ImageView mPartyControlAddSong;
+    private ImageView cpSongImage;
+    private TextView cpSongName;
+    private TextView cpArtists;
 
 
     @Override
@@ -85,6 +90,9 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
         header = (TextView) findViewById(R.id.party_activity_header);
         mPartyControlAddSong = (ImageView) findViewById(R.id.music_controls_add_song);
         mPartyControlAddSong.setImageResource(R.mipmap.baseline_add_black_36);
+        cpArtists = (TextView) findViewById(R.id.currently_plauying_song_artists);
+        cpSongName = (TextView) findViewById(R.id.currently_playing_song_name);
+        cpSongImage = (ImageView) findViewById(R.id.currently_playing_song_image);
 
         partyMembersIcon.setImageResource(R.drawable.baseline_supervisor_account_white_24dp);
         partyMembersIcon.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +153,6 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
         });
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -164,6 +171,32 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
             } catch (Exception e) {
                 ErrorService.showErrorMessage(this, "error with multiple songs", ErrorService.ErrorSeverity.HIGH);
             }
+        }
+    }
+
+    @Override
+    protected void setParty(Party party) {
+        mParty = party;
+        mPartySongsAdapter = new PartySongsAdapter(this, 0, party.getQueuedSongs());
+        mSongsListView.setAdapter(mPartySongsAdapter);
+        String headerText = "Party Code: " + StringUtil.padZeros(mParty.getId());
+        header.setText(headerText);
+        setCurrentlyPlayingViews();
+    }
+
+    private void setCurrentlyPlayingViews() {
+        Song currentlyPlayingSong = mParty.getCurrentlyPlaying();
+        if (currentlyPlayingSong != null) {
+            cpArtists.setText(currentlyPlayingSong.getSongArtists());
+            cpSongImage.setImageBitmap(currentlyPlayingSong.getImage());
+            if (currentlyPlayingSong.getImage() == null){
+                ImageDownloader.getBitmapFromURL(currentlyPlayingSong, cpSongImage, this);
+            }
+            cpSongName.setText(currentlyPlayingSong.getSongName());
+        } else {
+            cpArtists.setText("");
+            cpSongImage.setImageBitmap(null);
+            cpSongName.setText(getResources().getString(R.string.no_song_playing));
         }
     }
 

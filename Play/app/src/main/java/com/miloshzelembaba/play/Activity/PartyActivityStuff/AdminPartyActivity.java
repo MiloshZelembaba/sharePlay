@@ -198,6 +198,10 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
                     });
             } else { // nothing to play
                 mSpotifyManager.pauseSong();
+
+                // send update to guests that no song is in queue
+                removeSongFromPartyService.requestService(mParty.getId(), null, null);
+
                 currentlyPlayingSong = null;
                 mIsPlaying = false;
                 mPlaybackControlPlay.setImageResource(R.mipmap.baseline_play_arrow_black_36);

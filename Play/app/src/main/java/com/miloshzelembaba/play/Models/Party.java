@@ -49,14 +49,17 @@ public class Party extends Serializable {
         if (object.has("songs")) {
             addSongs(object.getJSONArray("songs"));
 
-            if (object.has("currently_playing_uri")) {
-                String uri = object.getString("currently_playing_uri");
+            mCurrentlyPlaying = null;
+            if (object.has("current_song_uri")) {
+                String uri = object.getString("current_song_uri");
+                String songName = object.getString("current_song_name");
+                String artists = object.getString("current_song_artists");
+                String imageUrl = object.getString("current_song_imageUrl");
 
-                for (Song song: songs) {
-                    if (song.getUri().equals(uri)) {
-                        mCurrentlyPlaying = song;
-                        break;
-                    }
+                if (uri.equals("")) {
+                    mCurrentlyPlaying = null;
+                } else {
+                    mCurrentlyPlaying = new Song(uri, songName, artists, imageUrl);
                 }
             }
         }

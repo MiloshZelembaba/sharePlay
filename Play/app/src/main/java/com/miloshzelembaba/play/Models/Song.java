@@ -33,6 +33,15 @@ public class Song extends Serializable {
         mIsCurrentlyPlaying = false;
     }
 
+    public Song(String spotifyURI, String name, String artists, String imageUrl){
+        this.mSpotifyURI = spotifyURI;
+        this.mSongName = name;
+        this.mArtists = artists;
+        this.mImageUrl = imageUrl;
+        this.mVoteCount = 1;
+        mIsCurrentlyPlaying = false;
+    }
+
     public Song(JSONObject object) throws JSONException{
         if (object.has("id")) {
             mId = object.getString("id");

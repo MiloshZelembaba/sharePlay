@@ -75,17 +75,13 @@ public abstract class BaseParty extends AppCompatActivity implements OnPartyUpda
     }
 
     protected void addSongsToParty(ArrayList<Song> songs) {
-//        Toast.makeText(this, "Added " + song.getSongName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Added " + songs.size() + " song(s)", Toast.LENGTH_SHORT).show();
         addSongToPartyService.requestService(user, mParty, songs, null);
     }
 
     protected void setParty(Party party) {
-//        mSongsListView.removeHeaderView()
         mParty = party;
         mPartySongsAdapter = new PartySongsAdapter(this, 0, party.getQueuedSongs());
-        if (party.getCurrentlyPlaying() != null) {
-            mSongsListView.addHeaderView(inflateSong(party.getCurrentlyPlaying()));
-        }
         mSongsListView.setAdapter(mPartySongsAdapter);
         String headerText = "Party Code: " + StringUtil.padZeros(mParty.getId());
         header.setText(headerText);

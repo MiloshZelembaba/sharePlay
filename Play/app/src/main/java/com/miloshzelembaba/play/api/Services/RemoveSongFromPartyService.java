@@ -20,10 +20,11 @@ public class RemoveSongFromPartyService {
         void onFailure(String errorMessage);
     }
 
-    public void requestService(Song song, final RemoveSongFromPartyServiceCallback callback){
+    public void requestService(String partyId, Song song, final RemoveSongFromPartyServiceCallback callback) {
         apiService = new APIRequest();
         Request request = new Request();
         request.setUrl("removeSongFromParty/");
+        request.addParameter("party_id", partyId);
         request.addParameter("song", song);
 
         apiService.sendRequest(request,
@@ -50,5 +51,9 @@ public class RemoveSongFromPartyService {
                     }
                 }
         );
+    }
+
+    public void requestService(Song song, final RemoveSongFromPartyServiceCallback callback){
+        requestService("", song, callback);
     }
 }
