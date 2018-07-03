@@ -12,6 +12,7 @@
     tools:context="com.miloshzelembaba.play.Activity.StartActivity.InitialActivity">
 
     <RelativeLayout
+        android:id="@+id/user_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
@@ -29,6 +30,7 @@
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="16dp"
             android:textColor="@color/gray7"
             android:textSize="12dp"
             android:textStyle="bold"
@@ -46,8 +48,20 @@
             android:paddingLeft="@dimen/eight_padding"
             android:textColor="@color/black"
             android:textSize="24dp"/>
-
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/temporary_user_login"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/user_info_container"
+        android:textSize="10dp"
+        android:textColor="@color/black"
+        android:text="@string/login_temporary_user"
+        android:padding="16dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

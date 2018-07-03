@@ -4,7 +4,8 @@
     <!-- Start Activity -->
     <string name="join_party">Join\nParty</string>
     <string name="create_party">Create\nParty</string>
-    <string name="login_button">Login</string>
+    <string name="login">Login with Spotify</string>
+    <string name="login_temporary_user">Login as temporary user</string>
     <string name="join_party_button">Join</string>
     <string name="title_activity_party">PartyActivity</string>
     <string name="current_login_email">Currently logged in with - %1$s</string>
