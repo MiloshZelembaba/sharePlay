@@ -55,7 +55,6 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
     //Services
     RefreshSpotifyAccessTokenService refreshSpotifyAccessTokenService;
 
-
     private SpotifyManager() {
         final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
         executor.scheduleAtFixedRate(new Runnable() {
@@ -105,11 +104,13 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         // might not be possible for some stupid reason, stupid ass spotifyAPI
     }
 
-    public void relogin() {
+    public static void getAuthCode() {
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
-                AuthenticationResponse.Type.TOKEN,
-                REDIRECT_URI).setShowDialog(true);
-        AuthenticationRequest request = builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email","user-library-read"}).build();
+                AuthenticationResponse.Type.CODE,
+                REDIRECT_URI);
+        builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email","user-library-read"});
+        AuthenticationRequest request = builder.build();
+
         AuthenticationClient.openLoginActivity(baseActivity, REQUEST_CODE, request);
     }
 

@@ -68,6 +68,7 @@ public class InitialActivity extends Activity {
     private TextView mLogoutButton;
     private ImageView mProfileLogo;
     private View mDivider;
+    private TextView mLoginTemporaryUser;
 
     // Join Party
     private LinearLayout mJoinPartyContainer;
@@ -112,6 +113,8 @@ public class InitialActivity extends Activity {
         setupViews();
         if (ApplicationUtil.getInstance().getUser() != null) {
             showCurrentLoginInfo(ApplicationUtil.getInstance().getUser());
+        } else {
+            showLoginFailedViews();
         }
 
         if (ApplicationUtil.getInstance().getUser() != null) {
@@ -143,6 +146,7 @@ public class InitialActivity extends Activity {
         mLogoutButton = (TextView) findViewById(R.id.logout);
         mProfileLogo = (ImageView) findViewById(R.id.profile_logo);
         mDivider = findViewById(R.id.divider);
+        mLoginTemporaryUser = (TextView) findViewById(R.id.temporary_user_login);
     }
 
     private void setupViews(){
@@ -156,6 +160,7 @@ public class InitialActivity extends Activity {
 
         mProfileLogo.setImageResource(R.drawable.baseline_face_black_24dp);
 
+        mJoinAParty.setTextColor(ContextCompat.getColor(this, R.color.black));
         mJoinAParty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,6 +184,13 @@ public class InitialActivity extends Activity {
             @Override
             public void onClick(View v) {
                 joinParty();
+            }
+        });
+
+        mLoginTemporaryUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createTemporaryUser();
             }
         });
 
@@ -272,6 +284,7 @@ public class InitialActivity extends Activity {
 
                             @Override
                             public void onFailure(String errorMessage) {
+                                showLoginFailedViews();
                                 ErrorService.showErrorMessage(mContext,
                                         "Login Failed!",
                                         ErrorService.ErrorSeverity.HIGH);
@@ -288,7 +301,44 @@ public class InitialActivity extends Activity {
     }
 
     private void updateViewsByPermissions(User user) {
+        if (user == null){
+            mLoginTemporaryUser.setVisibility(VISIBLE);
+            mCreateAParty.setTextColor(ContextCompat.getColor(this, R.color.gray2));
+            mCreateAParty.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ErrorService.showErrorMessage(mContext,
+                            "you must be a premium spotify user to be create a party, sorry",
+                            ErrorService.ErrorSeverity.LOW);
+                }
+            });
+            mJoinAParty.setTextColor(ContextCompat.getColor(this, R.color.gray2));
+            mJoinAParty.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ErrorService.showErrorMessage(mContext,
+                            "you must login to join a party",
+                            ErrorService.ErrorSeverity.LOW);
+                }
+            });
+
+            return;
+        }
+
+        mLoginTemporaryUser.setVisibility(GONE);
         if (user.isTemporaryUser() || mSpotifyManager == null || !mSpotifyManager.getProduct().toLowerCase().equals("premium")) {
+            mJoinAParty.setTextColor(ContextCompat.getColor(this, R.color.black));
+            mJoinAParty.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onJoinPartyView = true;
+                    mJoinAParty.setVisibility(GONE);
+                    mCreateAParty.setVisibility(GONE);
+                    mDivider.setVisibility(GONE);
+                    mJoinPartyContainer.setVisibility(VISIBLE);
+                    mPartyId.setHint("Enter Party ID");
+                }
+            });
             mCreateAParty.setTextColor(ContextCompat.getColor(this, R.color.gray2));
             mCreateAParty.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -299,11 +349,23 @@ public class InitialActivity extends Activity {
                 }
             });
         } else {
+            mJoinAParty.setTextColor(ContextCompat.getColor(this, R.color.black));
             mCreateAParty.setTextColor(ContextCompat.getColor(this, R.color.black));
             mCreateAParty.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     createParty(ApplicationUtil.getInstance().getUser());
+                }
+            });
+            mJoinAParty.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onJoinPartyView = true;
+                    mJoinAParty.setVisibility(GONE);
+                    mCreateAParty.setVisibility(GONE);
+                    mDivider.setVisibility(GONE);
+                    mJoinPartyContainer.setVisibility(VISIBLE);
+                    mPartyId.setHint("Enter Party ID");
                 }
             });
         }
@@ -316,11 +378,27 @@ public class InitialActivity extends Activity {
         String text = user.getDisplayName();
         mCurrentUserDisplayName.setText(text);
 
+        mLogoutButton.setText(getString(R.string.logout));
         mLogoutButton.setVisibility(VISIBLE);
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSpotifyManager.relogin();
+                SpotifyManager.getAuthCode((Activity)mContext);
+            }
+        });
+    }
+
+    private void showLoginFailedViews() {
+        ApplicationUtil.getInstance().setUser(null);
+        updateViewsByPermissions(null);
+
+        mLogoutButton.setText(getString(R.string.login));
+        mLogoutButton.setTextSize(16);
+        mLogoutButton.setVisibility(VISIBLE);
+        mLogoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SpotifyManager.getAuthCode((Activity)mContext);
             }
         });
     }
@@ -346,6 +424,7 @@ public class InitialActivity extends Activity {
 
                     @Override
                     public void onFailure(String errorMessage) {
+                        showLoginFailedViews();
                         ErrorService.showErrorMessage(mContext,
                                 "Login Failed!",
                                 ErrorService.ErrorSeverity.HIGH);
@@ -429,6 +508,19 @@ public class InitialActivity extends Activity {
                 });
             } else if (response.getType() == AuthenticationResponse.Type.EMPTY) {
                 createTemporaryUser();
+            } else if (response.getType() == AuthenticationResponse.Type.ERROR) {
+                if (response.getError().equals("OFFLINE_MODE_ACTIVE")) {
+                    showLoginFailedViews();
+                    ErrorService.showErrorMessage(this,
+                            "You're account has offline mode activated, please open spotify and turn it off",
+                            ErrorService.ErrorSeverity.HIGH);
+                }
+            } else {
+                showLoginFailedViews();
+                ErrorService.showErrorMessage(this,
+                        "Uknown Error signing into spotify",
+                        ErrorService.ErrorSeverity.HIGH);
+
             }
         }
 

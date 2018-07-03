@@ -12,9 +12,9 @@ import android.widget.ListView;
 import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.R;
+import com.miloshzelembaba.play.Spotify.SpotifyManager;
 import com.miloshzelembaba.play.Spotify.SpotifySearch;
 import com.miloshzelembaba.play.Utils.ApplicationUtil;
-import com.miloshzelembaba.play.api.Services.RefreshSpotifyAccessTokenService;
 
 import java.util.ArrayList;
 
@@ -97,9 +97,11 @@ public class UserLibraryFragment extends Fragment implements SongFragmentUpdate 
             @Override
             public void onFailure(String errorMessage) {
                 if (errorMessage.contains("401")) {
-                    // TODO: temporary fix, not sure why this happens
-                    RefreshSpotifyAccessTokenService service = new RefreshSpotifyAccessTokenService();
-                    service.requestService();
+                    // TODO
+                    SpotifyManager.getAuthCode(); // this is a temporary fix
+                    // this is the fix that should work but it doesn't
+//                    RefreshSpotifyAccessTokenService service = new RefreshSpotifyAccessTokenService();
+//                    service.requestService();
                 }
                 ErrorService.showErrorMessage(getContext(),
                         errorMessage,
