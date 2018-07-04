@@ -24,7 +24,7 @@ import com.miloshzelembaba.play.Spotify.SpotifyManager;
 import com.miloshzelembaba.play.Spotify.SpotifyUpdateListener;
 import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
 import com.miloshzelembaba.play.api.Services.ImageDownloader;
-import com.miloshzelembaba.play.api.Services.RemoveSongFromPartyService;
+import com.miloshzelembaba.play.api.Services.FinishSongService;
 import com.spotify.sdk.android.player.Player;
 
 import org.json.JSONArray;
@@ -42,7 +42,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
     public static final String EXTRA_USER = "ExtraUser";
 
     // Services
-    RemoveSongFromPartyService removeSongFromPartyService;
+    FinishSongService finishSongService;
 
     // Spotify
     private Player mPlayer;
@@ -99,7 +99,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
     @Override
     protected void initServices() {
         super.initServices(); // init the base services
-        removeSongFromPartyService = new RemoveSongFromPartyService();
+        finishSongService = new FinishSongService();
     }
 
     @Override
@@ -184,8 +184,8 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
                 currentlyPlayingSong = queuedSongs.get(0);
                 mPlaybackControlPlay.setImageResource(R.mipmap.baseline_pause_black_36);
                 mPlayer.playUri(null, currentlyPlayingSong.getUri(), 0, 0);
-                removeSongFromPartyService.requestService(currentlyPlayingSong,
-                    new RemoveSongFromPartyService.RemoveSongFromPartyServiceCallback() {
+                finishSongService.requestService(currentlyPlayingSong,
+                    new FinishSongService.RemoveSongFromPartyServiceCallback() {
                         @Override
                         public void onSuccess(Party party) {
                             setParty(party);
@@ -202,7 +202,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
                 mSpotifyManager.pauseSong();
 
                 // send update to guests that no song is in queue
-                removeSongFromPartyService.requestService(mParty.getId(), null, null);
+                finishSongService.requestService(mParty.getId(), null, null);
 
                 currentlyPlayingSong = null;
                 mIsPlaying = false;

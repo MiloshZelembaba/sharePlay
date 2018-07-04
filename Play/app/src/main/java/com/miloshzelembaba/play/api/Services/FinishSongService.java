@@ -12,7 +12,7 @@ import org.json.JSONObject;
  * Created by miloshzelembaba on 2018-03-24.
  */
 
-public class RemoveSongFromPartyService {
+public class FinishSongService {
     private APIRequest apiService;
 
     public interface RemoveSongFromPartyServiceCallback{
@@ -23,7 +23,7 @@ public class RemoveSongFromPartyService {
     public void requestService(String partyId, Song song, final RemoveSongFromPartyServiceCallback callback) {
         apiService = new APIRequest();
         Request request = new Request();
-        request.setUrl("removeSongFromParty/");
+        request.setUrl("finishSong/");
         request.addParameter("party_id", partyId);
         request.addParameter("song", song);
 
