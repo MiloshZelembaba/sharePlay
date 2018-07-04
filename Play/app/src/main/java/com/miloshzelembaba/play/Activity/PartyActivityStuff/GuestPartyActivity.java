@@ -30,6 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListener, OnHostSwitchEvent {
     public static final String EXTRA_PARTY_ID = "ExtraPartyId";
@@ -163,8 +165,17 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
                 JSONArray jsonArray = new JSONArray(serializedSongs);
                 ArrayList<Song> songs = new ArrayList<>();
 
+                Map<String, Integer> temporarySongMap = new HashMap<>();
+                for (Song tmp: mParty.getQueuedSongs()) {
+                    temporarySongMap.put(tmp.getUri(), 0);
+                }
+
                 for (int i=0; i<jsonArray.length(); ++i){
-                    songs.add(new Song(jsonArray.getJSONObject(i)));
+                    Song song = new Song(jsonArray.getJSONObject(i));
+
+                    if (!temporarySongMap.containsKey(song.getUri())) {
+                        songs.add(new Song(jsonArray.getJSONObject(i)));
+                    }
                 }
 
                 addSongsToParty(songs);
