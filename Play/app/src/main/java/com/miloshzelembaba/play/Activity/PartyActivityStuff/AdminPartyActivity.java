@@ -25,6 +25,7 @@ import com.miloshzelembaba.play.Spotify.SpotifyUpdateListener;
 import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
 import com.miloshzelembaba.play.api.Services.ImageDownloader;
 import com.miloshzelembaba.play.api.Services.FinishSongService;
+import com.miloshzelembaba.play.api.Services.RemoveSongFromPartyService;
 import com.spotify.sdk.android.player.Player;
 
 import org.json.JSONArray;
@@ -43,6 +44,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
 
     // Services
     FinishSongService finishSongService;
+    RemoveSongFromPartyService removeSongFromPartyService;
 
     // Spotify
     private Player mPlayer;
@@ -100,6 +102,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
     protected void initServices() {
         super.initServices(); // init the base services
         finishSongService = new FinishSongService();
+        removeSongFromPartyService = new RemoveSongFromPartyService();
     }
 
     @Override
@@ -185,7 +188,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
                 mPlaybackControlPlay.setImageResource(R.mipmap.baseline_pause_black_36);
                 mPlayer.playUri(null, currentlyPlayingSong.getUri(), 0, 0);
                 finishSongService.requestService(currentlyPlayingSong,
-                    new FinishSongService.RemoveSongFromPartyServiceCallback() {
+                    new FinishSongService.FinishSongServiceCallback() {
                         @Override
                         public void onSuccess(Party party) {
                             setParty(party);
@@ -297,6 +300,25 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
         pauseSong();
         leavePartyService.requestService(user, null);
         super.onDestroy();
+    }
+
+    @Override
+    public boolean isAdminParty() {
+        return true;
+    }
+
+    public void deleteSong(Song song) {
+        removeSongFromPartyService.requestService(song, new RemoveSongFromPartyService.RemoveSongFromPartyServiceCallback() {
+            @Override
+            public void onSuccess(Party party) {
+                setParty(party);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+
+            }
+        });
     }
 
 }

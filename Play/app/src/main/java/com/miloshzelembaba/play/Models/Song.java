@@ -22,6 +22,7 @@ public class Song extends Serializable {
     private Bitmap mImage;
     private int mVoteCount;
     private boolean mIsCurrentlyPlaying;
+    private boolean mIsBeingSwiped;
 
 
     public Song(String spotifyURI, String name, String artists, List<Image> images){
@@ -31,6 +32,7 @@ public class Song extends Serializable {
         this.mImageUrl = (images != null && images.size() > 0 ? images.get(0).url : null);
         this.mVoteCount = 1;
         mIsCurrentlyPlaying = false;
+        mIsBeingSwiped = false;
     }
 
     public Song(String spotifyURI, String name, String artists, String imageUrl){
@@ -40,6 +42,7 @@ public class Song extends Serializable {
         this.mImageUrl = imageUrl;
         this.mVoteCount = 1;
         mIsCurrentlyPlaying = false;
+        mIsBeingSwiped = false;
     }
 
     public Song(JSONObject object) throws JSONException{
@@ -117,6 +120,14 @@ public class Song extends Serializable {
 
     public boolean isCurrentlyPlaying() {
         return mIsCurrentlyPlaying;
+    }
+
+    public boolean isBeingSwiped() {
+        return mIsBeingSwiped;
+    }
+
+    public void setIsBeingSwiped(boolean b) {
+        mIsBeingSwiped = b;
     }
 
     @Override

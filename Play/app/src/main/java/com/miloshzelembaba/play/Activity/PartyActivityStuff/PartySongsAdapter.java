@@ -1,15 +1,16 @@
 package com.miloshzelembaba.play.Activity.PartyActivityStuff;
 
-import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
+import com.daimajia.swipe.adapters.ArraySwipeAdapter;
 import com.miloshzelembaba.play.Image.ImageStore;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.R;
@@ -21,15 +22,16 @@ import java.util.ArrayList;
  * Created by miloshzelembaba on 2018-03-16.
  */
 
-public class PartySongsAdapter extends ArrayAdapter {
-    Activity mBaseActivity;
+public class PartySongsAdapter extends ArraySwipeAdapter {
+    BaseParty mBaseActivity;
 
-    public PartySongsAdapter(Activity context, int textViewResourceId, ArrayList<Song> songs){
+    public PartySongsAdapter(BaseParty context, int textViewResourceId, ArrayList<Song> songs){
         super(context, textViewResourceId, songs);
         mBaseActivity = context;
     }
 
     @Override
+    @NonNull
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
@@ -53,7 +55,9 @@ public class PartySongsAdapter extends ArrayAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((BaseParty)mBaseActivity).incrementSongCount(song);
+                    if (!song.isBeingSwiped()) {
+                        mBaseActivity.incrementSongCount(song);
+                    }
                 }
             });
         }
@@ -66,7 +70,55 @@ public class PartySongsAdapter extends ArrayAdapter {
             ((ImageView)convertView.findViewById(R.id.song_image)).setImageBitmap(song.getImage());
         }
 
+        SwipeLayout swipeLayout = (SwipeLayout) convertView;
+        swipeLayout.setSwipeEnabled(false);
+        if (mBaseActivity.isAdminParty()) {
+            swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
+            swipeLayout.setSwipeEnabled(true);
+            swipeLayout.addDrag(SwipeLayout.DragEdge.Left, convertView.findViewById(R.id.bottom_wrapper));
+            swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
+                @Override
+                public void onClose(SwipeLayout layout) {
+                    song.setIsBeingSwiped(false);
+                }
+
+                @Override
+                public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
+                    //you are swiping.
+                }
+
+                @Override
+                public void onStartOpen(SwipeLayout layout) {
+                    song.setIsBeingSwiped(true);
+                }
+
+                @Override
+                public void onOpen(SwipeLayout layout) {
+                    //when the BottomView totally show.
+                    song.setIsBeingSwiped(false);
+                    ((AdminPartyActivity)mBaseActivity).deleteSong(song);
+                }
+
+                @Override
+                public void onStartClose(SwipeLayout layout) {
+                    song.setIsBeingSwiped(true);
+                }
+
+                @Override
+                public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
+                    if (xvel != 0 || yvel != 0) {
+                        song.setIsBeingSwiped(true);
+                    }
+                }
+            });
+        }
+
         return convertView;
+    }
+
+    @Override
+    public int getSwipeLayoutResourceId(int position) {
+        return R.layout.party_song_layout;
     }
 
 }

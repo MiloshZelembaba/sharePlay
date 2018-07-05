@@ -15,12 +15,12 @@ import org.json.JSONObject;
 public class FinishSongService {
     private APIRequest apiService;
 
-    public interface RemoveSongFromPartyServiceCallback{
+    public interface FinishSongServiceCallback {
         void onSuccess(Party party);
         void onFailure(String errorMessage);
     }
 
-    public void requestService(String partyId, Song song, final RemoveSongFromPartyServiceCallback callback) {
+    public void requestService(String partyId, Song song, final FinishSongServiceCallback callback) {
         apiService = new APIRequest();
         Request request = new Request();
         request.setUrl("finishSong/");
@@ -53,7 +53,7 @@ public class FinishSongService {
         );
     }
 
-    public void requestService(Song song, final RemoveSongFromPartyServiceCallback callback){
+    public void requestService(Song song, final FinishSongServiceCallback callback){
         requestService("", song, callback);
     }
 }

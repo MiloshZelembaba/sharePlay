@@ -2,47 +2,29 @@ package com.miloshzelembaba.play.api.Services;
 
 import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
-import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.api.APIRequest;
 import com.miloshzelembaba.play.api.Request;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 /**
- * Created by miloshzelembaba on 2018-03-15.
+ * Created by miloshzelembaba on 2018-07-04.
  */
 
-public class AddSongToPartyService {
+public class RemoveSongFromPartyService {
     private APIRequest apiService;
 
-    public interface AddSongToPartyServiceCallback{
+    public interface RemoveSongFromPartyServiceCallback{
         void onSuccess(Party party);
         void onFailure(String errorMessage);
     }
 
-
-    public void requestService(User user, Party party, ArrayList<Song> songs, final AddSongToPartyService.AddSongToPartyServiceCallback callback){
+    public void requestService(Song song, final RemoveSongFromPartyService.RemoveSongFromPartyServiceCallback callback) {
         apiService = new APIRequest();
         Request request = new Request();
-        request.setUrl("addSongToParty/");
-        request.addParameter("user", user);
-        request.addParameter("party", party);
-
-        /* we serialize the songs before hand*/ //TODO: need to abstract this out to Request class
-        JSONArray array = new JSONArray();
-        try {
-            for (Song song: songs) {
-                try {
-                    array.put(song.serialize());
-                } catch (Exception e) {}
-            }
-        } catch (Exception e) {}
-        request.addParameter("songs", array.toString());
-
+        request.setUrl("removeSongFromParty/");
+        request.addParameter("song", song);
 
         apiService.sendRequest(request,
                 new APIRequest.APIRequestCallBack() {
@@ -61,7 +43,6 @@ public class AddSongToPartyService {
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        // TODO: create a generic error popup
                         if (callback != null) {
                             callback.onFailure(errorMessage);
                         }

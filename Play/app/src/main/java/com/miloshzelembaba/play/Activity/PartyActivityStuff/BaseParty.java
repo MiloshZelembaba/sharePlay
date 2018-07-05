@@ -76,7 +76,17 @@ public abstract class BaseParty extends AppCompatActivity implements OnPartyUpda
 
     protected void addSongsToParty(ArrayList<Song> songs) {
         Toast.makeText(this, "Added " + songs.size() + " song(s)", Toast.LENGTH_SHORT).show();
-        addSongToPartyService.requestService(user, mParty, songs, null);
+        addSongToPartyService.requestService(user, mParty, songs, new AddSongToPartyService.AddSongToPartyServiceCallback() {
+            @Override
+            public void onSuccess(Party party) {
+                setParty(party);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+
+            }
+        });
     }
 
     protected void setParty(Party party) {
@@ -95,5 +105,9 @@ public abstract class BaseParty extends AppCompatActivity implements OnPartyUpda
         ((TextView)view.findViewById(R.id.song_vote_count)).setText(Integer.toString(song.getVoteCount()));
 
         return view;
+    }
+
+    public boolean isAdminParty() {
+        return false;
     }
 }
