@@ -1,6 +1,7 @@
 package com.miloshzelembaba.play.api;
 
 import com.miloshzelembaba.play.Models.Serializable;
+import com.miloshzelembaba.play.Network.NetworkController;
 import com.miloshzelembaba.play.Utils.ApplicationUtil;
 
 import org.json.JSONObject;
@@ -28,6 +29,8 @@ public class Request {
 //        }
         params = new HashMap<>();
         addParameter("user", ApplicationUtil.getInstance().getUser());
+        addParameter("request_id", System.currentTimeMillis());
+        NetworkController.getInstance().put(Long.toString((Long)params.get("request_id")));
     }
 
     private void findLocalServer() {
@@ -44,6 +47,10 @@ public class Request {
         if (!params.containsKey(key)) {
             params.put(key, value);
         }
+    }
+
+    public Object getParameter(String id) {
+        return params.get(id);
     }
 
     public String buildURL(){

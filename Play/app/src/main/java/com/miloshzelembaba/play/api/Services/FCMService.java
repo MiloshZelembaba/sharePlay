@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.miloshzelembaba.play.Network.NetworkController;
 import com.miloshzelembaba.play.Network.NetworkInfoMessenger;
 
 import org.json.JSONObject;
@@ -20,6 +21,11 @@ public class FCMService extends FirebaseMessagingService {
         // message, here is where that should be initiated. See sendNotification method below.
 //        Log.d("AH", "From: " + remoteMessage.getFrom());
 //        Log.d("AH", "Notification Message Body: " + remoteMessage.getNotification().getBody());
+
+        if (NetworkController.getInstance().numRequests() != 0) {
+            return;
+        }
+
         final String clientString = remoteMessage.getData().get("body");
 
         Runnable runnable = new Runnable() {

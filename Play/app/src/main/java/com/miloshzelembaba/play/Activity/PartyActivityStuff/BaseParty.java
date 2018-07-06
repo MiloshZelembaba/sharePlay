@@ -1,6 +1,7 @@
 package com.miloshzelembaba.play.Activity.PartyActivityStuff;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +32,19 @@ public abstract class BaseParty extends AppCompatActivity implements OnPartyUpda
     protected ListView mSongsListView;
     protected TextView header;
     protected User user;
+    protected BaseParty mBaseActivity;
 
     // services
     protected GetPartyDetailsService getPartyDetailsService;
     protected AddSongToPartyService addSongToPartyService;
     protected IncrementSongVoteCountService incrementSongVoteCountService;
     protected LeavePartyService leavePartyService;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mBaseActivity = this;
+    }
 
     protected void initServices() {
         getPartyDetailsService = new GetPartyDetailsService();
@@ -47,6 +55,12 @@ public abstract class BaseParty extends AppCompatActivity implements OnPartyUpda
     abstract protected void initViews();
 
     protected void incrementSongCount(Song song) {
+        song.incrementVoteCount();
+        ArrayList<Song> tmp = new ArrayList<>(mParty.getQueuedSongs());
+        mPartySongsAdapter.clear();
+        mParty.setSongs(tmp);
+        mPartySongsAdapter.addAll(mParty.getQueuedSongs());
+        mPartySongsAdapter.notifyDataSetChanged();
         incrementSongVoteCountService.requestService(song,
                 new IncrementSongVoteCountService.IncrementSongVoteCountServiceCallback() {
                     @Override
@@ -75,6 +89,8 @@ public abstract class BaseParty extends AppCompatActivity implements OnPartyUpda
     }
 
     protected void addSongsToParty(ArrayList<Song> songs) {
+        mPartySongsAdapter.addAll(songs);
+        mPartySongsAdapter.notifyDataSetChanged();
         Toast.makeText(this, "Added " + songs.size() + " song(s)", Toast.LENGTH_SHORT).show();
         addSongToPartyService.requestService(user, mParty, songs, new AddSongToPartyService.AddSongToPartyServiceCallback() {
             @Override
