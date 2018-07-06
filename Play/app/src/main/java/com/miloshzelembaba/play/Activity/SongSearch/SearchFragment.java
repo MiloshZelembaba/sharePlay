@@ -114,7 +114,7 @@ public class SearchFragment extends Fragment implements SongFragmentUpdate{
                 }
                 mListView.setAdapter(songSearchAdapter);
                 mListView.setSelection(offset);
-                offset += limit;
+                offset += songs.size();
             }
 
             @Override

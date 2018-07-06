@@ -37,10 +37,8 @@ abstract public class ImageDownloader{
                             InputStream input = connection.getInputStream();
                             tmp = BitmapFactory.decodeStream(input);
                             imageStore.storeBitmap(imageUrl, tmp);
-                            System.out.println("downloading image");
                         } else {
                             tmp = imageStore.getBitmap(imageUrl);
-                            System.out.println("got image from image store");
                         }
 
                         final Bitmap myBitmap = tmp;

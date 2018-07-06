@@ -10,6 +10,7 @@ import java.util.Map;
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.PlaylistSimple;
 import kaaes.spotify.webapi.android.models.SavedTrack;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.TracksPager;
@@ -26,6 +27,36 @@ public class SpotifySearch{
     static SpotifyApi api = new SpotifyApi();
     static SpotifyService spotify = api.getService();
     static ArrayList<Song> tmp = new ArrayList<>();
+
+    static public void getUserPlaylists(int offset, int limit, final SongSearchActivity.PlaylistSearchResultCallBack callBack) {
+        Map<String, Object> options = new HashMap<>();
+        options.put("offset", offset);
+        options.put("limit", limit);
+
+        api.setAccessToken(SpotifyManager.ACCESS_TOKEN);
+
+        try {
+            spotify.getMyPlaylists(options, new Callback<Pager<PlaylistSimple>>() {
+                @Override
+                public void success(Pager<PlaylistSimple> playlistSimplePager, Response response) {
+                    ArrayList<PlaylistSimple> playlists = new ArrayList<>();
+
+                    for (PlaylistSimple playlistSimple: playlistSimplePager.items) {
+                        playlists.add(playlistSimple);
+                    }
+
+                    callBack.onSuccess(playlists);
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    callBack.onFailure(error.toString());
+                }
+            });
+        } catch (RetrofitError e){
+            callBack.onFailure(e.getResponse().toString());
+        }
+    }
 
     static public void getUserLibrary(int offset, int limit, final SongSearchActivity.SongSearchResultCallBack callBack) {
         Map<String, Object> options = new HashMap<>();

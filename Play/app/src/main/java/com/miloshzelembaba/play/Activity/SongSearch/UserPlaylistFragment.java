@@ -1,34 +1,29 @@
 package com.miloshzelembaba.play.Activity.SongSearch;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.R;
+import com.miloshzelembaba.play.Spotify.SpotifyManager;
+import com.miloshzelembaba.play.Spotify.SpotifySearch;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link UserPlaylistFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link UserPlaylistFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
+import kaaes.spotify.webapi.android.models.PlaylistSimple;
+
 public class UserPlaylistFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
+    private int offset;
+    private PlaylistAdapter mAdapter;
+
+    // Views
+    ListView mListView;
 
     public UserPlaylistFragment() {
         // Required empty public constructor
@@ -49,24 +44,55 @@ public class UserPlaylistFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        offset = 0;
+        setup();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_playlist, container, false);
+        inflater.inflate(R.layout.fragment_user_playlist, container, false);
+        View parent = inflater.inflate(R.layout.fragment_user_playlist, container, false);
+        mListView = (ListView) parent.findViewById(R.id.playlist_listview);
+
+        return parent;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private void setup() {
+        fetchUserPLaylists(50);
+    }
+
+    private void fetchUserPLaylists(final int limit){
+        SpotifySearch.getUserPlaylists(offset, limit, new SongSearchActivity.PlaylistSearchResultCallBack() {
+            @Override
+            public void onSuccess(ArrayList<PlaylistSimple> playlists) {
+                mListView.setVisibility(View.VISIBLE);
+                if (mAdapter == null) {
+                    mAdapter = new PlaylistAdapter((SongSearchActivity) getContext(), 0, playlists, mListView); // are activities singletons?
+                } else {
+                    mAdapter.addAll(playlists);
+                }
+                mListView.setAdapter(mAdapter);
+                mListView.setSelection(offset);
+
+                offset += playlists.size();
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                if (errorMessage.contains("401")) {
+                    // TODO
+                    SpotifyManager.getAuthCode(); // this is a temporary fix
+                    // this is the fix that should work but it doesn't
+//                    RefreshSpotifyAccessTokenService service = new RefreshSpotifyAccessTokenService();
+//                    service.requestService();
+                }
+                ErrorService.showErrorMessage(getContext(),
+                        errorMessage,
+                        ErrorService.ErrorSeverity.HIGH);
+            }
+        });
     }
 
     @Override

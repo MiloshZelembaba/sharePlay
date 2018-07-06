@@ -32,8 +32,7 @@ public class SongSearchAdapter extends ArrayAdapter<Song> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
-         if (convertView == null) {
+        if (convertView == null) {
              LayoutInflater inflater = (LayoutInflater) mBaseActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
              convertView = inflater.inflate(R.layout.song_layout, parent, false);
         }

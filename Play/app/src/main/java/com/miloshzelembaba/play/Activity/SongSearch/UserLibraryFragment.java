@@ -54,7 +54,9 @@ public class UserLibraryFragment extends Fragment implements SongFragmentUpdate 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         offset = 0;
+        setup();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,8 +64,6 @@ public class UserLibraryFragment extends Fragment implements SongFragmentUpdate 
         // Inflate the layout for this fragment
         View parent = inflater.inflate(R.layout.fragment_user_library, container, false);
         mListView = (ListView) parent.findViewById(R.id.search_result_listview);
-
-        setup();
 
         return parent;
     }
@@ -91,7 +91,7 @@ public class UserLibraryFragment extends Fragment implements SongFragmentUpdate 
                 }
                 mListView.setAdapter(songSearchAdapter);
                 mListView.setSelection(offset);
-                offset += limit;
+                offset += songs.size();
             }
 
             @Override

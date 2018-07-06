@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import kaaes.spotify.webapi.android.models.PlaylistSimple;
+
 public class SongSearchActivity extends FragmentActivity implements OnFragmentInteractionListener {
     public static final int SONG_SEARCH_RESULT = 1;
 
@@ -37,6 +39,10 @@ public class SongSearchActivity extends FragmentActivity implements OnFragmentIn
 
     public interface SongSearchResultCallBack{
         void onSuccess(ArrayList<Song> songs);
+        void onFailure(String errorMessage);
+    }
+    public interface PlaylistSearchResultCallBack{
+        void onSuccess(ArrayList<PlaylistSimple> playlists);
         void onFailure(String errorMessage);
     }
 
