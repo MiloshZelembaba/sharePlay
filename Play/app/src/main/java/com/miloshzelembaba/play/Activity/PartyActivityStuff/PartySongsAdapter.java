@@ -22,8 +22,8 @@ import java.util.ArrayList;
  * Created by miloshzelembaba on 2018-03-16.
  */
 
-public class PartySongsAdapter extends ArraySwipeAdapter {
-    BaseParty mBaseActivity;
+public class PartySongsAdapter extends ArraySwipeAdapter<Song> {
+    private BaseParty mBaseActivity;
 
     public PartySongsAdapter(BaseParty context, int textViewResourceId, ArrayList<Song> songs){
         super(context, textViewResourceId, songs);

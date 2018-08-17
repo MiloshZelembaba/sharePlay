@@ -2,6 +2,8 @@ package com.miloshzelembaba.play.api;
 
 import android.os.AsyncTask;
 
+import com.miloshzelembaba.play.Network.NetworkController;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -32,10 +34,19 @@ public class APIRequest extends AsyncTask<Request, Void, JSONObject> {
             return null;
         }
 
+        NetworkController networkController = NetworkController.getInstance();
+        String requestId = Long.toString((Long)requests[0].getParameter("request_id"));
+
         try {
             result = getResponse(requests[0]);
-            return result;
+            if (networkController.numRequests() == 1 && networkController.has(requestId)) {
+                networkController.remove(requestId);
+                return result;
+            }
+            networkController.remove(requestId);
+            return null;
         } catch (Exception e) {
+            networkController.remove(requestId);
             callBack.onFailure(e.getMessage());
             return null;
         }
@@ -44,6 +55,7 @@ public class APIRequest extends AsyncTask<Request, Void, JSONObject> {
     @Override
     public void onPostExecute(JSONObject result){
         if (result != null) {
+
             callBack.onSuccess(result);
         } else {
             // onFailure callback is taken care of in doInBackground()

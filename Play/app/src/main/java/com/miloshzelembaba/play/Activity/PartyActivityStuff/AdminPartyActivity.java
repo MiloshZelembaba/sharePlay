@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.miloshzelembaba.play.Activity.PartyMembers.PartyMembersActivity;
 import com.miloshzelembaba.play.Activity.SongSearch.SongSearchActivity;
@@ -18,6 +19,7 @@ import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.Models.User;
+import com.miloshzelembaba.play.Network.NetworkController;
 import com.miloshzelembaba.play.Network.NetworkManager;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifyManager;
@@ -117,6 +119,14 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
         fab = (FloatingActionButton) findViewById(R.id.fab);
         cpArtists = (TextView) findViewById(R.id.currently_plauying_song_artists);
         cpSongName = (TextView) findViewById(R.id.currently_playing_song_name);
+        // debug
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mBaseActivity, Integer.toString(NetworkController.getInstance().numRequests()),Toast.LENGTH_SHORT).show();
+            }
+        });
+
         cpSongImage = (ImageView) findViewById(R.id.currently_playing_song_image);
         mMusicControls = (LinearLayout) findViewById(R.id.music_controls_container);
         mMusicControls.setVisibility(VISIBLE);

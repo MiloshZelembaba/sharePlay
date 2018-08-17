@@ -90,6 +90,18 @@ public class Party extends Serializable {
         return array;
     }
 
+    public void incrementSong(Song s) {
+        for (Song song: songs) {
+            if (s.getUri().equals(song.getUri())) {
+                song.incrementVoteCount();
+            }
+        }
+    }
+
+    public void setSongs(ArrayList<Song> s) {
+        songs = s;
+    }
+
     public ArrayList<Song> getQueuedSongs(){
         Collections.sort(songs, new SongVoteCountComparator());
         if (mCurrentlyPlaying != null && songs.contains(mCurrentlyPlaying)) {

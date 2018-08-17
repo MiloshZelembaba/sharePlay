@@ -16,6 +16,7 @@ import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.Models.User;
+import com.miloshzelembaba.play.Network.NetworkController;
 import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnHostSwitchEvent;
 import com.miloshzelembaba.play.Network.NetworkManager;
 import com.miloshzelembaba.play.R;
@@ -95,6 +96,13 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
         cpArtists = (TextView) findViewById(R.id.currently_plauying_song_artists);
         cpSongName = (TextView) findViewById(R.id.currently_playing_song_name);
         cpSongImage = (ImageView) findViewById(R.id.currently_playing_song_image);
+        // debug
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mBaseActivity, Integer.toString(NetworkController.getInstance().numRequests()),Toast.LENGTH_SHORT).show();
+            }
+        });
 
         partyMembersIcon.setImageResource(R.drawable.baseline_supervisor_account_white_24dp);
         partyMembersIcon.setOnClickListener(new View.OnClickListener() {
