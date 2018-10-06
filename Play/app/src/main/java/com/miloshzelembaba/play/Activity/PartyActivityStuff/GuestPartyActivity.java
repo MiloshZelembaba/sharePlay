@@ -103,6 +103,7 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
                 Toast.makeText(mBaseActivity, Integer.toString(NetworkController.getInstance().numRequests()),Toast.LENGTH_SHORT).show();
             }
         });
+        voteCount = (TextView) findViewById(R.id.vote_count);
 
         partyMembersIcon.setImageResource(R.drawable.baseline_supervisor_account_white_24dp);
         partyMembersIcon.setOnClickListener(new View.OnClickListener() {
@@ -133,11 +134,25 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
             }
         });
 
+        voteCount.setText(numVotes + "");
     }
 
     @Override
     protected void initServices() {
         super.initServices();
+    }
+
+    @Override
+    protected void incrementSongCount(Song song) {
+        if (numVotes <= 0) {
+            Toast.makeText(this, "Not Enough votes", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        numVotes--;
+        if (voteCount != null) {
+            voteCount.setText(numVotes + "");
+            super.incrementSongCount(song);
+        }
     }
 
     @Override
@@ -204,8 +219,14 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
     }
 
     private void setCurrentlyPlayingViews() {
+        String previousSongName = cpSongName.getText().toString();
         Song currentlyPlayingSong = mParty.getCurrentlyPlaying();
         if (currentlyPlayingSong != null) {
+            if (!previousSongName.equals(currentlyPlayingSong.getSongName())) {
+                numVotes = 10;
+                voteCount.setText(numVotes + "");
+            }
+
             cpArtists.setText(currentlyPlayingSong.getSongArtists());
             cpSongImage.setImageBitmap(currentlyPlayingSong.getImage());
             if (currentlyPlayingSong.getImage() == null){
