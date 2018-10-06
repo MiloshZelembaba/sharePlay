@@ -31,8 +31,10 @@ public abstract class BaseParty extends AppCompatActivity implements OnPartyUpda
     protected PartySongsAdapter mPartySongsAdapter;
     protected ListView mSongsListView;
     protected TextView header;
+    protected TextView voteCount;
     protected User user;
     protected BaseParty mBaseActivity;
+    protected int numVotes;
 
     // services
     protected GetPartyDetailsService getPartyDetailsService;
@@ -44,6 +46,7 @@ public abstract class BaseParty extends AppCompatActivity implements OnPartyUpda
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBaseActivity = this;
+        numVotes = 10;
     }
 
     protected void initServices() {
