@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -47,7 +49,7 @@ import java.util.HashMap;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class InitialActivity extends Activity {
+public class InitialActivity extends FragmentActivity {
     private Context mContext;
     private TextView mJoinAParty;
     private TextView mCreateAParty;
@@ -266,6 +268,10 @@ public class InitialActivity extends Activity {
     }
 
     private void startLoginTasks() {
+        final LoadingFragment progressSpinner = new LoadingFragment();
+        progressSpinner.setCancelable(false);
+        FragmentManager fm = getSupportFragmentManager();
+        progressSpinner.show(fm ,"");
         mSpotifyManager.getUserDetails(new SpotifyResultCallback(){
             @Override
             public void onSuccess(Object result) {
@@ -280,6 +286,7 @@ public class InitialActivity extends Activity {
                             public void onSuccess(User user) {
                                 ApplicationUtil.getInstance().setUser(user);
                                 completeLoginTasks(user);
+                                progressSpinner.dismiss();
                             }
 
                             @Override
@@ -288,6 +295,7 @@ public class InitialActivity extends Activity {
                                 ErrorService.showErrorMessage(mContext,
                                         "Login Failed!",
                                         ErrorService.ErrorSeverity.HIGH);
+                                progressSpinner.dismiss();
                             }
                         });
             }
