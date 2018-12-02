@@ -180,6 +180,12 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
         }
     }
 
+    @Override
+    protected void setParty(Party party) {
+        super.setParty(party);
+        setCurrentlyPlayingViews();
+    }
+
     private void setCurrentlyPlayingViews() {
         String previousSongName = cpSongName.getText().toString();
         Song currentlyPlayingSong = mParty.getCurrentlyPlaying();
