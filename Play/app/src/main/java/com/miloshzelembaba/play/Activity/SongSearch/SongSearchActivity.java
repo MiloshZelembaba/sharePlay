@@ -25,7 +25,6 @@ public class SongSearchActivity extends FragmentActivity implements OnFragmentIn
 
     // local
     SongSearchActivity thisActivity;
-//    ArrayList<Song> songsToAdd;
     Map<String, Song> songsToAdd;
 
     // views
@@ -45,7 +44,6 @@ public class SongSearchActivity extends FragmentActivity implements OnFragmentIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_search);
         thisActivity = this;
-//        songsToAdd = new ArrayList<>();
         songsToAdd = new HashMap<>();
 
         /* init the size of the activity */
@@ -59,8 +57,8 @@ public class SongSearchActivity extends FragmentActivity implements OnFragmentIn
         mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
         ArrayList<android.support.v4.app.Fragment> searchActivityFragments = new ArrayList<>();
-        searchActivityFragments.add(SearchFragment.newInstance());
         searchActivityFragments.add(UserLibraryFragment.newInstance());
+        searchActivityFragments.add(SearchFragment.newInstance());
         searchActivityFragments.add(UserPlaylistFragment.newInstance());
         mPagerAdapter.setItems(searchActivityFragments);
         mPager.setAdapter(mPagerAdapter);

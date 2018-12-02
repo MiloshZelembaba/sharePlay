@@ -37,9 +37,9 @@ public class PagerAdapter extends FragmentPagerAdapter {
     public String getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Search";
-            case 1:
                 return "Your Library";
+            case 1:
+                return "Search";
             case 2:
                 return "Playlists";
             default:

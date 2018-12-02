@@ -31,6 +31,8 @@ import com.miloshzelembaba.play.api.Services.IncrementSongVoteCountService;
 import com.miloshzelembaba.play.api.Services.LeavePartyService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class BaseParty extends AppCompatActivity implements OnPartyUpdated {
     protected Party mParty;
@@ -121,16 +123,18 @@ public abstract class BaseParty extends AppCompatActivity implements OnPartyUpda
 
     private class PartySongsAdapter extends ArraySwipeAdapter<Song> {
         private BaseParty mBaseActivity;
+        //swipe listeners fucking suck so this exists
+        Map<SwipeLayout, SwipeLayout.SwipeListener> mSwipeListeners;
 
         public PartySongsAdapter(BaseParty context, int textViewResourceId, ArrayList<Song> songs){
             super(context, textViewResourceId, songs);
             mBaseActivity = context;
+            mSwipeListeners = new HashMap<>();
         }
 
         @Override
         @NonNull
         public View getView(final int position, View convertView, ViewGroup parent) {
-
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) mBaseActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.party_song_layout, parent, false);
@@ -173,7 +177,9 @@ public abstract class BaseParty extends AppCompatActivity implements OnPartyUpda
                 swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
                 swipeLayout.setSwipeEnabled(true);
                 swipeLayout.addDrag(SwipeLayout.DragEdge.Left, convertView.findViewById(R.id.bottom_wrapper));
-                swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
+                SwipeLayout.SwipeListener tmp = mSwipeListeners.get(swipeLayout);
+                swipeLayout.removeSwipeListener(tmp);
+                tmp = new SwipeLayout.SwipeListener() {
                     @Override
                     public void onClose(SwipeLayout layout) {
                         song.setIsBeingSwiped(false);
@@ -207,7 +213,9 @@ public abstract class BaseParty extends AppCompatActivity implements OnPartyUpda
                             song.setIsBeingSwiped(true);
                         }
                     }
-                });
+                };
+                mSwipeListeners.put(swipeLayout, tmp);
+                swipeLayout.addSwipeListener(tmp);
             }
 
             return convertView;
