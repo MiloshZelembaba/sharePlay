@@ -29,9 +29,9 @@ import com.miloshzelembaba.play.Utils.ApplicationUtil;
 import com.miloshzelembaba.play.Utils.SharedPreferenceUtil;
 import com.miloshzelembaba.play.api.Services.AuthenticationServices.GetAccessTokenService;
 import com.miloshzelembaba.play.api.Services.CreatePartyService;
+import com.miloshzelembaba.play.api.Services.CreateTemporaryUserService;
 import com.miloshzelembaba.play.api.Services.JoinPartyService;
 import com.miloshzelembaba.play.api.Services.LeavePartyService;
-import com.miloshzelembaba.play.api.Services.CreateTemporaryUserService;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.spotify.sdk.android.player.Config;
@@ -113,6 +113,7 @@ public class InitialActivity extends FragmentActivity {
 
         User user = sharedPreferenceUtil.getUser();
         ApplicationUtil.getInstance().setUser(user);
+        ApplicationUtil.getInstance().setContext(this);
         if (user != null) {
             showLoginSucces(user);
         }
@@ -210,6 +211,19 @@ public class InitialActivity extends FragmentActivity {
         mCurrentUserDisplayName.setVisibility(GONE);
         mLogoutButton.setVisibility(GONE);
         mProfileLogo.setImageResource(R.drawable.baseline_face_black_24dp);
+        mProfileLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean tmp = SharedPreferenceUtil.getInstance(InitialActivity.this).getServerMode();
+                if (!tmp) {
+                    Toast.makeText(InitialActivity.this, "prod server", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(InitialActivity.this, "local server", Toast.LENGTH_SHORT).show();
+                }
+
+                SharedPreferenceUtil.getInstance(InitialActivity.this).toggleServerMode();
+            }
+        });
         mJoinAParty.setTextColor(ContextCompat.getColor(this, black));
         mJoinAParty.setOnClickListener(new View.OnClickListener() {
             @Override

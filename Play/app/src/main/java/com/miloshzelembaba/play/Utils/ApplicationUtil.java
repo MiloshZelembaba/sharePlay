@@ -1,5 +1,7 @@
 package com.miloshzelembaba.play.Utils;
 
+import android.content.Context;
+
 import com.miloshzelembaba.play.Models.User;
 
 /**
@@ -11,6 +13,7 @@ public class ApplicationUtil {
     private static User user;
     private static String appMode = "local"; // local or dev server
     private static String localServerAddress = "";
+    private static Context context;
 
     private ApplicationUtil(){}
 
@@ -32,6 +35,14 @@ public class ApplicationUtil {
 
     public String getAppMode() {
         return appMode;
+    }
+
+    public void setContext(Context c) {
+        context = c;
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     public void switchAppMode() {

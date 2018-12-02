@@ -2,6 +2,7 @@ package com.miloshzelembaba.play.api;
 
 import com.miloshzelembaba.play.Models.Serializable;
 import com.miloshzelembaba.play.Utils.ApplicationUtil;
+import com.miloshzelembaba.play.Utils.SharedPreferenceUtil;
 
 import org.json.JSONObject;
 
@@ -12,8 +13,11 @@ public class Request {
     private String url;
 
     public Request(){
-        url = "https://shareplay-204722.appspot.com/";
-//        url = "http://10.0.0.15:8000/";
+        if (SharedPreferenceUtil.getInstance(ApplicationUtil.getInstance().getContext()).getServerMode()) {
+            url = "https://shareplay-204722.appspot.com/";
+        } else {
+            url = "http://10.0.0.15:8000/";
+        }
         params = new HashMap<>();
         addParameter("user", ApplicationUtil.getInstance().getUser());
     }

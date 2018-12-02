@@ -45,4 +45,15 @@ public class SharedPreferenceUtil {
 
         return user;
     }
+
+    public boolean getServerMode() {
+        SharedPreferences prefs = context.getSharedPreferences("SharePlayPreference", Context.MODE_PRIVATE);
+        return prefs.getBoolean("serverMode", false);
+    }
+
+    public void toggleServerMode() {
+        SharedPreferences prefs = context.getSharedPreferences("SharePlayPreference", Context.MODE_PRIVATE);
+        boolean tmp = prefs.getBoolean("serverMode", false);
+        prefs.edit().putBoolean("serverMode", !tmp).apply();
+    }
 }
