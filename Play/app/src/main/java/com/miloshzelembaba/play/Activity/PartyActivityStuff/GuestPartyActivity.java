@@ -15,19 +15,15 @@ import com.miloshzelembaba.play.Activity.SongSearch.SongSearchActivity;
 import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
-import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnHostSwitchEvent;
 import com.miloshzelembaba.play.Network.NetworkManager;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifyUpdateListener;
 import com.miloshzelembaba.play.Utils.ApplicationUtil;
-import com.miloshzelembaba.play.Utils.StringUtil;
 import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
 import com.miloshzelembaba.play.api.Services.ImageDownloader;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +35,7 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
 
     // Local
     private Context mContext;
+    private boolean performingHostSwitch;
 
     // Views
     private FloatingActionButton fab;
@@ -48,23 +45,16 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
     private TextView cpSongName;
     private TextView cpArtists;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guest_activity_party);
         mContext = this;
+        performingHostSwitch = false;
         NetworkManager.getInstance().setHostSwitchListener(this);
         NetworkManager.getInstance().addPartyUpdateListener(this);
 
-        initServices();
         initViews();
-
-        try {
-            user = new User(new JSONObject(getIntent().getStringExtra(EXTRA_USER)));
-        } catch (JSONException e){
-            user = null;
-        }
 
         // Get partyId from extras and get the party details
         String partyId = getIntent().getStringExtra(EXTRA_PARTY_ID);
@@ -95,13 +85,6 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
         cpArtists = (TextView) findViewById(R.id.currently_plauying_song_artists);
         cpSongName = (TextView) findViewById(R.id.currently_playing_song_name);
         cpSongImage = (ImageView) findViewById(R.id.currently_playing_song_image);
-        // debug
-        header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(mBaseActivity, Integer.toString(NetworkController.getInstance().numRequests()),Toast.LENGTH_SHORT).show();
-            }
-        });
         voteCount = (TextView) findViewById(R.id.vote_count);
 
         partyMembersIcon.setImageResource(R.drawable.baseline_supervisor_account_white_24dp);
@@ -114,7 +97,8 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
                 Intent intent = new Intent(GuestPartyActivity.this, PartyMembersActivity.class);
                 try {
                     intent.putExtra(PartyMembersActivity.PARTY, mParty.serialize().toString());
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
 
                 startActivity(intent);
             }
@@ -137,11 +121,6 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
     }
 
     @Override
-    protected void initServices() {
-        super.initServices();
-    }
-
-    @Override
     protected void incrementSongCount(Song song) {
         if (numVotes <= 0) {
             Toast.makeText(this, "Not Enough votes", Toast.LENGTH_SHORT).show();
@@ -157,19 +136,13 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
     @Override
     public void onHostSwitchEvent(final String partyId) {
         // TODO: does this need to be run on the UI thread?
+        performingHostSwitch = true;
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(mContext, "you've become the party host!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(mContext, AdminPartyActivity.class);
                 intent.putExtra(AdminPartyActivity.EXTRA_PARTY_ID, partyId);
-                try {
-                    intent.putExtra(AdminPartyActivity.EXTRA_USER, ApplicationUtil.getInstance().getUser().serialize().toString());
-                } catch (JSONException e) {
-                    ErrorService.showErrorMessage(mContext,
-                            "couldn't switch parties",
-                            ErrorService.ErrorSeverity.HIGH);
-                }
                 startActivity(intent);
 
                 finish();
@@ -207,16 +180,6 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
         }
     }
 
-    @Override
-    protected void setParty(Party party) {
-        mParty = party;
-        mPartySongsAdapter = new PartySongsAdapter(this, 0, party.getQueuedSongs());
-        mSongsListView.setAdapter(mPartySongsAdapter);
-        String headerText = "Party Code: " + StringUtil.padZeros(mParty.getId());
-        header.setText(headerText);
-        setCurrentlyPlayingViews();
-    }
-
     private void setCurrentlyPlayingViews() {
         String previousSongName = cpSongName.getText().toString();
         Song currentlyPlayingSong = mParty.getCurrentlyPlaying();
@@ -251,7 +214,9 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
 
     @Override
     protected void onDestroy() {
-        leavePartyService.requestService(user, null);
+        if (!performingHostSwitch) {
+            leavePartyService.requestService(user, null);
+        }
         super.onDestroy();
     }
 

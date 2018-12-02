@@ -11,10 +11,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- * Created by miloshzelembaba on 2018-03-18.
- */
-
 public class NetworkInfoMessenger implements Runnable {
     private final JSONObject recievedJSON;
     private final Context context;

@@ -5,7 +5,6 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.miloshzelembaba.play.Utils.ApplicationUtil;
 import com.miloshzelembaba.play.api.Services.SendFCMTokenService;
 
-// TODO: i think that this should be implemented as a handler
 public class RequestListener extends FirebaseInstanceIdService {
     SendFCMTokenService sendFCMTokenService = new SendFCMTokenService();
 

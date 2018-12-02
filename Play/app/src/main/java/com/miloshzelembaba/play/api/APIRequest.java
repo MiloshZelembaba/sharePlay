@@ -27,20 +27,10 @@ public class APIRequest extends AsyncTask<Request, Void, JSONObject> {
             callBack.onFailure("Requests has length " + requests.length + " for some reason");
             return null;
         }
-
-//        NetworkController networkController = NetworkController.getInstance();
-//        String requestId = Long.toString((Long)requests[0].getParameter("request_id"));
-
         try {
             result = getResponse(requests[0]);
-//            if (networkController.numRequests() == 1 && networkController.has(requestId)) {
-//                networkController.remove(requestId);
-                return result;
-//            }
-//            networkController.remove(requestId);
-//            return null;
+            return result;
         } catch (Exception e) {
-//            networkController.remove(requestId);
             callBack.onFailure(e.getMessage());
             return null;
         }
@@ -65,7 +55,6 @@ public class APIRequest extends AsyncTask<Request, Void, JSONObject> {
         String urlRequest = request.buildURL();
         byte[] postDataBytes = request.getParamBytes();
 
-
         StringBuilder result = new StringBuilder();
         URL url = new URL(urlRequest);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -74,8 +63,6 @@ public class APIRequest extends AsyncTask<Request, Void, JSONObject> {
         conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
         conn.setDoOutput(true);
         conn.getOutputStream().write(postDataBytes);
-
-
 
         BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line;
