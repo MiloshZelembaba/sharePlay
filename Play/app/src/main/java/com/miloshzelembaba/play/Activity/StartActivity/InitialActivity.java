@@ -31,7 +31,7 @@ import com.miloshzelembaba.play.api.Services.AuthenticationServices.GetAccessTok
 import com.miloshzelembaba.play.api.Services.CreatePartyService;
 import com.miloshzelembaba.play.api.Services.JoinPartyService;
 import com.miloshzelembaba.play.api.Services.LeavePartyService;
-import com.miloshzelembaba.play.api.Services.LoginService;
+import com.miloshzelembaba.play.api.Services.CreateTemporaryUserService;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.spotify.sdk.android.player.Config;
@@ -57,7 +57,7 @@ public class InitialActivity extends FragmentActivity {
     private JoinPartyService joinPartyService;
     private CreatePartyService createPartyService;
     private SpotifyManager mSpotifyManager = SpotifyManager.getInstance();
-    private LoginService mLoginService;
+    private CreateTemporaryUserService mCreateTemporaryUserService;
     private LeavePartyService mLeavePartyService;
     private GetAccessTokenService getAccessTokenService = new GetAccessTokenService();
     private SharedPreferenceUtil sharedPreferenceUtil = SharedPreferenceUtil.getInstance(this);
@@ -187,7 +187,7 @@ public class InitialActivity extends FragmentActivity {
     private void init() {
         joinPartyService = new JoinPartyService();
         createPartyService = new CreatePartyService();
-        mLoginService = new LoginService();
+        mCreateTemporaryUserService = new CreateTemporaryUserService();
         mLeavePartyService = new LeavePartyService();
         mJoinAParty = (TextView) findViewById(R.id.join_party);
         mCreateAParty = (TextView) findViewById(R.id.create_party);
@@ -410,8 +410,8 @@ public class InitialActivity extends FragmentActivity {
     private void createTemporaryUser() {
         String displayName = User.TEMPORARY_USER_DISPLAY_NAME;
         String email = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        mLoginService.requestService(email, displayName, "none",
-                new LoginService.LoginServiceCallback() {
+        mCreateTemporaryUserService.requestService(email, displayName, "none",
+                new CreateTemporaryUserService.LoginServiceCallback() {
                     @Override
                     public void onSuccess(User user) {
                         ApplicationUtil.getInstance().setUser(user);

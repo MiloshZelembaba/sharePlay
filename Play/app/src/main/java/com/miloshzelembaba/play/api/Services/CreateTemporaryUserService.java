@@ -9,7 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class LoginService {
+public class CreateTemporaryUserService {
     public static final String SPOTIFY_PREMIUM = "spotify_premium";
     public static final String SPOTIFY_FREE = "spotify_free";
     public static final String NONE = "none";
@@ -24,7 +24,7 @@ public class LoginService {
     public void requestService(String email, String displayName, String product, final LoginServiceCallback callback){
         apiService = new APIRequest();
         Request request = new Request();
-        request.setUrl("login/");
+        request.setUrl("createTemporaryUser/");
         request.addParameter("email", email);
         request.addParameter("display_name", displayName);
         request.addParameter("refresh_token", FirebaseInstanceId.getInstance().getToken());

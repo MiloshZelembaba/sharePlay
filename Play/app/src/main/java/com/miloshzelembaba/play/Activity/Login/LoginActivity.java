@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.R;
-import com.miloshzelembaba.play.api.Services.LoginService;
+import com.miloshzelembaba.play.api.Services.CreateTemporaryUserService;
 
 /**
  * A login screen that offers login via email/password.
@@ -55,7 +55,7 @@ public class LoginActivity extends Activity {
     private View mLoginFormView;
 
     // Services
-    LoginService mLoginService;
+    CreateTemporaryUserService mCreateTemporaryUserService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +103,7 @@ public class LoginActivity extends Activity {
     }
 
     private void initServices() {
-        mLoginService = new LoginService();
+        mCreateTemporaryUserService = new CreateTemporaryUserService();
     }
 
 //    private void populateAutoComplete() {
@@ -202,8 +202,8 @@ public class LoginActivity extends Activity {
 //            mAuthTask = new UserLoginTask(email, password);
 //            mAuthTask.execute((Void) null);
 
-//            mLoginService.requestService(mEmailView.getText().toString(), mPasswordView.getText().toString(),
-//                    new LoginService.LoginServiceCallback() {
+//            mCreateTemporaryUserService.requestService(mEmailView.getText().toString(), mPasswordView.getText().toString(),
+//                    new CreateTemporaryUserService.LoginServiceCallback() {
 //                        @Override
 //                        public void onSuccess(User user) {
 //                            showProgress(false);
