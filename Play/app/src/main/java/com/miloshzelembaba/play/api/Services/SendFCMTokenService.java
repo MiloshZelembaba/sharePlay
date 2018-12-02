@@ -5,10 +5,6 @@ import com.miloshzelembaba.play.api.Request;
 
 import org.json.JSONObject;
 
-/**
- * Created by miloshzelembaba on 2018-05-24.
- */
-
 public class SendFCMTokenService {
     private APIRequest apiService;
 

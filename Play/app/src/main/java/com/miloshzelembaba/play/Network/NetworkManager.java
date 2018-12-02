@@ -44,20 +44,4 @@ public class NetworkManager {
     public OnHostSwitchEvent getOnHostSwitchEventListener() {
         return onHostSwitchEventListener;
     }
-
-    public void setAddress(String ad){
-        address = ad;
-    }
-
-    public void setPort(int p){
-        port = p;
-    }
-
-    public String getAddress(){
-        return address;
-    }
-
-    public int getPort(){
-        return port;
-    }
 }

@@ -290,11 +290,6 @@ public class InitialActivity extends FragmentActivity {
     private void startAdminPartyActivity(String partyId){
         Intent intent = new Intent(this, AdminPartyActivity.class);
         intent.putExtra(AdminPartyActivity.EXTRA_PARTY_ID, partyId);
-        try {
-            intent.putExtra(AdminPartyActivity.EXTRA_USER, ApplicationUtil.getInstance().getUser().serialize().toString());
-        } catch (JSONException e) {
-            // error message
-        }
         startActivity(intent);
     }
 

@@ -17,7 +17,6 @@ import com.miloshzelembaba.play.Activity.SongSearch.SongSearchActivity;
 import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
-import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.Network.NetworkManager;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifyManager;
@@ -29,8 +28,6 @@ import com.miloshzelembaba.play.api.Services.RemoveSongFromPartyService;
 import com.spotify.sdk.android.player.Player;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,8 +40,8 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
     public static final String EXTRA_USER = "ExtraUser";
 
     // Services
-    FinishSongService finishSongService;
-    RemoveSongFromPartyService removeSongFromPartyService;
+    FinishSongService finishSongService = new FinishSongService();
+    RemoveSongFromPartyService removeSongFromPartyService = new RemoveSongFromPartyService();
 
     // Spotify
     private Player mPlayer;
@@ -69,19 +66,11 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
         super.onCreate(savedInstanceState);
         NetworkManager.getInstance().addPartyUpdateListener(this);
 
-        initServices();
         initViews();
         mIsPlaying = false;
         mSpotifyManager = SpotifyManager.getInstance();
         mSpotifyManager.setSpotifyUpdateListener(this);
         mPlayer = mSpotifyManager.getPlayer();
-
-
-        try {
-            user = new User(new JSONObject(getIntent().getStringExtra(EXTRA_USER)));
-        } catch (JSONException e){
-            user = null;
-        }
 
         String partyId = getIntent().getStringExtra(EXTRA_PARTY_ID);
         getPartyDetailsService.requestService(partyId,
@@ -99,13 +88,6 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
     }
 
     @Override
-    protected void initServices() {
-        super.initServices(); // init the base services
-        finishSongService = new FinishSongService();
-        removeSongFromPartyService = new RemoveSongFromPartyService();
-    }
-
-    @Override
     protected void initViews() {
         setContentView(R.layout.admin_activity_party);
         partyMembersIcon = (ImageView) findViewById(R.id.party_members);
@@ -117,13 +99,6 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
         fab = (FloatingActionButton) findViewById(R.id.fab);
         cpArtists = (TextView) findViewById(R.id.currently_plauying_song_artists);
         cpSongName = (TextView) findViewById(R.id.currently_playing_song_name);
-        // debug
-        header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(mBaseActivity, Integer.toString(NetworkController.getInstance().numRequests()),Toast.LENGTH_SHORT).show();
-            }
-        });
 
         cpSongImage = (ImageView) findViewById(R.id.currently_playing_song_image);
         mMusicControls = (LinearLayout) findViewById(R.id.music_controls_container);
@@ -163,7 +138,6 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
             }
         });
 
-
         fab.setImageResource(R.drawable.ic_search_white_24dp);
         mPlaybackControlAddSong.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +147,6 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
                 }
             }
         });
-
     }
 
     private void pauseSong(){
@@ -280,9 +253,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
     }
 
     @Override
-    public void onLoggedIn() {
-
-    }
+    public void onLoggedIn() { }
 
     @Override
     public void onBackPressed() {
@@ -328,5 +299,4 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
             }
         });
     }
-
 }

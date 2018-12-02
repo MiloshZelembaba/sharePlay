@@ -70,7 +70,7 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
     public void authorize(final Activity activity, final InitialActivity.AuthResult callback) {
         User user = SharedPreferenceUtil.getInstance(activity).getUser();
         String email = user == null ? "" : user.getEmail();
-        String product = "SPOTIFY";
+        String product = user == null ? "" : user.mProduct;
         attemptLoginService.requestService(email, product, new AttemptLoginService.AttemptLoginServiceCallback() {
             @Override
             public void onSuccess(JSONObject response) {

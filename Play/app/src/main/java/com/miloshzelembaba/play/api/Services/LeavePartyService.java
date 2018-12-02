@@ -18,7 +18,6 @@ public class LeavePartyService {
         void onFailure(String errorMessage);
     }
 
-
     public void requestService(User user, final LeavePartyService.LeavePartyServiceCallback callback){
         apiService = new APIRequest();
         Request request = new Request();
