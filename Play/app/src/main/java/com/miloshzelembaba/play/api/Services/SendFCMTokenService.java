@@ -17,13 +17,11 @@ public class SendFCMTokenService {
         void onFailure(String errorMessage);
     }
 
-
     public void requestService(String refreshToken, final SendFCMTokenService.SendFCMTokenCallback callback){
         apiService = new APIRequest();
         Request request = new Request();
         request.setUrl("updateFCMRefreshToken/");
         request.addParameter("refresh_token", refreshToken);
-
 
         apiService.sendRequest(request,
                 new APIRequest.APIRequestCallBack() {

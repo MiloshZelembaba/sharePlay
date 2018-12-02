@@ -16,7 +16,6 @@ import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.Models.User;
-import com.miloshzelembaba.play.Network.NetworkController;
 import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnHostSwitchEvent;
 import com.miloshzelembaba.play.Network.NetworkManager;
 import com.miloshzelembaba.play.R;
@@ -100,7 +99,7 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mBaseActivity, Integer.toString(NetworkController.getInstance().numRequests()),Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mBaseActivity, Integer.toString(NetworkController.getInstance().numRequests()),Toast.LENGTH_SHORT).show();
             }
         });
         voteCount = (TextView) findViewById(R.id.vote_count);

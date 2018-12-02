@@ -1,5 +1,8 @@
 package com.miloshzelembaba.play.Network;
 
+import android.content.Context;
+
+import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Network.NetworkEventTypeCallbacks.OnPartyUpdated;
 
@@ -13,11 +16,13 @@ import java.util.ArrayList;
  */
 
 public class NetworkInfoMessenger implements Runnable {
-    JSONObject recievedJSON;
+    private final JSONObject recievedJSON;
+    private final Context context;
     private final String UPDATE_PARTY = "update_party";
     private final String HOST_SWITCH = "host_switch";
 
-    public NetworkInfoMessenger(JSONObject obj){
+    public NetworkInfoMessenger(JSONObject obj, Context context){
+        this.context = context;
         recievedJSON = obj;
     }
 
@@ -26,7 +31,7 @@ public class NetworkInfoMessenger implements Runnable {
         try {
             handelResult();
         } catch (JSONException e){
-            // TODO: create a popup thingy
+            ErrorService.showErrorMessage(context, e.getMessage(), ErrorService.ErrorSeverity.HIGH);
         }
     }
 

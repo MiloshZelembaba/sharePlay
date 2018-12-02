@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.miloshzelembaba.play.Activity.PartyMembers.PartyMembersActivity;
 import com.miloshzelembaba.play.Activity.SongSearch.SongSearchActivity;
@@ -19,14 +18,13 @@ import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Party;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.Models.User;
-import com.miloshzelembaba.play.Network.NetworkController;
 import com.miloshzelembaba.play.Network.NetworkManager;
 import com.miloshzelembaba.play.R;
 import com.miloshzelembaba.play.Spotify.SpotifyManager;
 import com.miloshzelembaba.play.Spotify.SpotifyUpdateListener;
+import com.miloshzelembaba.play.api.Services.FinishSongService;
 import com.miloshzelembaba.play.api.Services.GetPartyDetailsService;
 import com.miloshzelembaba.play.api.Services.ImageDownloader;
-import com.miloshzelembaba.play.api.Services.FinishSongService;
 import com.miloshzelembaba.play.api.Services.RemoveSongFromPartyService;
 import com.spotify.sdk.android.player.Player;
 
@@ -123,7 +121,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mBaseActivity, Integer.toString(NetworkController.getInstance().numRequests()),Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mBaseActivity, Integer.toString(NetworkController.getInstance().numRequests()),Toast.LENGTH_SHORT).show();
             }
         });
 

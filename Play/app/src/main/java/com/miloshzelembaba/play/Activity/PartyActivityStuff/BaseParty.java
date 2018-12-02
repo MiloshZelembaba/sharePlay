@@ -58,7 +58,7 @@ public abstract class BaseParty extends AppCompatActivity implements OnPartyUpda
     abstract protected void initViews();
 
     protected void incrementSongCount(Song song) {
-        song.incrementVoteCount();
+//        song.incrementVoteCount();
         ArrayList<Song> tmp = new ArrayList<>(mParty.getQueuedSongs());
         mPartySongsAdapter.clear();
         mParty.setSongs(tmp);
@@ -92,8 +92,6 @@ public abstract class BaseParty extends AppCompatActivity implements OnPartyUpda
     }
 
     protected void addSongsToParty(ArrayList<Song> songs) {
-        mPartySongsAdapter.addAll(songs);
-        mPartySongsAdapter.notifyDataSetChanged();
         Toast.makeText(this, "Added " + songs.size() + " song(s)", Toast.LENGTH_SHORT).show();
         addSongToPartyService.requestService(user, mParty, songs, new AddSongToPartyService.AddSongToPartyServiceCallback() {
             @Override

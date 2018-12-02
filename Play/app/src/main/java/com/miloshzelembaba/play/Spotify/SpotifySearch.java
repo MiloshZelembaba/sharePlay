@@ -23,8 +23,8 @@ import retrofit.client.Response;
 
 public class SpotifySearch{
 
-    static SpotifyApi api = new SpotifyApi();
-    static SpotifyService spotify = api.getService();
+    static SpotifyApi api;
+    static SpotifyService spotify;
     static ArrayList<Song> tmp = new ArrayList<>();
 
     static public void getUserLibrary(int offset, int limit, final SongSearchActivity.SongSearchResultCallBack callBack) {
@@ -32,7 +32,8 @@ public class SpotifySearch{
         options.put("offset", offset);
         options.put("limit", limit);
 
-        api.setAccessToken(SpotifyManager.ACCESS_TOKEN);
+        api = SpotifyManager.getInstance().getApi();
+        spotify = api.getService();
 
         try {
             spotify.getMySavedTracks(options, new Callback<Pager<SavedTrack>>() {
@@ -62,7 +63,8 @@ public class SpotifySearch{
     }
 
     static public void getResults(String query, int offset, int limit,  final SongSearchActivity.SongSearchResultCallBack callBack){
-        api.setAccessToken(SpotifyManager.ACCESS_TOKEN);
+        api = SpotifyManager.getInstance().getApi();
+        spotify = api.getService();
 
         // TODO: should we make this async?
         // TODO: i think we should also make this part of the spotify manager
@@ -99,6 +101,4 @@ public class SpotifySearch{
             callBack.onFailure(e.getResponse().toString());
         }
     }
-
-
 }

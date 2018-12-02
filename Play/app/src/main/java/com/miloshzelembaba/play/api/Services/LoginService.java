@@ -2,16 +2,12 @@ package com.miloshzelembaba.play.api.Services;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.miloshzelembaba.play.Models.User;
-import com.miloshzelembaba.play.Spotify.SpotifyManager;
 import com.miloshzelembaba.play.api.APIRequest;
 import com.miloshzelembaba.play.api.Request;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by miloshzelembaba on 2018-03-07.
- */
 
 public class LoginService {
     public static final String SPOTIFY_PREMIUM = "spotify_premium";
@@ -25,7 +21,6 @@ public class LoginService {
         void onFailure(String errorMessage);
     }
 
-
     public void requestService(String email, String displayName, String product, final LoginServiceCallback callback){
         apiService = new APIRequest();
         Request request = new Request();
@@ -33,7 +28,7 @@ public class LoginService {
         request.addParameter("email", email);
         request.addParameter("display_name", displayName);
         request.addParameter("refresh_token", FirebaseInstanceId.getInstance().getToken());
-        request.addParameter("spotify_refresh_token", SpotifyManager.REFRESH_TOKEN);
+//        request.addParameter("spotify_refresh_token", SpotifyManager.REFRESH_TOKEN);
 
         if (product.equals("premium")) {
             request.addParameter("product", SPOTIFY_PREMIUM);
