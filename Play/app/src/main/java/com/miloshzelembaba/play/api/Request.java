@@ -1,7 +1,6 @@
 package com.miloshzelembaba.play.api;
 
 import com.miloshzelembaba.play.Models.Serializable;
-import com.miloshzelembaba.play.Network.NetworkController;
 import com.miloshzelembaba.play.Utils.ApplicationUtil;
 
 import org.json.JSONObject;
@@ -18,7 +17,7 @@ public class Request {
 
     public Request(){
         url = "https://shareplay-204722.appspot.com/";
-//        url = "http://192.168.0.19:8000/";
+//        url = "http://10.0.0.15:8000/";
 //        if (ApplicationUtil.getInstance().getAppMode().equals("dev_server")) {
 //            url = "https://shareplay-204722.appspot.com/";
 //        } else if (ApplicationUtil.getInstance().getAppMode().equals("local")) {
@@ -29,8 +28,8 @@ public class Request {
 //        }
         params = new HashMap<>();
         addParameter("user", ApplicationUtil.getInstance().getUser());
-        addParameter("request_id", System.currentTimeMillis());
-        NetworkController.getInstance().put(Long.toString((Long)params.get("request_id")));
+//        addParameter("request_id", System.currentTimeMillis());
+//        NetworkController.getInstance().put(Long.toString((Long)params.get("request_id")));
     }
 
     private void findLocalServer() {
@@ -49,9 +48,9 @@ public class Request {
         }
     }
 
-    public Object getParameter(String id) {
-        return params.get(id);
-    }
+//    public Object getParameter(String id) {
+//        return params.get(id);
+//    }
 
     public String buildURL(){
         return url;

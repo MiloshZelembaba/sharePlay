@@ -12,7 +12,6 @@ import android.widget.ListView;
 import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.R;
-import com.miloshzelembaba.play.Spotify.SpotifyManager;
 import com.miloshzelembaba.play.Spotify.SpotifySearch;
 import com.miloshzelembaba.play.Utils.ApplicationUtil;
 
@@ -98,7 +97,7 @@ public class UserLibraryFragment extends Fragment implements SongFragmentUpdate 
             public void onFailure(String errorMessage) {
                 if (errorMessage.contains("401")) {
                     // TODO
-                    SpotifyManager.getAuthCode(); // this is a temporary fix
+//                    SpotifyManager.authorize(); // this is a temporary fix
                     // this is the fix that should work but it doesn't
 //                    RefreshSpotifyAccessTokenService service = new RefreshSpotifyAccessTokenService();
 //                    service.requestService();

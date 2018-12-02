@@ -8,10 +8,6 @@ import com.miloshzelembaba.play.api.Request;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by miloshzelembaba on 2018-03-24.
- */
-
 public class FinishSongService {
     private APIRequest apiService;
 

@@ -18,7 +18,7 @@ public class User extends Serializable {
     String mLastName;
     String mEmail;
     String mDisplayName;
-    String mProduct;
+    public String mProduct;
 
     public User(String id, String fn, String ln, String email){
         mId = id;
@@ -94,5 +94,9 @@ public class User extends Serializable {
 
     public String getId(){
         return mId;
+    }
+
+    public boolean isPremium() {
+        return mProduct.toLowerCase().contains("premium");
     }
 }

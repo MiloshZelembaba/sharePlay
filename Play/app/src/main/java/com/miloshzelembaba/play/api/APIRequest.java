@@ -2,18 +2,12 @@ package com.miloshzelembaba.play.api;
 
 import android.os.AsyncTask;
 
-import com.miloshzelembaba.play.Network.NetworkController;
-
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-/**
- * Created by miloshzelembaba on 2018-02-28.
- */
 
 public class APIRequest extends AsyncTask<Request, Void, JSONObject> {
     JSONObject result;
@@ -34,19 +28,19 @@ public class APIRequest extends AsyncTask<Request, Void, JSONObject> {
             return null;
         }
 
-        NetworkController networkController = NetworkController.getInstance();
-        String requestId = Long.toString((Long)requests[0].getParameter("request_id"));
+//        NetworkController networkController = NetworkController.getInstance();
+//        String requestId = Long.toString((Long)requests[0].getParameter("request_id"));
 
         try {
             result = getResponse(requests[0]);
-            if (networkController.numRequests() == 1 && networkController.has(requestId)) {
-                networkController.remove(requestId);
+//            if (networkController.numRequests() == 1 && networkController.has(requestId)) {
+//                networkController.remove(requestId);
                 return result;
-            }
-            networkController.remove(requestId);
-            return null;
+//            }
+//            networkController.remove(requestId);
+//            return null;
         } catch (Exception e) {
-            networkController.remove(requestId);
+//            networkController.remove(requestId);
             callBack.onFailure(e.getMessage());
             return null;
         }

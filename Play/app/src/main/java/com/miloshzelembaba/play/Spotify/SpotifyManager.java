@@ -7,7 +7,9 @@ import com.miloshzelembaba.play.Activity.StartActivity.InitialActivity;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.Models.User;
 import com.miloshzelembaba.play.Utils.ApplicationUtil;
-import com.miloshzelembaba.play.api.Services.RefreshSpotifyAccessTokenService;
+import com.miloshzelembaba.play.Utils.SharedPreferenceUtil;
+import com.miloshzelembaba.play.api.Services.AuthenticationServices.AttemptLoginService;
+import com.miloshzelembaba.play.api.Services.AuthenticationServices.GetRefreshedAccessTokenService;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -16,9 +18,9 @@ import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -30,20 +32,11 @@ import kaaes.spotify.webapi.android.models.UserPrivate;
 import kaaes.spotify.webapi.android.models.UserPublic;
 import retrofit.RetrofitError;
 
-/**
- * Created by miloshzelembaba on 2018-03-25.
- */
-
 public class SpotifyManager implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
-    public static final String CLIENT_ID = "75cc7c4b4c6d49388044414a5ba6aaa6";
-    public static final String REDIRECT_URI = "what://localhost:8888/callback";
     public static final int REQUEST_CODE = 1337;
-    public static String REFRESH_TOKEN;
-    public static String ACCESS_TOKEN;
-    public static String AUTH_CODE;
+    static public String CLIENT_ID;
 
     static SpotifyUpdateListener mSpotifyUpdateListener;
-    static Activity baseActivity;
     static SpotifyApi mSpotifyApi;
     static SpotifyPlayer mSpotifyPlayer;
     static SpotifyManager instance;
@@ -52,31 +45,13 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
     UserPrivate mPrivateUser;
     UserPublic mPublicUser;
 
-    //Services
-    RefreshSpotifyAccessTokenService refreshSpotifyAccessTokenService;
+    // Services
+    private AttemptLoginService attemptLoginService = new AttemptLoginService();
+    private GetRefreshedAccessTokenService getRefreshedAccessTokenService = new GetRefreshedAccessTokenService();
 
-    private SpotifyManager() {
-        final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-        executor.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                if (refreshSpotifyAccessTokenService==null){
-                    refreshSpotifyAccessTokenService=new RefreshSpotifyAccessTokenService();
-                }
-                User user = ApplicationUtil.getInstance().getUser();
-                if (user != null && !user.isTemporaryUser()) {
-                    refreshSpotifyAccessTokenService.requestService();
-                }
-            }
-        }, 55, 55, TimeUnit.MINUTES); // just less than an hour (token expires every hour)
-    }
-
+    private SpotifyManager() {}
 
     public static SpotifyManager getInstance() {
-        if (baseActivity == null) { // this means we haven't logged in so you don't get one
-            return null;
-        }
-
         if (instance == null){
             instance = new SpotifyManager();
         }
@@ -88,57 +63,85 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         mSpotifyUpdateListener = spotifyUpdateListener;
     }
 
-    public static void setAccessToken(String a){
-        ACCESS_TOKEN = a;
+    public void logout(Activity activity) {
+        SharedPreferenceUtil.getInstance(activity).setUser(null);
     }
 
-    public static void setRefreshToken(String r) {
-        REFRESH_TOKEN = r;
+    public void authorize(final Activity activity, final InitialActivity.AuthResult callback) {
+        User user = SharedPreferenceUtil.getInstance(activity).getUser();
+        String email = user == null ? "" : user.getEmail();
+        String product = "SPOTIFY";
+        attemptLoginService.requestService(email, product, new AttemptLoginService.AttemptLoginServiceCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                if (response.has("access_token")) {
+                    String accessToken = response.optString("access_token");
+                    CLIENT_ID = response.optString("client_id");
+                    int timeUntilExpire = response.optInt("expires_in");
+                    if (response.has("user")) {
+                        try {
+                            User user = new User(response.optJSONObject("user"));
+                            ApplicationUtil.getInstance().setUser(user);
+                        } catch (Exception e) {}
+                    }
+                    createSpotifyApi(accessToken, timeUntilExpire);
+                    callback.onSuccess(accessToken);
+                } else {
+                    String clientId = response.optString("client_id");
+                    CLIENT_ID = clientId;
+                    String redirectUri = response.optString("redirect_uri");
+                    fetchAuthCode(activity, clientId, redirectUri);
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                callback.onFailure();
+            }
+        });
     }
 
-    public static void setAuthCode(String a) {
-        AUTH_CODE = a;
-    }
-
-    public void logout() {
-        // might not be possible for some stupid reason, stupid ass spotifyAPI
-    }
-
-    public static void getAuthCode() {
-        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
-                AuthenticationResponse.Type.CODE,
-                REDIRECT_URI);
+    private void fetchAuthCode(final Activity activity, String clientId, String redirectUri) {
+        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(clientId, AuthenticationResponse.Type.CODE, redirectUri);
         builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email","user-library-read"});
+        builder.setShowDialog(true);
         AuthenticationRequest request = builder.build();
-
-        AuthenticationClient.openLoginActivity(baseActivity, REQUEST_CODE, request);
+        AuthenticationClient.openLoginActivity(activity, REQUEST_CODE, request);
     }
 
-    public static void attemptSpotifyLogin(Activity activity){
-        baseActivity = activity;
-        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
-                AuthenticationResponse.Type.TOKEN,
-                REDIRECT_URI);
-        builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email","user-library-read"});
-        AuthenticationRequest request = builder.build();
-
-        AuthenticationClient.openLoginActivity(baseActivity, REQUEST_CODE, request);
-    }
-
-    public static void getAuthCode(Activity activity) {
-        baseActivity = activity;
-        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
-                AuthenticationResponse.Type.CODE,
-                REDIRECT_URI);
-        builder.setScopes(new String[]{"user-read-private", "streaming", "user-read-email","user-library-read"});
-        AuthenticationRequest request = builder.build();
-
-        AuthenticationClient.openLoginActivity(baseActivity, REQUEST_CODE, request);
-    }
-
-    public void createSpotifyApi() {
+    public void createSpotifyApi(String accessToken, int timeUntilExpire) {
         mSpotifyApi = new SpotifyApi();
-        mSpotifyApi.setAccessToken(ACCESS_TOKEN);
+        mSpotifyApi.setAccessToken(accessToken);
+
+        if (timeUntilExpire != 0) {
+            createThreadExecutorForTokenRefresh(timeUntilExpire);
+        }
+    }
+
+    private void createThreadExecutorForTokenRefresh(int timeUnitlExpire) {
+        final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+        executor.schedule(new Runnable() {
+            @Override
+            public void run() {
+                if (getRefreshedAccessTokenService == null){
+                    getRefreshedAccessTokenService = new GetRefreshedAccessTokenService();
+                }
+                User user = ApplicationUtil.getInstance().getUser();
+                if (user != null && !user.isTemporaryUser()) {
+                    getRefreshedAccessTokenService.requestService(user, new GetRefreshedAccessTokenService.GetRefreshedAccessTokenServiceCallback() {
+                        @Override
+                        public void onSuccess(JSONObject response) {
+                            createSpotifyApi(response.optString("access_token"), 0);
+                        }
+
+                        @Override
+                        public void onFailure(String errorMessage) {
+
+                        }
+                    });
+                }
+            }
+        }, timeUnitlExpire, TimeUnit.SECONDS);
     }
 
     public void pauseSong() {
@@ -147,16 +150,8 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         }
     }
 
-    public String getProduct() {
-        return getPrivateUser().product;
-    }
-
-    private UserPrivate getPrivateUser() {
-        if (mPrivateUser == null) {
-            mPrivateUser = mSpotifyApi.getService().getMe();
-        }
-
-        return mPrivateUser;
+    public SpotifyApi getApi() {
+        return mSpotifyApi;
     }
 
     public ArrayList<Song> getUserLibrary() {
@@ -181,30 +176,13 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         return songs;
     }
 
-    private UserPublic getPublicUser(String id) {
-        if (mPublicUser == null) {
-            mPublicUser = mSpotifyApi.getService().getUser(id);
-        }
-
-        return  mPublicUser;
-    }
-
-    public void getUserDetails(final InitialActivity.SpotifyResultCallback callback) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                Map<String, String> userDetails = new HashMap<>();
-                userDetails.put(User.EMAIL, getPrivateUser().email);
-                userDetails.put(User.DISPLAY_NAME, getPrivateUser().display_name);
-                userDetails.put(User.PRODUCT, getPrivateUser().product);
-
-                callback.onSuccess(userDetails);
-            }
-        };
-        Thread getEmailThread = new Thread(runnable);
-        getEmailThread.start();
-
-    }
+//    private UserPublic getPublicUser(String id) {
+//        if (mPublicUser == null) {
+//            mPublicUser = mSpotifyApi.getService().getUser(id);
+//        }
+//
+//        return  mPublicUser;
+//    }
 
     public void setPlayer(SpotifyPlayer player) {
         mSpotifyPlayer = player;

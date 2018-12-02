@@ -14,10 +14,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by miloshzelembaba on 2018-03-25.
- */
-
 abstract public class ImageDownloader{
 
     public static void getBitmapFromURL(final Song song, final ImageView albumCover, final Activity activity) {
