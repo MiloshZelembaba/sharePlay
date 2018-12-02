@@ -33,6 +33,10 @@ public class NetworkManager {
         onPartyUpdatedListeners.add(listener);
     }
 
+    public void removePartyUpdateListener(OnPartyUpdated listener){
+        onPartyUpdatedListeners.remove(listener);
+    }
+
     public ArrayList<OnPartyUpdated> getOnPartyUpdatedListeners(){
         return onPartyUpdatedListeners;
     }

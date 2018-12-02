@@ -1,6 +1,7 @@
 package com.miloshzelembaba.play.Network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Party;
@@ -16,6 +17,7 @@ public class NetworkInfoMessenger implements Runnable {
     private final Context context;
     private final String UPDATE_PARTY = "update_party";
     private final String HOST_SWITCH = "host_switch";
+    private final String DEBUG = "debug";
 
     public NetworkInfoMessenger(JSONObject obj, Context context){
         this.context = context;
@@ -36,6 +38,8 @@ public class NetworkInfoMessenger implements Runnable {
             handlePartyReceieved();
         } else if (recievedJSON.getString("type").equals(HOST_SWITCH)) {
             handleHostSwitch(recievedJSON.getString("party_id"));
+        } else if (recievedJSON.getString("type").equals(DEBUG)) {
+            Log.d("FromServer: ", recievedJSON.getString("message"));
         }
     }
 

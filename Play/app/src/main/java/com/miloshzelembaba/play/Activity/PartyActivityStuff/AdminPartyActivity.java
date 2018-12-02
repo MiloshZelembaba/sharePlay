@@ -277,6 +277,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
     @Override
     protected void onDestroy() {
         pauseSong();
+        NetworkManager.getInstance().removePartyUpdateListener(this);
         leavePartyService.requestService(user, null);
         super.onDestroy();
     }

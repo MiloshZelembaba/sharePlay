@@ -220,6 +220,8 @@ public class GuestPartyActivity extends BaseParty implements SpotifyUpdateListen
 
     @Override
     protected void onDestroy() {
+        NetworkManager.getInstance().setHostSwitchListener(null);
+        NetworkManager.getInstance().removePartyUpdateListener(this);
         if (!performingHostSwitch) {
             leavePartyService.requestService(user, null);
         }
