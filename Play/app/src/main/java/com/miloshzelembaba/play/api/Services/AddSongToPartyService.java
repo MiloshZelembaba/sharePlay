@@ -32,6 +32,10 @@ public class AddSongToPartyService {
         request.addParameter("user", user);
         request.addParameter("party", party);
 
+        if (songs.size() == 0) {
+            return;
+        }
+
         /* we serialize the songs before hand*/ //TODO: need to abstract this out to Request class
         JSONArray array = new JSONArray();
         try {

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -249,6 +250,7 @@ public class AdminPartyActivity extends BaseParty implements SpotifyUpdateListen
 
     @Override
     public void onSongFinishedPlaying() {
+        Log.d("Service debugging", "onSongFinishedPlaying called");
         playNextSong();
     }
 

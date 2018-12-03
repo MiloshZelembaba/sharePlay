@@ -176,14 +176,6 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
         return songs;
     }
 
-//    private UserPublic getPublicUser(String id) {
-//        if (mPublicUser == null) {
-//            mPublicUser = mSpotifyApi.getService().getUser(id);
-//        }
-//
-//        return  mPublicUser;
-//    }
-
     public void setPlayer(SpotifyPlayer player) {
         mSpotifyPlayer = player;
     }
@@ -199,7 +191,10 @@ public class SpotifyManager implements SpotifyPlayer.NotificationCallback, Conne
             // Handle event type as necessary
             case kSpPlaybackNotifyAudioDeliveryDone:
                 if (mSpotifyUpdateListener != null) {
+                    Log.d("Service debugging", "mSpotifyUpdateListener not null");
                     mSpotifyUpdateListener.onSongFinishedPlaying();
+                } else {
+                    Log.d("Service debugging", "mSpotifyUpdateListener is null");
                 }
             default:
                 break;
