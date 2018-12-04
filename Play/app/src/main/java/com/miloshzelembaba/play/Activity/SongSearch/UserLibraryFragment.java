@@ -12,8 +12,12 @@ import android.widget.ListView;
 import com.miloshzelembaba.play.Error.ErrorService;
 import com.miloshzelembaba.play.Models.Song;
 import com.miloshzelembaba.play.R;
+import com.miloshzelembaba.play.Spotify.SpotifyManager;
 import com.miloshzelembaba.play.Spotify.SpotifySearch;
 import com.miloshzelembaba.play.Utils.ApplicationUtil;
+import com.miloshzelembaba.play.api.Services.AuthenticationServices.GetRefreshedAccessTokenService;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -32,6 +36,7 @@ public class UserLibraryFragment extends Fragment implements SongFragmentUpdate 
 
     // views
     ListView mListView;
+    GetRefreshedAccessTokenService getRefreshedAccessTokenService = new GetRefreshedAccessTokenService();
 
     public UserLibraryFragment() {
         // Required empty public constructor
@@ -96,15 +101,25 @@ public class UserLibraryFragment extends Fragment implements SongFragmentUpdate 
             @Override
             public void onFailure(String errorMessage) {
                 if (errorMessage.contains("401")) {
-                    // TODO
-//                    SpotifyManager.authorize(); // this is a temporary fix
-                    // this is the fix that should work but it doesn't
-//                    RefreshSpotifyAccessTokenService service = new RefreshSpotifyAccessTokenService();
-//                    service.requestService();
+                    getRefreshedAccessTokenService.requestService(ApplicationUtil.getInstance().getUser(), new GetRefreshedAccessTokenService.GetRefreshedAccessTokenServiceCallback() {
+                        @Override
+                        public void onSuccess(JSONObject response) {
+                            SpotifyManager.getInstance().createSpotifyApi(response.optString("access_token"), 3600);
+                            fetchUserLibrary(limit);
+                        }
+
+                        @Override
+                        public void onFailure(String errorMessage) {
+                            ErrorService.showErrorMessage(getContext(),
+                                    errorMessage,
+                                    ErrorService.ErrorSeverity.HIGH);
+                        }
+                    });
+                } else {
+                    ErrorService.showErrorMessage(getContext(),
+                            errorMessage,
+                            ErrorService.ErrorSeverity.HIGH);
                 }
-                ErrorService.showErrorMessage(getContext(),
-                        errorMessage,
-                        ErrorService.ErrorSeverity.HIGH);
             }
         });
     }
